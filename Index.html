@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IEP Intelligence</title>
+
+  <!-- React and ReactDOM from CDN — no npm needed -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+
+  <!-- Babel standalone lets us write JSX directly in the browser.
+       In production you'd pre-compile, but for our purposes this is perfect. -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1b35; font-family: Georgia, 'Times New Roman', serif; color: #f8f4ec; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-thumb { background: #1f3d7a; border-radius: 3px; }
+    @keyframes pulse {
+      0%, 100% { opacity: .3; transform: scale(.8); }
+      50%       { opacity: 1;  transform: scale(1);  }
+    }
+    /* Chip hover effect */
+    .chip:hover { filter: brightness(1.15); }
+    /* Make textareas feel native on iPad */
+    textarea, input, select { -webkit-appearance: none; }
+  </style>
+
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // ─────────────────────────────────────────────────────────────────────────
+    // API ENDPOINT
+    // This is your Render server. All calls go here — it forwards them to
+    // Anthropic with your secret key attached server-side.
+    // ─────────────────────────────────────────────────────────────────────────
+    const API_URL = "https://iep-plaafp.onrender.com/api/messages";
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // DESIGN TOKENS
+    // ─────────────────────────────────────────────────────────────────────────
+    const C = {
+      navy:       "#0d1b35", navyMid:   "#162950",
+      navyLight:  "#1f3d7a", navyBorder:"#2a4e9a",
+      amber:      "#d4880a", amberLight:"#f0a820",
+      cream:      "#f8f4ec", slate:     "#94a3b8",
+      white:      "#ffffff", green:     "#1e6e43",
+      greenLight: "#2d9e62", purple:    "#5b21b6",
+      teal:       "#0f766e",
+    };
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // AREA TAXONOMY — seven collapsible groups
+    // DHH = Deaf/Hard of Hearing ECC  |  ECC = Visual Impairment ECC
+    // ─────────────────────────────────────────────────────────────────────────
+    const AREA_GROUPS = [
+      { group: "Academic Areas", color: C.navyLight, accent: C.amberLight, areas: [
+        "Reading / Decoding & Fluency", "Reading Comprehension",
+        "Mathematics – Computation",   "Mathematics – Problem Solving",
+        "Written Expression",          "Oral Language / Listening Comprehension",
+        "Science / Content Knowledge", "Social Studies / Content Knowledge",
+      ]},
+      { group: "Functional & Adaptive Areas", color: C.green, accent: "#6ee7b7", areas: [
+        "Daily Living / Self-Care Skills", "Community & Domestic Skills",
+        "Functional Communication",        "Vocational / Pre-Employment Skills",
+        "Self-Determination & Self-Advocacy", "Recreation & Leisure", "Health & Wellness",
+      ]},
+      { group: "Social, Emotional & Behavioral", color: C.purple, accent: "#c4b5fd", areas: [
+        "Social Skills & Peer Interactions", "Emotional Regulation",
+        "Behavior / Executive Functioning",  "Attention & Impulse Control",
+        "Mental Health & Coping Skills",
+      ]},
+      { group: "Communication & Motor", color: C.teal, accent: "#5eead4", areas: [
+        "Expressive Communication / Speech", "Receptive Language",
+        "Augmentative & Alternative Communication (AAC)",
+        "Fine Motor Skills", "Gross Motor Skills", "Sensory Processing",
+      ]},
+      { group: "Transition (NTACT / IDEA §300.43)", color: "#92400e", accent: "#fcd34d", areas: [
+        "Postsecondary Education & Training", "Employment & Career Readiness",
+        "Independent Living Skills", "Transportation & Mobility (Transition)", "Financial Literacy",
+      ]},
+      { group: "ECC – Visual Impairment (IDEA / TSBVI)", color: "#1e40af", accent: "#93c5fd", areas: [
+        "ECC: Compensatory / Functional Academic Skills", "ECC: Sensory Efficiency Skills",
+        "ECC: Orientation & Mobility (O&M)",              "ECC: Social Interaction Skills (VI)",
+        "ECC: Independent Living Skills (VI)",            "ECC: Recreation & Leisure (VI)",
+        "ECC: Career Education (VI)",                     "ECC: Assistive Technology (VI)",
+        "ECC: Self-Determination (VI)",
+      ]},
+      { group: "ECC – Deaf / Hard of Hearing", color: "#065f46", accent: "#6ee7b7", areas: [
+        "DHH ECC: Audiology & Amplification Management", "DHH ECC: Communication & Language Access",
+        "DHH ECC: Self-Advocacy & Disability Awareness", "DHH ECC: Social-Emotional Skills (DHH)",
+        "DHH ECC: Functional Skills for Educational Success",
+        "DHH ECC: Career Education (DHH)",               "DHH ECC: Technology Access (DHH)",
+      ]},
+    ];
+
+    const ALL_AREAS = AREA_GROUPS.flatMap(g => g.areas);
+
+    const DISABILITY_CATEGORIES = [
+      "Autism Spectrum Disorder",       "Intellectual Disability",
+      "Specific Learning Disability",   "Speech or Language Impairment",
+      "Emotional Disturbance",          "Other Health Impairment",
+      "Developmental Delay",            "Traumatic Brain Injury",
+      "Visual Impairment (including Blindness)", "Hearing Impairment",
+      "Deaf-Blindness",                 "Multiple Disabilities",
+      "Orthopedic Impairment",          "Deafness",
+    ];
+
+    const GRADE_LEVELS = [
+      "Pre-K","Kindergarten","1st Grade","2nd Grade","3rd Grade","4th Grade","5th Grade",
+      "6th Grade","7th Grade","8th Grade","9th Grade","10th Grade","11th Grade","12th Grade",
+    ];
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // SYSTEM PROMPT — embeds IDEA 2004, IRIS Center, Endrew F., NTACT:C, ECC
+    // ─────────────────────────────────────────────────────────────────────────
+    function buildSystemPrompt(profile) {
+      const isVI  = profile.disabilities.some(d => d.includes("Visual") || d.includes("Blind"));
+      const isDHH = profile.disabilities.some(d => d.includes("Hearing") || d.includes("Deaf"));
+      const isTransition = ["8th Grade","9th Grade","10th Grade","11th Grade","12th Grade"].includes(profile.grade);
+      const hasECC_VI  = profile.areas.some(a => a.startsWith("ECC:"));
+      const hasECC_DHH = profile.areas.some(a => a.startsWith("DHH ECC:"));
+      const hasTransition = profile.areas.some(a =>
+        ["Postsecondary Education & Training","Employment & Career Readiness",
+         "Independent Living Skills","Transportation & Mobility (Transition)","Financial Literacy"].includes(a));
+
+      return `You are an expert special education IEP consultant with deep knowledge of:
+• IDEA 2004 — 34 CFR §300.320(a)(1): PLAAFP must describe how the disability affects involvement and progress in the general education curriculum.
+• IDEA 2004 — 34 CFR §300.320(a)(2): Each area of need requires its own baseline data and description.
+• IRIS Center (Peabody/Vanderbilt) PLAAFP Framework: Every PLAAFP must contain four elements — (1) description of need, (2) effect on general curriculum access/progress, (3) objective baseline data (the "stranger test": could someone who has never met this student instruct them tomorrow?), (4) connection to goals/services.
+• Endrew F. v. Douglas County (2017, SCOTUS): IEPs must be "reasonably calculated to enable a child to make progress appropriate in light of the child's circumstances." De minimis progress is insufficient.
+• Rowley (1982): Procedural and substantive FAPE; IEP must confer meaningful educational benefit.
+• NTACT:C / Indicator 13: Transition PLAAFPs must be grounded in age-appropriate transition assessments and reflect student preferences, interests, and strengths.
+• Compliance standard: Avoid vague labels ("below average"). Use specific data: scores, percentages, grade equivalents, frequency counts, rubric scores, observation notes.
+• Parent-friendly language: Spell out all acronyms on first use.
+${isVI || hasECC_VI  ? "• ECC (TSBVI/Perkins/IDEA §300.320(a)(2)): Nine federally recognized ECC areas for students with visual impairments. PLAAFP must reflect FVA, LMA, and O&M evaluation data where applicable." : ""}
+${isDHH || hasECC_DHH ? "• DHH ECC: PLAAFPs must reference audiological reports, speech intelligibility scores, language sample data, and communication modality." : ""}
+${isTransition || hasTransition ? "• NTACT:C Indicator 13: Transition PLAAFPs must cite age-appropriate transition assessment data and reflect student preferences and strengths — not just deficits." : ""}
+
+STUDENT PROFILE:
+• Name: ${profile.firstName} ${profile.lastName} | Grade: ${profile.grade}
+• Disabilities: ${profile.disabilities.join("; ")}
+• Areas of Need: ${profile.areas.join(", ")}
+• Context: ${profile.context || "None provided"}
+
+YOUR ROLE — INFORMATION GATHERING:
+Ask targeted, specific questions — no more than two per turn — cycling across each area of need. For each area gather:
+1. Specific measurable baseline data (assessment name, score, date — not "reads below grade level")
+2. Student strengths in this area
+3. How the deficit manifests in the classroom with specific examples
+4. Supports currently in place and their effectiveness
+5. Parent/student input (required per IDEA §300.321)
+${isVI || hasECC_VI  ? "6. ECC: FVA/LMA completion and findings? Primary learning medium?" : ""}
+${isDHH || hasECC_DHH ? "6. DHH: Audiogram findings? Communication modality? FM system or cochlear implant?" : ""}
+
+If a teacher gives a vague answer, ask for specific data. If no strengths are mentioned, ask.
+When done: "I have enough to generate compliant PLAAFP sections. Click Generate when ready."
+Tone: warm, collegial, like a mentor special ed coordinator.`;
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // GENERATION PROMPT — produces structured JSON output
+    // ─────────────────────────────────────────────────────────────────────────
+    function buildGenerationPrompt(profile, chatHistory) {
+      const history = chatHistory
+        .filter(m => !(m.role === "user" && m.content.startsWith("__INIT__")))
+        .map(m => `${m.role === "user" ? "TEACHER" : "CONSULTANT"}: ${m.content}`)
+        .join("\n\n");
+
+      const areaKeys = profile.areas.map(a => a.replace(/[^a-zA-Z0-9]/g, "_"));
+      const plaafpSchema = {};
+      profile.areas.forEach((area, i) => {
+        plaafpSchema[areaKeys[i]] =
+          `2-3 paragraphs for ${area}: (1) student strengths, (2) specific present level with data (assessment name/score/date), (3) how this affects general curriculum access per Endrew F. standard. Parent-friendly language.`;
+      });
+
+      return `Generate IDEA 2004-compliant PLAAFP sections and impact statement only — no goals.
+
+Apply: IRIS Center 4-element framework, IDEA §300.320, Endrew F. (2017), Rowley (1982), NTACT:C Indicator 13 (transition), ECC/TSBVI (VI), DHH ECC (hearing).
+
+Rules: (1) Every section needs specific measurable data with assessment name/date. (2) Every section needs strengths. (3) Every section needs explicit curriculum connection. (4) Impact statement cites IDEA §300.8 disability names. (5) Flag areas with insufficient data.
+
+STUDENT: ${profile.firstName} ${profile.lastName} | ${profile.grade} | ${profile.disabilities.join("; ")}
+AREAS: ${profile.areas.join(", ")}
+
+CONVERSATION:
+${history}
+
+Return ONLY valid JSON — no markdown fences, no explanation text outside the JSON:
+{
+  "plaafpSections": ${JSON.stringify(plaafpSchema, null, 2)},
+  "impactStatement": "Two paragraphs. P1: how the disability/disabilities adversely affect ${profile.firstName}'s involvement and progress in the general education curriculum with specific examples from the areas of need (cite IDEA §300.8 disability category names). P2: why these impacts require specially designed instruction, referencing the Endrew F. standard. Parent-friendly throughout.",
+  "complianceFlags": [],
+  "legalBasis": {
+    "primaryAuthority": "IDEA 2004, 34 CFR §300.320(a)(1)-(2)",
+    "caselaw": "Endrew F. v. Douglas County School District Re-1, 580 U.S. ___ (2017); Board of Education v. Rowley, 458 U.S. 176 (1982)",
+    "practiceFramework": "IRIS Center High-Quality PLAAFP Statements; NTACT:C Indicator 13 (transition areas where applicable)"
+  },
+  "apiResponse": {
+    "status": "success",
+    "version": "3.0",
+    "generated_at": "${new Date().toISOString()}",
+    "disabilities": ${JSON.stringify(profile.disabilities)},
+    "areas_of_need": ${JSON.stringify(profile.areas)},
+    "compliance_flags": [],
+    "sections": { "plaafp_by_area": {}, "impact_statement": "", "legal_basis": {} }
+  }
+}`;
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // INLINE STYLES  (one object per reusable style)
+    // ─────────────────────────────────────────────────────────────────────────
+    const S = {
+      header:      { background:`linear-gradient(135deg,${C.navy},${C.navyMid})`, borderBottom:`3px solid ${C.amber}`, padding:"14px 20px", display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:"8px" },
+      logoTitle:   { fontSize:"18px", fontWeight:"bold", color:C.cream, margin:0 },
+      logoSub:     { fontSize:"9px", color:C.amberLight, letterSpacing:"2px", textTransform:"uppercase", fontFamily:"monospace", margin:0 },
+      badge:       { background:C.amber, color:C.navy, fontSize:"9px", fontWeight:"bold", fontFamily:"monospace", padding:"3px 7px", borderRadius:"3px", letterSpacing:"1px" },
+      steps:       { background:C.navyMid, borderBottom:`1px solid ${C.navyBorder}`, padding:"8px 20px", display:"flex", gap:"16px", flexWrap:"wrap" },
+      stepDot:     { display:"inline-flex", alignItems:"center", justifyContent:"center", borderRadius:"50%", width:"19px", height:"19px", fontSize:"10px", fontWeight:"bold", flexShrink:0 },
+      main:        { padding:"16px", display:"flex", flexDirection:"column", gap:"14px", maxWidth:"900px", margin:"0 auto" },
+      card:        { background:C.navyMid, border:`1px solid ${C.navyBorder}`, borderRadius:"7px", padding:"14px" },
+      cardTitle:   { fontSize:"9px", letterSpacing:"2px", textTransform:"uppercase", color:C.amberLight, fontFamily:"monospace", margin:"0 0 11px 0" },
+      label:       { display:"block", fontSize:"11px", color:C.amberLight, marginBottom:"4px" },
+      input:       { width:"100%", background:C.navy, border:`1px solid ${C.navyBorder}`, borderRadius:"4px", padding:"9px 11px", color:C.cream, fontSize:"14px", fontFamily:"Georgia,serif", marginBottom:"10px", outline:"none" },
+      select:      { width:"100%", background:C.navy, border:`1px solid ${C.navyBorder}`, borderRadius:"4px", padding:"9px 11px", color:C.cream, fontSize:"14px", fontFamily:"Georgia,serif", marginBottom:"10px", outline:"none" },
+      textarea:    { width:"100%", background:C.navy, border:`1px solid ${C.navyBorder}`, borderRadius:"4px", padding:"9px 11px", color:C.cream, fontSize:"13px", fontFamily:"Georgia,serif", outline:"none", resize:"vertical", lineHeight:"1.5" },
+      chipWrap:    { display:"flex", flexWrap:"wrap", gap:"5px", marginBottom:"8px" },
+      chip:        { padding:"5px 9px", borderRadius:"4px", fontSize:"11px", cursor:"pointer", border:"1px solid", userSelect:"none", lineHeight:1.3, transition:"filter .1s" },
+      groupHeader: { fontSize:"10px", letterSpacing:"1.5px", textTransform:"uppercase", fontFamily:"monospace", cursor:"pointer", display:"flex", justifyContent:"space-between", alignItems:"center", padding:"5px 8px", borderRadius:"3px", marginBottom:"5px" },
+      addRow:      { display:"flex", gap:"6px", marginBottom:"8px" },
+      addInput:    { flex:1, background:C.navy, border:`1px solid ${C.navyBorder}`, borderRadius:"4px", padding:"8px 10px", color:C.cream, fontSize:"12px", fontFamily:"Georgia,serif", outline:"none" },
+      addBtn:      { background:C.amber, color:C.navy, border:"none", borderRadius:"4px", padding:"8px 12px", fontWeight:"bold", fontSize:"12px", cursor:"pointer" },
+      startBtn:    { width:"100%", background:`linear-gradient(135deg,${C.amber},#f0a820)`, color:C.navy, border:"none", borderRadius:"6px", padding:"13px", fontSize:"15px", fontWeight:"bold", fontFamily:"Georgia,serif", cursor:"pointer", marginTop:"4px" },
+      legalBar:    { background:C.navyMid, border:`1px solid ${C.navyBorder}`, borderLeft:`3px solid ${C.amber}`, borderRadius:"5px", padding:"8px 12px", fontSize:"10px", color:C.slate, fontFamily:"monospace", lineHeight:"1.6", marginBottom:"8px" },
+      messages:    { background:C.navyMid, border:`1px solid ${C.navyBorder}`, borderRadius:"7px 7px 0 0", padding:"14px", overflowY:"auto", minHeight:"300px", maxHeight:"420px" },
+      bubbleAI:    { background:C.navy, borderLeft:`3px solid ${C.amber}`, borderRadius:"0 7px 7px 0", padding:"10px 14px", fontSize:"13px", lineHeight:"1.65", color:C.cream, marginBottom:"12px", maxWidth:"88%" },
+      bubbleUser:  { background:C.navyLight, borderRadius:"7px", padding:"10px 14px", fontSize:"13px", lineHeight:"1.65", color:C.cream, marginBottom:"12px", maxWidth:"88%", marginLeft:"auto" },
+      bubbleRole:  { fontSize:"9px", letterSpacing:"1.5px", textTransform:"uppercase", marginBottom:"4px", fontFamily:"monospace" },
+      inputRow:    { display:"flex", gap:"7px", background:C.navyMid, border:`1px solid ${C.navyBorder}`, borderTop:"none", borderRadius:"0 0 7px 7px", padding:"9px" },
+      chatInput:   { flex:1, background:C.navy, border:`1px solid ${C.navyBorder}`, borderRadius:"4px", padding:"10px 12px", color:C.cream, fontSize:"14px", fontFamily:"Georgia,serif", outline:"none" },
+      sendBtn:     { background:C.amber, color:C.navy, border:"none", borderRadius:"4px", padding:"10px 16px", fontWeight:"bold", cursor:"pointer", fontSize:"13px", flexShrink:0 },
+      genBtn:      { width:"100%", marginTop:"8px", background:`linear-gradient(135deg,${C.green},${C.greenLight})`, color:C.white, border:"none", borderRadius:"6px", padding:"13px", fontSize:"14px", fontWeight:"bold", fontFamily:"Georgia,serif", cursor:"pointer" },
+      tabRow:      { display:"flex", gap:"3px" },
+      tab:         { flex:1, padding:"8px 4px", fontSize:"9px", letterSpacing:"1px", textTransform:"uppercase", fontFamily:"monospace", border:`1px solid ${C.navyBorder}`, borderRadius:"4px 4px 0 0", cursor:"pointer", textAlign:"center" },
+      outputBox:   { background:C.navyMid, border:`1px solid ${C.navyBorder}`, borderRadius:"0 0 7px 7px", padding:"15px", overflowY:"auto", maxHeight:"520px" },
+      secTitle:    { fontSize:"9px", letterSpacing:"2px", textTransform:"uppercase", fontFamily:"monospace", color:C.amberLight, marginBottom:"8px" },
+      secText:     { fontSize:"13px", lineHeight:"1.8", color:C.cream, margin:0, whiteSpace:"pre-wrap" },
+      divider:     { borderTop:`1px solid ${C.navyBorder}`, margin:"16px 0" },
+      flagBadge:   { display:"inline-block", background:"#7f1d1d", color:"#fca5a5", fontSize:"10px", fontFamily:"monospace", padding:"2px 7px", borderRadius:"3px", marginBottom:"5px" },
+      legalBox:    { background:"#0a1628", border:`1px solid ${C.navyBorder}`, borderRadius:"5px", padding:"11px", fontSize:"11px", fontFamily:"monospace", color:"#86efac", lineHeight:"1.6", marginBottom:"10px" },
+      monoBox:     { background:"#0a1628", border:`1px solid ${C.navyBorder}`, borderRadius:"5px", padding:"11px", fontSize:"10px", fontFamily:"monospace", color:"#7ec8a0", overflowX:"auto", lineHeight:"1.5", whiteSpace:"pre-wrap", wordBreak:"break-word" },
+      dot:         { display:"inline-block", width:"7px", height:"7px", borderRadius:"50%", background:C.amber, margin:"0 3px", animation:"pulse 1.2s infinite" },
+      error:       { color:"#f87171", fontSize:"11px", margin:"5px 0" },
+      selCount:    { fontSize:"10px", color:C.slate, fontFamily:"monospace", marginBottom:"4px" },
+    };
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // ROOT COMPONENT
+    // ─────────────────────────────────────────────────────────────────────────
+    function App() {
+      const [profile, setProfile] = React.useState({
+        firstName:"", lastName:"", grade:"", disabilities:[], areas:[], context:"",
+      });
+      const [customAreas,    setCustomAreas]    = React.useState([]);
+      const [customInput,    setCustomInput]    = React.useState("");
+      const [expanded,       setExpanded]       = React.useState({});
+      const [phase,          setPhase]          = React.useState("intake");
+      const [chat,           setChat]           = React.useState([]);
+      const [userMsg,        setUserMsg]        = React.useState("");
+      const [loading,        setLoading]        = React.useState(false);
+      const [activeTab,      setActiveTab]      = React.useState("plaafp");
+      const [output,         setOutput]         = React.useState(null);
+      const [error,          setError]          = React.useState("");
+      const bottomRef = React.useRef(null);
+
+      React.useEffect(() => { bottomRef.current?.scrollIntoView({ behavior:"smooth" }); }, [chat, loading]);
+
+      // Toggle a value in an array field of profile
+      function toggle(field, val) {
+        setProfile(p => ({
+          ...p,
+          [field]: p[field].includes(val) ? p[field].filter(v => v !== val) : [...p[field], val],
+        }));
+      }
+
+      function toggleGroup(name) { setExpanded(e => ({ ...e, [name]: !e[name] })); }
+
+      function addCustom() {
+        const t = customInput.trim();
+        if (!t || ALL_AREAS.includes(t) || customAreas.includes(t)) return;
+        setCustomAreas(a => [...a, t]);
+        setProfile(p => ({ ...p, areas: [...p.areas, t] }));
+        setCustomInput("");
+      }
+
+      // ── Shared API call ───────────────────────────────────────────────────
+      async function callAPI(body) {
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ model:"claude-sonnet-4-20250514", max_tokens:1000, ...body }),
+        });
+        if (!res.ok) {
+          const err = await res.text();
+          throw new Error(`Server error ${res.status}: ${err}`);
+        }
+        return res.json();
+      }
+
+      // ── Start the intake interview ────────────────────────────────────────
+      async function startChat() {
+        if (!profile.firstName || !profile.grade || !profile.disabilities.length || !profile.areas.length) {
+          setError("Please fill in: student name, grade, at least one disability, and at least one area of need."); return;
+        }
+        setError(""); setPhase("chat"); setLoading(true);
+        try {
+          const data = await callAPI({
+            system: buildSystemPrompt(profile),
+            messages: [{ role:"user", content:`__INIT__ IEP intake for ${profile.firstName} ${profile.lastName}, ${profile.grade}. Disabilities: ${profile.disabilities.join(", ")}. Areas: ${profile.areas.join(", ")}. Begin.` }],
+          });
+          const text = data.content?.map(b => b.text||"").join("") || "Let's begin.";
+          setChat([{ role:"user", content:"__INIT__" }, { role:"assistant", content:text }]);
+        } catch(e) {
+          setError("Connection error: " + e.message);
+          setPhase("intake");
+        } finally { setLoading(false); }
+      }
+
+      // ── Send a chat message ───────────────────────────────────────────────
+      async function send() {
+        if (!userMsg.trim() || loading) return;
+        const next = [...chat, { role:"user", content:userMsg }];
+        setChat(next); setUserMsg(""); setLoading(true);
+        try {
+          const data = await callAPI({ system:buildSystemPrompt(profile), messages:next });
+          const text = data.content?.map(b => b.text||"").join("") || "Can you tell me more?";
+          setChat(h => [...h, { role:"assistant", content:text }]);
+        } catch(e) { setError("API error: " + e.message); }
+        finally { setLoading(false); }
+      }
+
+      // ── Generate PLAAFP + Impact Statement ───────────────────────────────
+      async function generate() {
+        setLoading(true); setError("");
+        try {
+          const data = await callAPI({ messages:[{ role:"user", content:buildGenerationPrompt(profile, chat) }] });
+          const raw  = data.content?.map(b => b.text||"").join("") || "{}";
+          const parsed = JSON.parse(raw.replace(/```json|```/g,"").trim());
+          if (parsed.apiResponse) {
+            parsed.apiResponse.sections.plaafp_by_area  = parsed.plaafpSections;
+            parsed.apiResponse.sections.impact_statement = parsed.impactStatement;
+            parsed.apiResponse.sections.legal_basis      = parsed.legalBasis;
+            parsed.apiResponse.compliance_flags          = parsed.complianceFlags || [];
+          }
+          setOutput(parsed); setPhase("output"); setActiveTab("plaafp");
+        } catch(e) { setError("Generation failed: " + e.message); }
+        finally { setLoading(false); }
+      }
+
+      // ─────────────────────────────────────────────────────────────────────
+      // RENDER HELPERS
+      // ─────────────────────────────────────────────────────────────────────
+      function Chip({ label, selected, color, accent, onClick }) {
+        return (
+          <div className="chip" onClick={onClick} style={{
+            ...S.chip,
+            background:   selected ? (color || C.amber) : C.navy,
+            color:        selected ? (accent || C.navy) : C.slate,
+            borderColor:  selected ? (accent || C.amber) : C.navyBorder,
+            fontWeight:   selected ? "bold" : "normal",
+          }}>{label}</div>
+        );
+      }
+
+      function Dots() {
+        return (
+          <div style={{ padding:"8px 0" }}>
+            <span style={S.dot}/>
+            <span style={{ ...S.dot, animationDelay:".3s" }}/>
+            <span style={{ ...S.dot, animationDelay:".6s" }}/>
+          </div>
+        );
+      }
+
+      // ── Intake form ───────────────────────────────────────────────────────
+      function IntakePanel() {
+        return (
+          <div style={S.card}>
+            <p style={S.cardTitle}>Student Profile</p>
+
+            <label style={S.label}>First Name</label>
+            <input style={S.input} value={profile.firstName}
+              onChange={e => setProfile(p => ({...p, firstName:e.target.value}))}
+              placeholder="e.g. Jordan" />
+
+            <label style={S.label}>Last Name</label>
+            <input style={S.input} value={profile.lastName}
+              onChange={e => setProfile(p => ({...p, lastName:e.target.value}))}
+              placeholder="e.g. Smith" />
+
+            <label style={S.label}>Grade Level</label>
+            <select style={S.select} value={profile.grade}
+              onChange={e => setProfile(p => ({...p, grade:e.target.value}))}>
+              <option value="">— Select —</option>
+              {GRADE_LEVELS.map(g => <option key={g}>{g}</option>)}
+            </select>
+
+            {/* Disability multi-select */}
+            <label style={S.label}>Disability Category (IDEA §300.8 — select all that apply)</label>
+            <div style={S.chipWrap}>
+              {DISABILITY_CATEGORIES.map(d => (
+                <Chip key={d} label={d} selected={profile.disabilities.includes(d)}
+                  onClick={() => toggle("disabilities", d)} />
+              ))}
+            </div>
+
+            {/* Areas of need — grouped and collapsible */}
+            <label style={{ ...S.label, marginTop:"8px" }}>Areas of Need</label>
+            <div style={S.selCount}>{profile.areas.length} selected</div>
+
+            {AREA_GROUPS.map(group => {
+              const open = expanded[group.group] !== false; // default open
+              const sel  = group.areas.filter(a => profile.areas.includes(a)).length;
+              return (
+                <div key={group.group} style={{ marginBottom:"8px" }}>
+                  <div style={{ ...S.groupHeader, color:group.accent, background:C.navy, border:`1px solid ${group.color}` }}
+                    onClick={() => toggleGroup(group.group)}>
+                    <span>{group.group}</span>
+                    <span style={{ fontSize:"10px", color:C.slate }}>{sel > 0 ? `${sel} ✓` : ""} {open ? "▲" : "▼"}</span>
+                  </div>
+                  {open && (
+                    <div style={{ ...S.chipWrap, paddingLeft:"4px", marginTop:"4px" }}>
+                      {group.areas.map(area => (
+                        <Chip key={area} label={area} selected={profile.areas.includes(area)}
+                          color={group.color} accent={group.accent}
+                          onClick={() => toggle("areas", area)} />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            {/* Custom areas */}
+            {customAreas.length > 0 && (
+              <div style={{ ...S.chipWrap, marginTop:"4px" }}>
+                {customAreas.map(a => (
+                  <Chip key={a} label={a} selected={profile.areas.includes(a)}
+                    onClick={() => toggle("areas", a)} />
+                ))}
+              </div>
+            )}
+            <div style={S.addRow}>
+              <input style={S.addInput} value={customInput}
+                onChange={e => setCustomInput(e.target.value)}
+                onKeyDown={e => e.key === "Enter" && addCustom()}
+                placeholder="Add custom area of need…" />
+              <button style={S.addBtn} onClick={addCustom}>+ Add</button>
+            </div>
+
+            <label style={S.label}>Additional Context (optional)</label>
+            <textarea style={{ ...S.textarea, marginBottom:"12px" }} rows={3}
+              value={profile.context}
+              onChange={e => setProfile(p => ({...p, context:e.target.value}))}
+              placeholder="e.g. recent eval date, related services, parent concerns…" />
+
+            {error && <p style={S.error}>{error}</p>}
+            <button style={S.startBtn} onClick={startChat}>Begin Compliance Interview →</button>
+          </div>
+        );
+      }
+
+      // ── Chat panel ────────────────────────────────────────────────────────
+      function ChatPanel() {
+        const hasVI  = profile.disabilities.some(d => d.includes("Visual") || d.includes("Blind"));
+        const hasDHH = profile.disabilities.some(d => d.includes("Hearing") || d.includes("Deaf"));
+        const hasTr  = ["9th Grade","10th Grade","11th Grade","12th Grade"].includes(profile.grade);
+        return (
+          <div>
+            <div style={S.legalBar}>
+              ⚖ IDEA §300.320 · IRIS Center · Endrew F. (2017)
+              {hasVI  ? " · ECC/TSBVI" : ""}
+              {hasDHH ? " · DHH ECC"   : ""}
+              {hasTr  ? " · NTACT:C Ind.13" : ""}
+            </div>
+
+            <div style={{ ...S.card, padding:"8px 12px", marginBottom:"8px", display:"flex", alignItems:"center", gap:"9px" }}>
+              <span style={{ ...S.stepDot, background:C.amber, color:C.navy }}>2</span>
+              <span style={{ fontSize:"12px" }}>
+                Gathering data for <strong>{profile.firstName}</strong> across {profile.areas.length} area{profile.areas.length !== 1 ? "s" : ""}.
+                Specific data = legally defensible PLAAFPs.
+              </span>
+            </div>
+
+            <div style={S.messages}>
+              {chat.filter(m => !(m.role === "user" && m.content.startsWith("__INIT__")))
+                .map((msg, i) => (
+                  <div key={i} style={{ marginLeft: msg.role === "user" ? "auto" : 0, maxWidth:"88%" }}>
+                    <div style={{ ...S.bubbleRole, color: msg.role === "user" ? C.amberLight : C.amber }}>
+                      {msg.role === "user" ? "Teacher / Team" : "IEP Compliance Consultant"}
+                    </div>
+                    <div style={msg.role === "user" ? S.bubbleUser : S.bubbleAI}>{msg.content}</div>
+                  </div>
+              ))}
+              {loading && <Dots />}
+              <div ref={bottomRef} />
+            </div>
+
+            <div style={S.inputRow}>
+              <input style={S.chatInput} value={userMsg}
+                onChange={e => setUserMsg(e.target.value)}
+                onKeyDown={e => e.key === "Enter" && send()}
+                placeholder="Type your response…" disabled={loading} />
+              <button style={S.sendBtn} onClick={send} disabled={loading}>Send</button>
+            </div>
+
+            {error && <p style={S.error}>{error}</p>}
+            <button style={{ ...S.genBtn, opacity: loading ? .6 : 1 }}
+              onClick={generate} disabled={loading}>
+              {loading ? "Generating compliant sections…" : "⚡ Generate PLAAFP + Impact Statement"}
+            </button>
+          </div>
+        );
+      }
+
+      // ── Output panel ──────────────────────────────────────────────────────
+      function OutputPanel() {
+        if (!output) return null;
+        const sections = output.plaafpSections || {};
+        const flags    = output.complianceFlags || [];
+        const tabs     = [
+          { key:"plaafp", label:"PLAAFP" }, { key:"impact", label:"Impact" },
+          { key:"legal",  label:"Legal"  }, { key:"api",    label:"API JSON" },
+        ];
+        return (
+          <div>
+            <div style={S.tabRow}>
+              {tabs.map(t => {
+                const on = activeTab === t.key;
+                return (
+                  <div key={t.key} onClick={() => setActiveTab(t.key)} style={{
+                    ...S.tab,
+                    background:  on ? C.amber : C.navyMid,
+                    color:       on ? C.navy  : C.slate,
+                    borderColor: on ? C.amber : C.navyBorder,
+                    fontWeight:  on ? "bold"  : "normal",
+                  }}>{t.label}</div>
+                );
+              })}
+            </div>
+
+            <div style={S.outputBox}>
+              {/* ── PLAAFP — one section per area ── */}
+              {activeTab === "plaafp" && (
+                <>
+                  <p style={S.secTitle}>Present Levels of Academic Achievement &amp; Functional Performance</p>
+                  <p style={{ ...S.secTitle, color:C.slate, fontSize:"9px", marginBottom:"12px" }}>
+                    IDEA 34 CFR §300.320 · IRIS Center · Endrew F. (2017)
+                  </p>
+                  {flags.length > 0 && (
+                    <div style={{ marginBottom:"12px" }}>
+                      {flags.map((f,i) => <div key={i} style={S.flagBadge}>⚠ {f}</div>)}
+                    </div>
+                  )}
+                  {profile.areas.map((area, i) => {
+                    const key   = area.replace(/[^a-zA-Z0-9]/g, "_");
+                    const text  = sections[key] || sections[area] || "(Insufficient data provided for this area.)";
+                    const group = AREA_GROUPS.find(g => g.areas.includes(area));
+                    const accent = group?.accent || C.amberLight;
+                    const isLast = i === profile.areas.length - 1;
+                    return (
+                      <div key={i}>
+                        <div style={{ ...S.secTitle, color:accent, fontSize:"10px" }}>{area}</div>
+                        <p style={S.secText}>{text}</p>
+                        {!isLast && <div style={S.divider} />}
+                      </div>
+                    );
+                  })}
+                </>
+              )}
+
+              {/* ── Impact Statement ── */}
+              {activeTab === "impact" && (
+                <>
+                  <p style={S.secTitle}>Impact Statement</p>
+                  <p style={{ ...S.secTitle, color:C.slate, fontSize:"9px", marginBottom:"12px" }}>
+                    34 CFR §300.8 · §300.320(a)(1) · Endrew F. (2017)
+                  </p>
+                  <p style={S.secText}>{output.impactStatement}</p>
+                </>
+              )}
+
+              {/* ── Legal Basis ── */}
+              {activeTab === "legal" && (
+                <>
+                  <p style={S.secTitle}>Legal &amp; Practice Framework</p>
+                  <div style={S.legalBox}>
+                    {output.legalBasis && Object.entries(output.legalBasis).map(([k,v]) => v ? (
+                      <div key={k} style={{ marginBottom:"6px" }}>
+                        <span style={{ color:C.amberLight }}>{k.replace(/([A-Z])/g," $1").trim()}: </span>
+                        <span style={{ color:"#86efac" }}>{v}</span>
+                      </div>
+                    ) : null)}
+                  </div>
+                  {flags.length > 0
+                    ? <>{<p style={{ ...S.secTitle, color:"#f87171", marginTop:"10px" }}>Compliance Flags</p>}
+                        {flags.map((f,i) => <div key={i} style={{ ...S.flagBadge, display:"block", marginBottom:"5px" }}>⚠ {f}</div>)}</>
+                    : <p style={{ fontSize:"11px", color:"#86efac", fontFamily:"monospace" }}>✓ No compliance flags raised.</p>
+                  }
+                </>
+              )}
+
+              {/* ── API JSON ── */}
+              {activeTab === "api" && (
+                <>
+                  <p style={S.secTitle}>API Response Payload</p>
+                  <p style={{ fontSize:"10px", color:C.slate, marginBottom:"9px", fontFamily:"monospace" }}>
+                    POST /api/messages → 200 OK
+                  </p>
+                  <div style={S.monoBox}>{JSON.stringify(output.apiResponse || output, null, 2)}</div>
+                </>
+              )}
+            </div>
+          </div>
+        );
+      }
+
+      // ─────────────────────────────────────────────────────────────────────
+      // SHELL LAYOUT
+      // ─────────────────────────────────────────────────────────────────────
+      return (
+        <div style={{ minHeight:"100vh", background:C.navy }}>
+          {/* Header */}
+          <header style={S.header}>
+            <div>
+              <p style={S.logoTitle}>IEP Intelligence</p>
+              <p style={S.logoSub}>PLAAFP · Impact Statement Generator</p>
+            </div>
+            <div style={{ display:"flex", alignItems:"center", gap:"5px", flexWrap:"wrap" }}>
+              <span style={{ fontSize:"10px", color:C.slate, fontFamily:"monospace" }}>
+                IDEA 2004 · IRIS · Endrew F. · NTACT:C · ECC
+              </span>
+              {["§300.320","Compliant","API Ready"].map(t => <span key={t} style={S.badge}>{t}</span>)}
+            </div>
+          </header>
+
+          {/* Step indicator */}
+          <div style={S.steps}>
+            {[
+              { n:1, label:"Student Profile",    active: phase === "intake" },
+              { n:2, label:"Compliance Interview",active: phase === "chat" || phase === "output" },
+              { n:3, label:"Generated Sections", active: phase === "output" },
+            ].map(s => (
+              <div key={s.n} style={{ display:"flex", alignItems:"center", gap:"6px", opacity: s.active ? 1 : .4 }}>
+                <span style={{ ...S.stepDot, background: s.active ? C.amber : C.navyLight, color: s.active ? C.navy : C.slate }}>{s.n}</span>
+                <span style={{ fontSize:"11px", color: s.active ? C.cream : C.slate }}>{s.label}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Main content — single column on iPad */}
+          <div style={S.main}>
+            {/* Always show intake so teacher can see profile while chatting */}
+            {phase === "intake" && <IntakePanel />}
+            {(phase === "chat"   || phase === "output") && <ChatPanel />}
+            {phase === "output"  && <OutputPanel />}
+          </div>
+        </div>
+      );
+    }
+
+    // Mount the app
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+
+</body>
+</html>
