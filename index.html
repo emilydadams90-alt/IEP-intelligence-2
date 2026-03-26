@@ -2,718 +2,693 @@
 
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
-  <title>IEP Intelligence</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{background:#0d1b35;font-family:Georgia,'Times New Roman',serif;color:#f8f4ec;-webkit-text-size-adjust:100%}
-    input,select,textarea{-webkit-appearance:none;font-size:16px;font-family:Georgia,serif}
-    ::-webkit-scrollbar{width:5px}
-    ::-webkit-scrollbar-thumb{background:#1f3d7a;border-radius:3px}
-    @keyframes pulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-    .fadeIn{animation:fadeIn .3s ease}
-    .tap{cursor:pointer;-webkit-tap-highlight-color:transparent}
-    .tap:active{opacity:.75}
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<title>IEP Intelligence</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d1b35;font-family:Georgia,'Times New Roman',serif;color:#f8f4ec;-webkit-text-size-adjust:100%}
+input,select,textarea{-webkit-appearance:none;font-size:16px;font-family:Georgia,serif;color:#f8f4ec;background:#0d1b35;border:1px solid #2a4e9a;border-radius:5px;padding:10px 12px;width:100%;outline:none;margin-bottom:10px}
+button{font-family:Georgia,serif;cursor:pointer;border:none;border-radius:6px;font-weight:bold}
+button:active{opacity:.75}
+.chip{display:inline-block;padding:6px 10px;border-radius:5px;font-size:12px;border:1px solid #2a4e9a;cursor:pointer;user-select:none;margin:3px;background:#0d1b35;color:#94a3b8}
+.chip.on{background:#d4880a;color:#0d1b35;border-color:#d4880a;font-weight:bold}
+.area-chip{display:inline-block;padding:6px 10px;border-radius:5px;font-size:11px;border:1px solid #2a4e9a;cursor:pointer;user-select:none;margin:3px;background:#0d1b35;color:#94a3b8}
+.ms-opt{padding:11px 14px;border-radius:6px;border:1px solid #2a4e9a;margin-bottom:6px;display:flex;align-items:center;gap:10px;cursor:pointer;background:#0d1b35;color:#94a3b8;font-size:14px}
+.ms-opt.on{background:#1f3d7a;border-color:#f0a820;color:#f8f4ec}
+.scale-btn{width:46px;height:46px;border-radius:50%;border:2px solid #2a4e9a;background:#0d1b35;color:#94a3b8;font-size:16px;font-weight:bold;cursor:pointer}
+.scale-btn.on{background:#d4880a;border-color:#d4880a;color:#0d1b35}
+.card{background:#162950;border:1px solid #2a4e9a;border-radius:8px;padding:16px;margin-bottom:12px}
+.q-card{background:#162950;border:1px solid #2a4e9a;border-left:4px solid #d4880a;border-radius:8px;padding:16px;margin-bottom:12px}
+.label{display:block;font-size:12px;color:#f0a820;margin-bottom:4px}
+.error{color:#f87171;font-size:12px;font-family:monospace;margin:6px 0}
+.mono{font-family:monospace;font-size:10px;color:#7ec8a0;white-space:pre-wrap;word-break:break-word}
+.tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f0a820;margin-bottom:8px}
+.btn-primary{background:linear-gradient(135deg,#d4880a,#f0a820);color:#0d1b35;padding:13px;font-size:15px;width:100%;margin-top:4px}
+.btn-green{background:linear-gradient(135deg,#1e6e43,#2d9e62);color:#fff;padding:13px;font-size:15px;width:100%}
+.btn-ghost{background:transparent;border:1px solid #2a4e9a;color:#94a3b8;padding:10px;font-size:12px;font-family:monospace;width:100%;margin-top:6px;border-radius:6px}
+.tab{flex:1;padding:8px 4px;font-size:9px;letter-spacing:1px;text-transform:uppercase;font-family:monospace;border:1px solid #2a4e9a;border-radius:5px 5px 0 0;cursor:pointer;text-align:center;background:#162950;color:#94a3b8}
+.tab.on{background:#d4880a;color:#0d1b35;font-weight:bold;border-color:#d4880a}
+.fill-in{background:#0d1b35;border:2px solid #d4880a;border-radius:5px;padding:8px 10px;color:#f8f4ec;font-size:16px;width:120px;text-align:center;outline:none;margin:0 4px}
+@keyframes pulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#d4880a;margin:0 3px;animation:pulse 1.2s infinite}
+</style>
 </head>
 <body>
-<div id="root"></div>
+
+<!-- ── PHASE: INTAKE ── -->
+
+<div id="phase-intake">
+  <header style="background:linear-gradient(135deg,#0d1b35,#162950);border-bottom:3px solid #d4880a;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <div>
+      <p style="font-size:18px;font-weight:bold;color:#f8f4ec;margin:0">IEP Intelligence</p>
+      <p style="font-size:9px;color:#f0a820;letter-spacing:2px;text-transform:uppercase;font-family:monospace;margin:0">PLAAFP · Impact Statement Generator</p>
+    </div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center">
+      <span style="font-size:9px;color:#94a3b8;font-family:monospace">IDEA 2004 · IRIS · Endrew F. · NTACT:C · ECC</span>
+      <span style="background:#d4880a;color:#0d1b35;font-size:9px;font-weight:bold;font-family:monospace;padding:3px 7px;border-radius:3px">§300.320</span>
+      <span style="background:#d4880a;color:#0d1b35;font-size:9px;font-weight:bold;font-family:monospace;padding:3px 7px;border-radius:3px">v4.0</span>
+    </div>
+  </header>
+
+  <div style="background:#162950;border-bottom:1px solid #2a4e9a;padding:8px 16px;display:flex;gap:16px">
+    <div style="display:flex;align-items:center;gap:6px">
+      <span style="background:#d4880a;color:#0d1b35;border-radius:50%;width:19px;height:19px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold">1</span>
+      <span style="font-size:11px;color:#f8f4ec">Profile</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;opacity:.4">
+      <span style="background:#1f3d7a;color:#94a3b8;border-radius:50%;width:19px;height:19px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold">2</span>
+      <span style="font-size:11px;color:#94a3b8">Interview</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;opacity:.4">
+      <span style="background:#1f3d7a;color:#94a3b8;border-radius:50%;width:19px;height:19px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold">3</span>
+      <span style="font-size:11px;color:#94a3b8">Output</span>
+    </div>
+  </div>
+
+  <div style="padding:14px 16px;max-width:680px;margin:0 auto">
+    <div class="card">
+      <p class="tag">Student Profile</p>
+
+```
+  <label class="label">First Name</label>
+  <input id="fn" placeholder="e.g. Jordan"/>
+
+  <label class="label">Last Name</label>
+  <input id="ln" placeholder="e.g. Smith"/>
+
+  <label class="label">Grade Level</label>
+  <select id="grade">
+    <option value="">— Select —</option>
+    <option>Pre-K</option><option>Kindergarten</option>
+    <option>1st Grade</option><option>2nd Grade</option><option>3rd Grade</option>
+    <option>4th Grade</option><option>5th Grade</option><option>6th Grade</option>
+    <option>7th Grade</option><option>8th Grade</option><option>9th Grade</option>
+    <option>10th Grade</option><option>11th Grade</option><option>12th Grade</option>
+  </select>
+
+  <label class="label">Disability Category — IDEA §300.8 (tap all that apply)</label>
+  <div id="dis-chips"></div>
+
+  <label class="label" style="margin-top:10px">Areas of Need</label>
+  <p id="area-count" style="font-size:10px;color:#94a3b8;font-family:monospace;margin-bottom:6px">0 selected</p>
+  <div id="area-groups"></div>
+
+  <div style="display:flex;gap:6px;margin-bottom:10px;margin-top:4px">
+    <input id="custom-area-input" placeholder="Add custom area…" style="margin-bottom:0;flex:1"/>
+    <button onclick="addCustomArea()" style="background:#d4880a;color:#0d1b35;border-radius:5px;padding:10px 14px;font-size:13px;flex-shrink:0">+ Add</button>
+  </div>
+
+  <label class="label">Additional Context (optional)</label>
+  <textarea id="context" rows="3" placeholder="e.g. recent eval, related services, parent concerns…" style="resize:vertical;line-height:1.5;margin-bottom:12px"></textarea>
+
+  <p id="intake-error" class="error" style="display:none"></p>
+  <button class="btn-primary" onclick="startInterview()">Begin Compliance Interview →</button>
+  <div id="intake-loading" style="display:none;text-align:center;padding:10px">
+    <span class="dot"></span><span class="dot" style="animation-delay:.3s"></span><span class="dot" style="animation-delay:.6s"></span>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ── PHASE: INTERVIEW ── -->
+
+<div id="phase-interview" style="display:none">
+  <header style="background:linear-gradient(135deg,#0d1b35,#162950);border-bottom:3px solid #d4880a;padding:14px 16px">
+    <p style="font-size:18px;font-weight:bold;color:#f8f4ec;margin:0">IEP Intelligence</p>
+    <p style="font-size:9px;color:#f0a820;letter-spacing:2px;text-transform:uppercase;font-family:monospace;margin:0">PLAAFP · Impact Statement Generator</p>
+  </header>
+  <div style="background:#162950;border-bottom:1px solid #2a4e9a;padding:8px 16px;display:flex;gap:16px">
+    <div style="display:flex;align-items:center;gap:6px;opacity:.4">
+      <span style="background:#1f3d7a;color:#94a3b8;border-radius:50%;width:19px;height:19px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold">1</span>
+      <span style="font-size:11px;color:#94a3b8">Profile</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <span style="background:#d4880a;color:#0d1b35;border-radius:50%;width:19px;height:19px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold">2</span>
+      <span style="font-size:11px;color:#f8f4ec">Interview</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;opacity:.4">
+      <span style="background:#1f3d7a;color:#94a3b8;border-radius:50%;width:19px;height:19px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold">3</span>
+      <span style="font-size:11px;color:#94a3b8">Output</span>
+    </div>
+  </div>
+  <div style="padding:14px 16px;max-width:680px;margin:0 auto">
+    <div id="interview-content"></div>
+  </div>
+</div>
+
+<!-- ── PHASE: OUTPUT ── -->
+
+<div id="phase-output" style="display:none">
+  <header style="background:linear-gradient(135deg,#0d1b35,#162950);border-bottom:3px solid #d4880a;padding:14px 16px">
+    <p style="font-size:18px;font-weight:bold;color:#f8f4ec;margin:0">IEP Intelligence</p>
+    <p style="font-size:9px;color:#f0a820;letter-spacing:2px;text-transform:uppercase;font-family:monospace;margin:0">PLAAFP · Impact Statement Generator</p>
+  </header>
+  <div style="background:#162950;border-bottom:1px solid #2a4e9a;padding:8px 16px;display:flex;gap:16px">
+    <div style="display:flex;align-items:center;gap:6px;opacity:.4">
+      <span style="background:#1f3d7a;color:#94a3b8;border-radius:50%;width:19px;height:19px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold">1</span>
+      <span style="font-size:11px;color:#94a3b8">Profile</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;opacity:.4">
+      <span style="background:#1f3d7a;color:#94a3b8;border-radius:50%;width:19px;height:19px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold">2</span>
+      <span style="font-size:11px;color:#94a3b8">Interview</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <span style="background:#d4880a;color:#0d1b35;border-radius:50%;width:19px;height:19px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold">3</span>
+      <span style="font-size:11px;color:#f8f4ec">Output</span>
+    </div>
+  </div>
+  <div style="padding:14px 16px;max-width:680px;margin:0 auto">
+    <div id="output-tabs" style="display:flex;gap:3px;margin-bottom:0"></div>
+    <div id="output-content" style="background:#162950;border:1px solid #2a4e9a;border-radius:0 0 8px 8px;padding:15px;overflow-y:auto;max-height:600px;padding-bottom:40px"></div>
+  </div>
+</div>
+
 <script>
 'use strict';
-const e = React.createElement;
-const {useState, useEffect, useRef} = React;
 
 // ── Config ────────────────────────────────────────────────────────────────────
-const API_URL = “https://iep-plaafp.onrender.com/api/messages”;
-const C = {
-navy:”#0d1b35”,navyMid:”#162950”,navyLight:”#1f3d7a”,navyBorder:”#2a4e9a”,
-amber:”#d4880a”,amberLight:”#f0a820”,cream:”#f8f4ec”,slate:”#94a3b8”,
-white:”#ffffff”,green:”#1e6e43”,greenLight:”#2d9e62”,purple:”#5b21b6”,teal:”#0f766e”,
+var API_URL = "https://iep-plaafp.onrender.com/api/messages";
+
+// ── Data ──────────────────────────────────────────────────────────────────────
+var DISABILITIES = [
+  "Autism Spectrum Disorder","Intellectual Disability","Specific Learning Disability",
+  "Speech or Language Impairment","Emotional Disturbance","Other Health Impairment",
+  "Developmental Delay","Traumatic Brain Injury","Visual Impairment (including Blindness)",
+  "Hearing Impairment","Deaf-Blindness","Multiple Disabilities","Orthopedic Impairment","Deafness"
+];
+
+var AREA_GROUPS = [
+  {group:"Academic Areas", color:"#1f3d7a", accent:"#f0a820", areas:[
+    "Reading / Decoding & Fluency","Reading Comprehension",
+    "Mathematics – Computation","Mathematics – Problem Solving",
+    "Written Expression","Oral Language / Listening Comprehension",
+    "Science / Content Knowledge","Social Studies / Content Knowledge"
+  ]},
+  {group:"Functional & Adaptive Areas", color:"#1e6e43", accent:"#6ee7b7", areas:[
+    "Daily Living / Self-Care Skills","Community & Domestic Skills",
+    "Functional Communication","Vocational / Pre-Employment Skills",
+    "Self-Determination & Self-Advocacy","Recreation & Leisure","Health & Wellness"
+  ]},
+  {group:"Social, Emotional & Behavioral", color:"#5b21b6", accent:"#c4b5fd", areas:[
+    "Social Skills & Peer Interactions","Emotional Regulation",
+    "Behavior / Executive Functioning","Attention & Impulse Control","Mental Health & Coping Skills"
+  ]},
+  {group:"Communication & Motor", color:"#0f766e", accent:"#5eead4", areas:[
+    "Expressive Communication / Speech","Receptive Language",
+    "Augmentative & Alternative Communication (AAC)",
+    "Fine Motor Skills","Gross Motor Skills","Sensory Processing"
+  ]},
+  {group:"Transition (NTACT / IDEA §300.43)", color:"#92400e", accent:"#fcd34d", areas:[
+    "Postsecondary Education & Training","Employment & Career Readiness",
+    "Independent Living Skills","Transportation & Mobility (Transition)","Financial Literacy"
+  ]},
+  {group:"ECC – Visual Impairment (IDEA / TSBVI)", color:"#1e40af", accent:"#93c5fd", areas:[
+    "ECC: Compensatory / Functional Academic Skills","ECC: Sensory Efficiency Skills",
+    "ECC: Orientation & Mobility (O&M)","ECC: Social Interaction Skills (VI)",
+    "ECC: Independent Living Skills (VI)","ECC: Recreation & Leisure (VI)",
+    "ECC: Career Education (VI)","ECC: Assistive Technology (VI)","ECC: Self-Determination (VI)"
+  ]},
+  {group:"ECC – Deaf / Hard of Hearing", color:"#065f46", accent:"#6ee7b7", areas:[
+    "DHH ECC: Audiology & Amplification Management","DHH ECC: Communication & Language Access",
+    "DHH ECC: Self-Advocacy & Disability Awareness","DHH ECC: Social-Emotional Skills (DHH)",
+    "DHH ECC: Functional Skills for Educational Success",
+    "DHH ECC: Career Education (DHH)","DHH ECC: Technology Access (DHH)"
+  ]}
+];
+
+var CASELAW = "KEY LEGAL AUTHORITIES:\n- IDEA 2004, 34 CFR §300.320(a)(1)-(2): PLAAFP must describe current academic AND functional performance and how disability affects general curriculum access. Each area needs baseline data.\n- Endrew F. v. Douglas County (2017, SCOTUS): IEP must be reasonably calculated to enable progress appropriate in light of the child's circumstances. Vague PLAAFPs cannot support this standard.\n- Rowley (1982): Two-part FAPE test. PLAAFPs lacking specific data fail the procedural prong.\n- Deal v. Hamilton County (6th Cir. 2004): Trivial benefit violates IDEA. PLAAFPs must capture actual current performance.\n- M.C. v. Antelope Valley (9th Cir. 2017): Procedural violations impeding parent participation constitute FAPE denial.\n- D.B. v. Gloucester Township (D.N.J. 2017): Performs below grade level without data is insufficient.\n- Adam J. v. Keller ISD (5th Cir. 2003): All areas affected by disability must be addressed.\n- Lessard v. Wilton-Lyndeborough (1st Cir. 2008): PLAAFPs must be based on current evaluative data.\n- Flour Bluff ISD v. Katherine M. (5th Cir. 1996): Boilerplate PLAAFPs fail IDEA.\n- OSEP Policy Letter, 64 Fed. Reg. 12,406 (1999): PLAAFPs must reflect actual current individual performance.\n- IRIS Center 4-Element Framework: (1) area of need, (2) measurable baseline data, (3) curriculum impact, (4) connection to goals/services. Stranger test: a new teacher should be able to instruct this student tomorrow based solely on the PLAAFP.";
+
+// ── State ─────────────────────────────────────────────────────────────────────
+var state = {
+  selectedDis: [],
+  selectedAreas: [],
+  expandedGroups: {},
+  msgHistory: [],
+  currentQ: null,
+  collectedData: {},
+  answeredQs: 0,
+  profile: null,
+  output: null,
+  selectedOpts: [],
+  scaleVal: '',
+  activeTab: 'plaafp'
 };
 
-// ── Area taxonomy ─────────────────────────────────────────────────────────────
-const AREA_GROUPS = [
-{group:“Academic Areas”,color:C.navyLight,accent:C.amberLight,areas:[
-“Reading / Decoding & Fluency”,“Reading Comprehension”,
-“Mathematics – Computation”,“Mathematics – Problem Solving”,
-“Written Expression”,“Oral Language / Listening Comprehension”,
-“Science / Content Knowledge”,“Social Studies / Content Knowledge”]},
-{group:“Functional & Adaptive Areas”,color:C.green,accent:”#6ee7b7”,areas:[
-“Daily Living / Self-Care Skills”,“Community & Domestic Skills”,
-“Functional Communication”,“Vocational / Pre-Employment Skills”,
-“Self-Determination & Self-Advocacy”,“Recreation & Leisure”,“Health & Wellness”]},
-{group:“Social, Emotional & Behavioral”,color:C.purple,accent:”#c4b5fd”,areas:[
-“Social Skills & Peer Interactions”,“Emotional Regulation”,
-“Behavior / Executive Functioning”,“Attention & Impulse Control”,“Mental Health & Coping Skills”]},
-{group:“Communication & Motor”,color:C.teal,accent:”#5eead4”,areas:[
-“Expressive Communication / Speech”,“Receptive Language”,
-“Augmentative & Alternative Communication (AAC)”,
-“Fine Motor Skills”,“Gross Motor Skills”,“Sensory Processing”]},
-{group:“Transition (NTACT / IDEA §300.43)”,color:”#92400e”,accent:”#fcd34d”,areas:[
-“Postsecondary Education & Training”,“Employment & Career Readiness”,
-“Independent Living Skills”,“Transportation & Mobility (Transition)”,“Financial Literacy”]},
-{group:“ECC – Visual Impairment (IDEA / TSBVI)”,color:”#1e40af”,accent:”#93c5fd”,areas:[
-“ECC: Compensatory / Functional Academic Skills”,“ECC: Sensory Efficiency Skills”,
-“ECC: Orientation & Mobility (O&M)”,“ECC: Social Interaction Skills (VI)”,
-“ECC: Independent Living Skills (VI)”,“ECC: Recreation & Leisure (VI)”,
-“ECC: Career Education (VI)”,“ECC: Assistive Technology (VI)”,“ECC: Self-Determination (VI)”]},
-{group:“ECC – Deaf / Hard of Hearing”,color:”#065f46”,accent:”#6ee7b7”,areas:[
-“DHH ECC: Audiology & Amplification Management”,“DHH ECC: Communication & Language Access”,
-“DHH ECC: Self-Advocacy & Disability Awareness”,“DHH ECC: Social-Emotional Skills (DHH)”,
-“DHH ECC: Functional Skills for Educational Success”,
-“DHH ECC: Career Education (DHH)”,“DHH ECC: Technology Access (DHH)”]},
-];
-const ALL_AREAS = AREA_GROUPS.flatMap(g => g.areas);
+// ── Boot ──────────────────────────────────────────────────────────────────────
+window.onload = function() {
+  renderDisChips();
+  renderAreaGroups();
+};
 
-const DISABILITIES = [
-“Autism Spectrum Disorder”,“Intellectual Disability”,“Specific Learning Disability”,
-“Speech or Language Impairment”,“Emotional Disturbance”,“Other Health Impairment”,
-“Developmental Delay”,“Traumatic Brain Injury”,“Visual Impairment (including Blindness)”,
-“Hearing Impairment”,“Deaf-Blindness”,“Multiple Disabilities”,“Orthopedic Impairment”,“Deafness”,
-];
-const GRADES = [
-“Pre-K”,“Kindergarten”,“1st Grade”,“2nd Grade”,“3rd Grade”,“4th Grade”,“5th Grade”,
-“6th Grade”,“7th Grade”,“8th Grade”,“9th Grade”,“10th Grade”,“11th Grade”,“12th Grade”,
-];
+// ── Disability chips ──────────────────────────────────────────────────────────
+function renderDisChips() {
+  var container = document.getElementById('dis-chips');
+  container.innerHTML = '';
+  DISABILITIES.forEach(function(d) {
+    var chip = document.createElement('span');
+    chip.className = 'chip' + (state.selectedDis.indexOf(d) >= 0 ? ' on' : '');
+    chip.textContent = d;
+    chip.onclick = function() {
+      var idx = state.selectedDis.indexOf(d);
+      if (idx >= 0) state.selectedDis.splice(idx, 1);
+      else state.selectedDis.push(d);
+      renderDisChips();
+    };
+    container.appendChild(chip);
+  });
+}
 
-// ── Case law library (embedded in prompts) ────────────────────────────────────
-const CASELAW = `KEY LEGAL AUTHORITIES FOR PLAAFP COMPLIANCE:
+// ── Area groups ───────────────────────────────────────────────────────────────
+function renderAreaGroups() {
+  var container = document.getElementById('area-groups');
+  container.innerHTML = '';
+  AREA_GROUPS.forEach(function(group) {
+    var expanded = state.expandedGroups[group.group] !== false;
+    var selCount = group.areas.filter(function(a) { return state.selectedAreas.indexOf(a) >= 0; }).length;
 
-- IDEA 2004, 34 CFR §300.320(a)(1)-(2): PLAAFP must describe current academic AND functional performance; how disability affects general curriculum access; must have baseline data for each area.
-- Endrew F. v. Douglas County (2017, SCOTUS): IEP must be “reasonably calculated to enable progress appropriate in light of the child’s circumstances.” Vague PLAAFPs cannot support this standard.
-- Rowley (1982): Two-part FAPE test — procedural compliance + meaningful educational benefit. PLAAFPs lacking specific data fail the procedural prong.
-- Deal v. Hamilton County (6th Cir. 2004): Trivial benefit violates IDEA. PLAAFPs must capture actual current performance to anchor meaningful goals.
-- M.C. v. Antelope Valley (9th Cir. 2017): Procedural violations that impede parental participation constitute FAPE denial. PLAAFPs must be parent-accessible.
-- D.B. v. Gloucester Township (D.N.J. 2017): PLAAFPs must be specific enough to design appropriate goals. “Performs below grade level” without data is insufficient.
-- Susan N. v. Wilson SD (3d Cir. 1995): Omitting current performance levels may deny FAPE where it impedes parent participation.
-- Adam J. v. Keller ISD (5th Cir. 2003): All areas affected by disability must be addressed — not just academic.
-- Lessard v. Wilton-Lyndeborough (1st Cir. 2008): PLAAFPs must be based on current evaluative data, not historical.
-- Flour Bluff ISD v. Katherine M. (5th Cir. 1996): Boilerplate copy-paste PLAAFPs that don’t reflect individual data fail IDEA.
-- OSEP Policy Letter, 64 Fed. Reg. 12,406 (1999): PLAAFPs must describe actual current individual performance.
-- IRIS Center 4-Element Framework: (1) area of need, (2) measurable baseline data, (3) curriculum impact, (4) connection to goals/services. “Stranger test”: a new teacher should be able to instruct this student tomorrow based solely on the PLAAFP.`;
+    var wrapper = document.createElement('div');
+    wrapper.style.marginBottom = '8px';
 
-// ── System prompt: structured interview ───────────────────────────────────────
+    var header = document.createElement('div');
+    header.style.cssText = 'font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-family:monospace;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:6px 9px;border-radius:4px;background:#0d1b35;border:1px solid ' + group.color + ';margin-bottom:' + (expanded ? '5px' : '0');
+    header.style.color = group.accent;
+    var label = document.createElement('span');
+    label.textContent = group.group;
+    var badge = document.createElement('span');
+    badge.style.cssText = 'font-size:10px;color:#94a3b8';
+    badge.textContent = (selCount > 0 ? selCount + ' \u2713 ' : '') + (expanded ? '\u25b2' : '\u25bc');
+    header.appendChild(label);
+    header.appendChild(badge);
+    header.onclick = function() {
+      state.expandedGroups[group.group] = !expanded;
+      renderAreaGroups();
+    };
+    wrapper.appendChild(header);
+
+    if (expanded) {
+      var chipsDiv = document.createElement('div');
+      chipsDiv.style.cssText = 'display:flex;flex-wrap:wrap;padding-left:4px;margin-top:4px';
+      group.areas.forEach(function(area) {
+        var on = state.selectedAreas.indexOf(area) >= 0;
+        var chip = document.createElement('span');
+        chip.className = 'area-chip';
+        chip.style.background = on ? group.color : '#0d1b35';
+        chip.style.color = on ? group.accent : '#94a3b8';
+        chip.style.borderColor = on ? group.accent : '#2a4e9a';
+        chip.style.fontWeight = on ? 'bold' : 'normal';
+        chip.textContent = area;
+        chip.onclick = function() {
+          var idx = state.selectedAreas.indexOf(area);
+          if (idx >= 0) state.selectedAreas.splice(idx, 1);
+          else state.selectedAreas.push(area);
+          renderAreaGroups();
+          document.getElementById('area-count').textContent = state.selectedAreas.length + ' selected';
+        };
+        chipsDiv.appendChild(chip);
+      });
+      wrapper.appendChild(chipsDiv);
+    }
+    container.appendChild(wrapper);
+  });
+}
+
+function addCustomArea() {
+  var input = document.getElementById('custom-area-input');
+  var val = input.value.trim();
+  if (!val) return;
+  if (state.selectedAreas.indexOf(val) < 0) state.selectedAreas.push(val);
+  input.value = '';
+  document.getElementById('area-count').textContent = state.selectedAreas.length + ' selected';
+}
+
+// ── Prompts ───────────────────────────────────────────────────────────────────
 function buildInterviewPrompt(profile) {
-const isVI  = profile.disabilities.some(d => d.includes(“Visual”)||d.includes(“Blind”));
-const isDHH = profile.disabilities.some(d => d.includes(“Hearing”)||d.includes(“Deaf”));
-const isTr  = [“8th Grade”,“9th Grade”,“10th Grade”,“11th Grade”,“12th Grade”].includes(profile.grade);
-return `You are an IEP data collector running a structured compliance interview. Return ONE question at a time as a JSON object. No prose outside the JSON.
-
-${CASELAW}
-
-STUDENT: ${profile.firstName} ${profile.lastName} | ${profile.grade}
-DISABILITIES: ${profile.disabilities.join(”; “)}
-AREAS TO COVER: ${profile.areas.join(”, “)}
-
-RULES:
-
-1. One question per response. Always return a single JSON object.
-1. Choose type: “fill_blank” (scores/numbers), “multiselect” (known options), “scale” (1-5 rating), or “short_text” (observations only).
-1. Keep “prompt” under 10 words.
-1. Cycle through all areas. Track the conversation history to avoid repeating answered questions.
-1. Required data per area: baseline score, strengths, classroom impact, supports in place.
-1. If a vague answer is given, follow up asking for specific numeric data — cite Endrew F. (2017).
-1. When all areas are covered, return: {“done”:true,“message”:“All data collected. Tap Generate below.”}
-   ${isVI  ? ‘8. For ECC/VI areas: collect FVA completion, LMA primary medium, O&M assessment data.’ : ‘’}
-   ${isDHH ? ‘8. For DHH areas: collect audiogram type/degree, communication modality, amplification device.’ : ‘’}
-   ${isTr  ? ‘8. For transition areas: collect transition assessment name and student stated interests/preferences.’ : ‘’}
-
-JSON FORMAT:
-{
-“area”: “exact area name from the list”,
-“dataType”: “baseline_score|strengths|classroom_impact|supports|parent_input|assessment_name|ecc_vi|ecc_dhh|transition”,
-“type”: “fill_blank|multiselect|scale|short_text”,
-“prompt”: “Question in 10 words or fewer”,
-“template”: “Student reads ___ words per minute”,
-“unit”: “words per minute”,
-“options”: [“Option A”,“Option B”,“Option C”],
-“low_label”: “Never”,
-“high_label”: “Always”,
-“compliance_note”: “Why this data is legally required (one sentence)”,
-“progress”: “2 of 5 areas complete”
-}
-Only include keys relevant to the question type.`;
+  var isVI  = profile.disabilities.some(function(d) { return d.indexOf('Visual') >= 0 || d.indexOf('Blind') >= 0; });
+  var isDHH = profile.disabilities.some(function(d) { return d.indexOf('Hearing') >= 0 || d.indexOf('Deaf') >= 0; });
+  var isTr  = ['8th Grade','9th Grade','10th Grade','11th Grade','12th Grade'].indexOf(profile.grade) >= 0;
+  return 'You are an IEP data collector. Return ONE question at a time as a JSON object. No text outside the JSON.\n\n' + CASELAW + '\n\nSTUDENT: ' + profile.firstName + ' ' + profile.lastName + ' | ' + profile.grade + '\nDISABILITIES: ' + profile.disabilities.join('; ') + '\nAREAS TO COVER: ' + profile.areas.join(', ') + '\n\nRULES:\n1. One question per response. Always return a single JSON object.\n2. Choose type: fill_blank (scores/numbers), multiselect (known options), scale (1-5), or short_text (observations).\n3. Keep prompt under 10 words.\n4. Cycle through all areas. Do not repeat answered questions.\n5. Required per area: baseline score, strengths, classroom impact, supports in place.\n6. If vague answer given, follow up asking for specific numeric data citing Endrew F. (2017).\n7. When all areas covered, return: {"done":true,"message":"All data collected. Tap Generate below."}\n' + (isVI ? '8. For ECC/VI: collect FVA completion, LMA primary medium, O&M data.\n' : '') + (isDHH ? '8. For DHH: collect audiogram type/degree, communication modality, amplification device.\n' : '') + (isTr ? '8. For transition: collect assessment name and student preferences/interests.\n' : '') + '\nJSON FORMAT:\n{"area":"exact area name","dataType":"baseline_score|strengths|classroom_impact|supports|assessment_name|ecc_vi|ecc_dhh|transition","type":"fill_blank|multiselect|scale|short_text","prompt":"Question under 10 words","template":"Student reads ___ words per minute","unit":"words per minute","options":["Option A","Option B"],"low_label":"Never","high_label":"Always","compliance_note":"Why legally required (one sentence)","progress":"2 of 5 areas complete"}\nOnly include keys relevant to the type.';
 }
 
-// ── Generation prompt ─────────────────────────────────────────────────────────
 function buildGenerationPrompt(profile, collectedData) {
-const summary = Object.entries(collectedData).map(([area, items]) =>
-`${area}:\n${items.map(i => `  - ${i.dataType}: ${i.answer}`).join('\n')}`
-).join(’\n\n’);
+  var summary = Object.keys(collectedData).map(function(area) {
+    return area + ':\n' + collectedData[area].map(function(i) { return '  - ' + i.dataType + ': ' + i.answer; }).join('\n');
+  }).join('\n\n');
 
-const areaKeys = profile.areas.map(a => a.replace(/[^a-zA-Z0-9]/g,’_’));
-const schema = {};
-profile.areas.forEach((area,i) => {
-schema[areaKeys[i]] = `Write 2-3 paragraphs for ${area}: (1) strengths, (2) specific present level with assessment name/score/date per IRIS Center stranger test, (3) how deficit affects general curriculum access per IDEA §300.320(a)(1) and Endrew F. Parent-friendly, no unexplained acronyms.`;
-});
+  var schema = {};
+  profile.areas.forEach(function(area) {
+    var key = area.replace(/[^a-zA-Z0-9]/g, '_');
+    schema[key] = 'Write 2-3 paragraphs for ' + area + ': (1) strengths, (2) specific present level with assessment name/score/date per IRIS Center stranger test, (3) how deficit affects general curriculum access per IDEA §300.320(a)(1) and Endrew F. Parent-friendly, no unexplained acronyms.';
+  });
 
-return `Generate IDEA 2004-compliant PLAAFP sections and impact statement. No goals.
-
-${CASELAW}
-
-STUDENT: ${profile.firstName} ${profile.lastName} | ${profile.grade} | ${profile.disabilities.join(”; “)}
-AREAS: ${profile.areas.join(”, “)}
-
-COLLECTED DATA:
-${summary}
-
-OUTPUT RULES:
-
-1. Cite specific assessment names and scores from the collected data — no placeholders.
-1. Include strengths in every section per Adam J. v. Keller ISD.
-1. Impact statement must name exact IDEA §300.8 disability categories.
-1. Apply Endrew F. standard: language must convey programming is “reasonably calculated to enable ${profile.firstName} to make progress appropriate in light of their circumstances.”
-1. Per OSEP 1999: every sentence must reflect ${profile.firstName}’s individual data, not boilerplate.
-1. Flag any area with insufficient data in complianceFlags.
-1. 8th-grade reading level. Spell out all acronyms on first use.
-
-Return ONLY valid JSON, no markdown fences, no text outside the object:
-{
-“plaafpSections”: ${JSON.stringify(schema,null,2)},
-“impactStatement”: “Two paragraphs. P1: how ${profile.firstName}’s specific IDEA §300.8 disability categories adversely affect involvement and progress in general education — cite specific data. P2: why specially designed instruction is required, citing Endrew F. and one additional case or regulation.”,
-“complianceFlags”: [],
-“legalBasis”: {
-“primaryAuthority”: “IDEA 2004, 34 CFR §300.320(a)(1)-(2)”,
-“caselaw”: “Endrew F. (2017); Rowley (1982); Deal v. Hamilton County (6th Cir. 2004); M.C. v. Antelope Valley (9th Cir. 2017); Adam J. v. Keller ISD (5th Cir. 2003)”,
-“osepGuidance”: “OSEP Policy Letter, 64 Fed. Reg. 12,406 (1999)”,
-“practiceFramework”: “IRIS Center 4-Element PLAAFP Framework; NTACT:C Indicator 13”
-},
-“apiResponse”: {
-“status”:“success”,“version”:“4.0”,
-“generated_at”:”${new Date().toISOString()}”,
-“disabilities”:${JSON.stringify(profile.disabilities)},
-“areas_of_need”:${JSON.stringify(profile.areas)},
-“compliance_flags”:[],
-“sections”:{“plaafp_by_area”:{},“impact_statement”:””,“legal_basis”:{}}
-}
-}`;
+  return 'Generate IDEA 2004-compliant PLAAFP sections and impact statement. No goals.\n\n' + CASELAW + '\n\nSTUDENT: ' + profile.firstName + ' ' + profile.lastName + ' | ' + profile.grade + ' | ' + profile.disabilities.join('; ') + '\nAREAS: ' + profile.areas.join(', ') + '\n\nCOLLECTED DATA:\n' + summary + '\n\nRULES:\n1. Cite specific assessment names and scores from collected data.\n2. Include strengths in every section per Adam J. v. Keller ISD.\n3. Impact statement must name exact IDEA §300.8 disability categories.\n4. Apply Endrew F.: language must convey programming is reasonably calculated to enable ' + profile.firstName + ' to make progress appropriate in light of their circumstances.\n5. Per OSEP 1999: no boilerplate — every sentence must reflect individual data.\n6. Flag insufficient data areas in complianceFlags.\n7. 8th-grade reading level. Spell out all acronyms on first use.\n\nReturn ONLY valid JSON, no markdown fences:\n{"plaafpSections":' + JSON.stringify(schema) + ',"impactStatement":"Two paragraphs. P1: how disabilities adversely affect involvement in general education with specific data. P2: why specially designed instruction required citing Endrew F. and one additional authority.","complianceFlags":[],"legalBasis":{"primaryAuthority":"IDEA 2004, 34 CFR §300.320(a)(1)-(2)","caselaw":"Endrew F. (2017); Rowley (1982); Deal v. Hamilton County (6th Cir. 2004); M.C. v. Antelope Valley (9th Cir. 2017); Adam J. v. Keller ISD (5th Cir. 2003)","osepGuidance":"OSEP Policy Letter, 64 Fed. Reg. 12,406 (1999)","practiceFramework":"IRIS Center 4-Element PLAAFP Framework; NTACT:C Indicator 13"},"apiResponse":{"status":"success","version":"4.0","generated_at":"' + new Date().toISOString() + '","disabilities":' + JSON.stringify(profile.disabilities) + ',"areas_of_need":' + JSON.stringify(profile.areas) + ',"compliance_flags":[],"sections":{"plaafp_by_area":{},"impact_statement":"","legal_basis":{}}}}';
 }
 
-// ── API helper ────────────────────────────────────────────────────────────────
-async function callAPI(body) {
-const res = await fetch(API_URL, {
-method:‘POST’,
-headers:{‘Content-Type’:‘application/json’},
-body: JSON.stringify({model:‘claude-sonnet-4-20250514’,max_tokens:800,…body}),
-});
-if (!res.ok) throw new Error(‘Server error ’ + res.status);
-return res.json();
+// ── API call ──────────────────────────────────────────────────────────────────
+function callAPI(body, callback) {
+  fetch(API_URL, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(Object.assign({model:'claude-sonnet-4-20250514', max_tokens:800}, body))
+  })
+  .then(function(res) {
+    if (!res.ok) throw new Error('Server error ' + res.status);
+    return res.json();
+  })
+  .then(function(data) {
+    var text = (data.content||[]).map(function(b) { return b.text||''; }).join('');
+    callback(null, text);
+  })
+  .catch(function(err) { callback(err.message, null); });
 }
-function extractText(data) {
-return (data.content||[]).map(b=>b.text||’’).join(’’);
-}
+
 function parseQ(text) {
-try {
-const s = text.indexOf(’{’), en = text.lastIndexOf(’}’);
-if (s<0||en<0) return null;
-return JSON.parse(text.slice(s,en+1));
-} catch(e) { return null; }
+  try {
+    var s = text.indexOf('{');
+    var en = text.lastIndexOf('}');
+    if (s < 0 || en < 0) return null;
+    return JSON.parse(text.slice(s, en + 1));
+  } catch(e) { return null; }
 }
 
-// ── Shared UI helpers ─────────────────────────────────────────────────────────
-function div(style, …children) { return e(‘div’,{style},children.length===1?children[0]:children); }
-function txt(tag, style, content, extra) { return e(tag,{style,…extra},content); }
-
-function Dots() {
-return div({padding:‘10px 0’,textAlign:‘center’},
-e(‘span’,{style:{display:‘inline-block’,width:8,height:8,borderRadius:‘50%’,background:C.amber,margin:‘0 3px’,animation:‘pulse 1.2s infinite’}}),
-e(‘span’,{style:{display:‘inline-block’,width:8,height:8,borderRadius:‘50%’,background:C.amber,margin:‘0 3px’,animation:‘pulse 1.2s infinite’,animationDelay:’.3s’}}),
-e(‘span’,{style:{display:‘inline-block’,width:8,height:8,borderRadius:‘50%’,background:C.amber,margin:‘0 3px’,animation:‘pulse 1.2s infinite’,animationDelay:’.6s’}}),
-);
+// ── Phase switching ───────────────────────────────────────────────────────────
+function showPhase(phase) {
+  document.getElementById('phase-intake').style.display    = phase === 'intake'    ? '' : 'none';
+  document.getElementById('phase-interview').style.display = phase === 'interview' ? '' : 'none';
+  document.getElementById('phase-output').style.display    = phase === 'output'    ? '' : 'none';
+  window.scrollTo(0, 0);
 }
 
-function Btn({label, onClick, disabled, style}) {
-return e(‘button’,{
-onClick, disabled,
-className:‘tap’,
-style:{border:‘none’,cursor:disabled?‘default’:‘pointer’,opacity:disabled?.6:1,fontFamily:‘Georgia,serif’,fontWeight:‘bold’,…style}
-}, label);
+function showError(id, msg) {
+  var el = document.getElementById(id);
+  if (el) { el.textContent = msg; el.style.display = msg ? '' : 'none'; }
 }
 
-// ── INTAKE FORM ───────────────────────────────────────────────────────────────
-function IntakeForm({onStart}) {
-const [profile, setProfile] = useState({firstName:’’,lastName:’’,grade:’’,disabilities:[],areas:[],context:’’});
-const [customInput, setCustomInput] = useState(’’);
-const [customAreas, setCustomAreas] = useState([]);
-const [expanded, setExpanded] = useState({});
-const [loading, setLoading] = useState(false);
-const [error, setError] = useState(’’);
-
-function toggle(field, val) {
-setProfile(p=>({…p,[field]:p[field].includes(val)?p[field].filter(v=>v!==val):[…p[field],val]}));
-}
-function addCustom() {
-const t = customInput.trim();
-if (!t||ALL_AREAS.includes(t)||customAreas.includes(t)) return;
-setCustomAreas(a=>[…a,t]);
-setProfile(p=>({…p,areas:[…p.areas,t]}));
-setCustomInput(’’);
+function dots() {
+  return '<div style="text-align:center;padding:10px"><span class="dot"></span><span class="dot" style="animation-delay:.3s"></span><span class="dot" style="animation-delay:.6s"></span></div>';
 }
 
-async function handleStart() {
-if (!profile.firstName||!profile.grade||!profile.disabilities.length||!profile.areas.length) {
-setError(‘Please fill in: student name, grade, at least one disability, and at least one area of need.’); return;
-}
-setError(’’); setLoading(true);
-try {
-const initMsg = {role:‘user’,content:`Begin IEP intake for ${profile.firstName} ${profile.lastName}, ${profile.grade}. Disabilities: ${profile.disabilities.join(', ')}. Areas: ${profile.areas.join(', ')}. Start first question.`};
-const data = await callAPI({system:buildInterviewPrompt(profile),messages:[initMsg]});
-const text = extractText(data);
-const q = parseQ(text);
-if (!q) throw new Error(‘Could not parse first question from AI.’);
-onStart(profile, q, [initMsg,{role:‘assistant’,content:text}]);
-} catch(err) { setError(’Connection error: ’+err.message); }
-finally { setLoading(false); }
-}
+// ── START INTERVIEW ───────────────────────────────────────────────────────────
+function startInterview() {
+  var fn    = document.getElementById('fn').value.trim();
+  var ln    = document.getElementById('ln').value.trim();
+  var grade = document.getElementById('grade').value;
+  var ctx   = document.getElementById('context').value.trim();
 
-const labelStyle = {display:‘block’,fontSize:12,color:C.amberLight,marginBottom:4};
-const inputStyle = {width:‘100%’,background:C.navy,border:`1px solid ${C.navyBorder}`,borderRadius:5,padding:‘10px 12px’,color:C.cream,fontSize:16,marginBottom:10,outline:‘none’};
-const chipBase   = {padding:‘6px 10px’,borderRadius:5,fontSize:12,border:‘1px solid’,userSelect:‘none’,cursor:‘pointer’};
+  if (!fn || !grade || state.selectedDis.length === 0 || state.selectedAreas.length === 0) {
+    showError('intake-error', 'Please fill in: student name, grade, at least one disability, and at least one area of need.');
+    return;
+  }
+  showError('intake-error', '');
 
-return div({background:C.navyMid,border:`1px solid ${C.navyBorder}`,borderRadius:8,padding:16},
-txt(‘p’,{fontSize:9,letterSpacing:2,textTransform:‘uppercase’,color:C.amberLight,fontFamily:‘monospace’,margin:‘0 0 14px 0’},‘STUDENT PROFILE’),
+  state.profile = {firstName:fn, lastName:ln, grade:grade, disabilities:state.selectedDis.slice(), areas:state.selectedAreas.slice(), context:ctx};
+  state.msgHistory = [];
+  state.collectedData = {};
+  state.answeredQs = 0;
 
-```
-txt('label',labelStyle,'First Name'),
-e('input',{style:inputStyle,value:profile.firstName,placeholder:'e.g. Jordan',onChange:ev=>setProfile(p=>({...p,firstName:ev.target.value}))}),
+  document.getElementById('intake-loading').style.display = '';
+  document.querySelector('#phase-intake .btn-primary').disabled = true;
 
-txt('label',labelStyle,'Last Name'),
-e('input',{style:inputStyle,value:profile.lastName,placeholder:'e.g. Smith',onChange:ev=>setProfile(p=>({...p,lastName:ev.target.value}))}),
+  var initMsg = {role:'user', content:'Begin IEP intake for ' + fn + ' ' + ln + ', ' + grade + '. Disabilities: ' + state.selectedDis.join(', ') + '. Areas: ' + state.selectedAreas.join(', ') + '. Start with the first question.'};
+  state.msgHistory = [initMsg];
 
-txt('label',labelStyle,'Grade Level'),
-e('select',{style:inputStyle,value:profile.grade,onChange:ev=>setProfile(p=>({...p,grade:ev.target.value}))},
-  e('option',{value:''},'— Select —'),
-  GRADES.map(g=>e('option',{key:g,value:g},g))
-),
-
-txt('label',labelStyle,'Disability Category — IDEA §300.8 (select all that apply)'),
-div({display:'flex',flexWrap:'wrap',gap:6,marginBottom:10},
-  DISABILITIES.map(d=>{
-    const on = profile.disabilities.includes(d);
-    return div({...chipBase,background:on?C.amber:C.navy,color:on?C.navy:C.slate,borderColor:on?C.amber:C.navyBorder,fontWeight:on?'bold':'normal',key:d,onClick:()=>toggle('disabilities',d)},d);
-  })
-),
-
-txt('label',{...labelStyle,marginTop:8},'Areas of Need'),
-txt('p',{fontSize:10,color:C.slate,fontFamily:'monospace',marginBottom:6},profile.areas.length+' selected'),
-
-...AREA_GROUPS.map(group=>{
-  const open = expanded[group.group]!==false;
-  const sel  = group.areas.filter(a=>profile.areas.includes(a)).length;
-  return div({marginBottom:8,key:group.group},
-    div({
-      fontSize:10,letterSpacing:'1.5px',textTransform:'uppercase',fontFamily:'monospace',
-      color:group.accent,cursor:'pointer',display:'flex',justifyContent:'space-between',alignItems:'center',
-      padding:'6px 9px',borderRadius:4,background:C.navy,border:`1px solid ${group.color}`,marginBottom:open?5:0,
-      className:'tap',onClick:()=>setExpanded(ex=>({...ex,[group.group]:!ex[group.group]}))
-    },
-      e('span',null,group.group),
-      e('span',{style:{fontSize:10,color:C.slate}},(sel>0?sel+' ✓ ':'')+' '+(open?'▲':'▼'))
-    ),
-    open && div({display:'flex',flexWrap:'wrap',gap:5,paddingLeft:4,marginTop:4},
-      group.areas.map(area=>{
-        const on = profile.areas.includes(area);
-        return div({
-          ...chipBase,key:area,
-          background:on?group.color:C.navy,
-          color:on?group.accent:C.slate,
-          borderColor:on?group.accent:C.navyBorder,
-          fontWeight:on?'bold':'normal',
-          onClick:()=>toggle('areas',area)
-        },area);
-      })
-    )
-  );
-}),
-
-customAreas.length>0 && div({display:'flex',flexWrap:'wrap',gap:5,marginTop:4,marginBottom:8},
-  customAreas.map(a=>{
-    const on=profile.areas.includes(a);
-    return div({...chipBase,key:a,background:on?'#374151':C.navy,color:on?C.amberLight:C.slate,borderColor:on?C.amberLight:C.navyBorder,fontWeight:on?'bold':'normal',onClick:()=>toggle('areas',a)},a);
-  })
-),
-
-div({display:'flex',gap:6,marginBottom:10},
-  e('input',{style:{...inputStyle,marginBottom:0,flex:1},value:customInput,placeholder:'Add custom area…',
-    onChange:ev=>setCustomInput(ev.target.value),onKeyDown:ev=>ev.key==='Enter'&&addCustom()}),
-  Btn({label:'+ Add',onClick:addCustom,style:{background:C.amber,color:C.navy,borderRadius:5,padding:'10px 14px',fontSize:13}})
-),
-
-txt('label',{...labelStyle,marginTop:4},'Additional Context (optional)'),
-e('textarea',{style:{...inputStyle,marginBottom:12,resize:'vertical',lineHeight:1.5,minHeight:70},value:profile.context,
-  placeholder:'e.g. recent eval, related services, parent concerns…',onChange:ev=>setProfile(p=>({...p,context:ev.target.value}))}),
-
-error && txt('p',{color:'#f87171',fontSize:12,marginBottom:8,fontFamily:'monospace'},error),
-Btn({label:loading?'Connecting…':'Begin Compliance Interview →',onClick:handleStart,disabled:loading,
-  style:{width:'100%',background:`linear-gradient(135deg,${C.amber},#f0a820)`,color:C.navy,borderRadius:7,padding:14,fontSize:16}}),
-loading && Dots()
-```
-
-);
+  callAPI({system: buildInterviewPrompt(state.profile), messages: state.msgHistory}, function(err, text) {
+    document.getElementById('intake-loading').style.display = 'none';
+    document.querySelector('#phase-intake .btn-primary').disabled = false;
+    if (err) { showError('intake-error', 'Connection error: ' + err); return; }
+    var q = parseQ(text);
+    if (!q) { showError('intake-error', 'Could not parse first question. Please try again.'); return; }
+    state.msgHistory.push({role:'assistant', content:text});
+    state.currentQ = q;
+    state.selectedOpts = [];
+    state.scaleVal = '';
+    showPhase('interview');
+    renderQuestion();
+  });
 }
 
-// ── INTERVIEW PANEL ───────────────────────────────────────────────────────────
-function InterviewPanel({profile, initialQ, initialHistory, onComplete}) {
-const [currentQ,      setCurrentQ]      = useState(initialQ);
-const [history,       setHistory]       = useState(initialHistory);
-const [collectedData, setCollectedData] = useState({});
-const [answeredQs,    setAnsweredQs]    = useState(0);
-const [fillVal,       setFillVal]       = useState(’’);
-const [selectedOpts,  setSelectedOpts]  = useState([]);
-const [scaleVal,      setScaleVal]      = useState(’’);
-const [shortVal,      setShortVal]      = useState(’’);
-const [loading,       setLoading]       = useState(false);
-const [error,         setError]         = useState(’’);
-const topRef = useRef(null);
+// ── RENDER QUESTION ───────────────────────────────────────────────────────────
+function renderQuestion() {
+  var container = document.getElementById('interview-content');
+  var q = state.currentQ;
 
-useEffect(()=>{ topRef.current&&topRef.current.scrollIntoView({behavior:‘smooth’,block:‘start’}); },[currentQ]);
+  // Done state
+  if (q && q.done) {
+    container.innerHTML = '<div style="background:#162950;border:2px solid #1e6e43;border-radius:8px;padding:20px;text-align:center;margin-bottom:12px"><div style="font-size:32px;margin-bottom:8px">&#10003;</div><p style="font-size:16px;font-weight:bold;color:#f8f4ec;margin-bottom:6px">Data collection complete</p><p style="font-size:13px;color:#94a3b8;line-height:1.6;margin-bottom:10px">' + (q.message||'Tap Generate below.') + '</p><p style="font-size:11px;color:#94a3b8;font-family:monospace">' + state.answeredQs + ' data points across ' + Object.keys(state.collectedData).length + ' areas</p></div><p id="gen-error" class="error" style="display:none"></p><button class="btn-green" onclick="generateOutput()" id="gen-btn">&#9889; Generate PLAAFP + Impact Statement</button>';
+    return;
+  }
 
-const totalEst = profile.areas.length * 4;
-const pct      = Math.min((answeredQs/totalEst)*100, 95);
-const group    = AREA_GROUPS.find(g=>g.areas.includes(currentQ&&currentQ.area));
-const accent   = group?group.accent:C.amberLight;
+  if (!q) { container.innerHTML = dots(); return; }
 
-async function submit() {
-let answerText = ‘’;
-if (currentQ.type===‘fill_blank’) {
-if (!fillVal.trim()) { setError(‘Please fill in the blank.’); return; }
-answerText = currentQ.template ? currentQ.template.replace(’___’,fillVal.trim()) : fillVal.trim();
-if (currentQ.unit) answerText += ’ (’+currentQ.unit+’)’;
-} else if (currentQ.type===‘multiselect’) {
-if (!selectedOpts.length) { setError(‘Please select at least one option.’); return; }
-answerText = selectedOpts.join(’, ‘);
-} else if (currentQ.type===‘scale’) {
-if (!scaleVal) { setError(‘Please select a rating.’); return; }
-answerText = scaleVal+’/5 (’+currentQ.low_label+’ to ‘+currentQ.high_label+’)’;
-} else {
-if (!shortVal.trim()) { setError(‘Please enter a response.’); return; }
-answerText = shortVal.trim();
+  var totalEst = state.profile.areas.length * 4;
+  var pct = Math.min((state.answeredQs / totalEst) * 100, 95);
+
+  // Find group accent color for this area
+  var accent = '#f0a820';
+  for (var gi = 0; gi < AREA_GROUPS.length; gi++) {
+    if (AREA_GROUPS[gi].areas.indexOf(q.area) >= 0) { accent = AREA_GROUPS[gi].accent; break; }
+  }
+
+  var html = '';
+
+  // Progress
+  html += '<div style="margin-bottom:12px"><p style="font-size:10px;color:#94a3b8;font-family:monospace;margin-bottom:5px">' + (q.progress || state.answeredQs + ' questions answered') + '</p><div style="background:#0d1b35;border-radius:4px;height:6px;overflow:hidden"><div style="height:100%;background:linear-gradient(90deg,#d4880a,#f0a820);border-radius:4px;width:' + pct + '%;transition:width .4s ease"></div></div></div>';
+
+  // Question card
+  html += '<div class="q-card">';
+  html += '<p class="tag" style="color:' + accent + '">' + (q.area||'') + '</p>';
+  html += '<p style="font-size:17px;line-height:1.5;color:#f8f4ec;margin-bottom:12px;font-weight:bold">' + (q.prompt||'') + '</p>';
+  if (q.compliance_note) html += '<p style="font-size:11px;color:#94a3b8;font-family:monospace;font-style:italic;margin-bottom:12px;line-height:1.5;border-left:2px solid #2a4e9a;padding-left:8px">&#9878; ' + q.compliance_note + '</p>';
+
+  // Fill in the blank
+  if (q.type === 'fill_blank') {
+    if (q.template) {
+      var parts = q.template.split('___');
+      html += '<p style="font-size:14px;color:#94a3b8;line-height:2.2;margin-bottom:8px;text-align:center">';
+      for (var pi = 0; pi < parts.length; pi++) {
+        html += parts[pi];
+        if (pi < parts.length - 1) html += '<input class="fill-in" id="fill-val" placeholder="___" type="text"/>';
+      }
+      html += '</p>';
+    } else {
+      html += '<input style="background:#0d1b35;border:2px solid #d4880a;border-radius:5px;padding:10px 12px;color:#f8f4ec;font-size:16px;width:100%;outline:none;margin-bottom:8px" id="fill-val" placeholder="Enter value" type="text"/>';
+    }
+    if (q.unit) html += '<p style="font-size:11px;color:#94a3b8;font-family:monospace;margin-top:4px;text-align:center">' + q.unit + '</p>';
+  }
+
+  // Multiselect
+  if (q.type === 'multiselect') {
+    (q.options||[]).forEach(function(opt) {
+      var on = state.selectedOpts.indexOf(opt) >= 0;
+      html += '<div class="ms-opt' + (on?' on':'') + '" onclick="toggleOpt(\'' + opt.replace(/'/g,"\\'") + '\')" id="opt-' + opt.replace(/[^a-zA-Z0-9]/g,'_') + '"><span style="font-size:18px">' + (on?'&#9745;':'&#9744;') + '</span><span>' + opt + '</span></div>';
+    });
+  }
+
+  // Scale
+  if (q.type === 'scale') {
+    html += '<div style="display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0">';
+    html += '<span style="font-size:11px;color:#94a3b8;font-family:monospace;flex:1">' + (q.low_label||'') + '</span>';
+    for (var n = 1; n <= 5; n++) {
+      var on = state.scaleVal === String(n);
+      html += '<button class="scale-btn' + (on?' on':'') + '" onclick="setScale(\'' + n + '\')">' + n + '</button>';
+    }
+    html += '<span style="font-size:11px;color:#94a3b8;font-family:monospace;flex:1;text-align:right">' + (q.high_label||'') + '</span>';
+    html += '</div>';
+  }
+
+  // Short text
+  if (q.type === 'short_text') {
+    html += '<textarea id="short-val" style="width:100%;background:#0d1b35;border:1px solid #2a4e9a;border-radius:5px;padding:10px 12px;color:#f8f4ec;font-size:16px;outline:none;resize:vertical;line-height:1.5;min-height:80px;margin-bottom:0" placeholder="Type your response\u2026"></textarea>';
+
 }
-setError(’’);
-const area = currentQ.area||‘General’;
-setCollectedData(prev=>({…prev,[area]:[…(prev[area]||[]),{dataType:currentQ.dataType,answer:answerText}]}));
-setAnsweredQs(n=>n+1);
-const userMsg = {role:‘user’,content:`[Area: ${area} | Type: ${currentQ.dataType}] ${answerText}`};
-const newHistory = […history, userMsg];
-setFillVal(’’); setSelectedOpts([]); setScaleVal(’’); setShortVal(’’);
-setLoading(true);
-try {
-const data = await callAPI({system:buildInterviewPrompt(profile),messages:newHistory});
-const text = extractText(data);
-const aiMsg = {role:‘assistant’,content:text};
-const nextQ = parseQ(text);
-setHistory([…newHistory,aiMsg]);
-if (!nextQ||nextQ.done) {
-setCurrentQ({done:true,message:nextQ&&nextQ.message?nextQ.message:‘All data collected. Tap Generate below.’});
-} else {
-setCurrentQ(nextQ);
+
+html += ‘<p id="q-error" class="error" style="display:none"></p>’;
+html += ‘<button class="btn-green" style="margin-top:12px" onclick="submitAnswer()">Next →</button>’;
+html += ‘</div>’;
+
+// Skip button
+if (state.answeredQs >= state.profile.areas.length * 2) {
+html += ‘<button class="btn-ghost" onclick="skipToGenerate()">Skip to Generate (use data collected so far)</button>’;
 }
-} catch(err) { setError(’API error: ’+err.message); }
-finally { setLoading(false); }
+
+container.innerHTML = html;
+
+// Auto-focus first input
+var fi = document.getElementById(‘fill-val’) || document.getElementById(‘short-val’);
+if (fi) { setTimeout(function() { try { fi.focus(); } catch(e){} }, 100); }
+}
+
+function toggleOpt(opt) {
+var idx = state.selectedOpts.indexOf(opt);
+if (idx >= 0) state.selectedOpts.splice(idx, 1);
+else state.selectedOpts.push(opt);
+renderQuestion();
+}
+
+function setScale(n) {
+state.scaleVal = n;
+renderQuestion();
 }
 
 function skipToGenerate() {
-setCurrentQ({done:true,message:‘Using data collected so far.’});
+state.currentQ = {done:true, message:‘Using data collected so far.’};
+renderQuestion();
 }
 
-const cardStyle = {background:C.navyMid,border:`1px solid ${C.navyBorder}`,borderLeft:`4px solid ${C.amber}`,borderRadius:8,padding:16,marginBottom:12,className:‘fadeIn’};
-const submitStyle = {width:‘100%’,marginTop:12,background:`linear-gradient(135deg,${C.green},${C.greenLight})`,color:C.white,borderRadius:7,padding:13,fontSize:15};
+// ── SUBMIT ANSWER ─────────────────────────────────────────────────────────────
+function submitAnswer() {
+var q = state.currentQ;
+var answerText = ‘’;
 
-// ── Done state ──
-if (currentQ&&currentQ.done) {
-return div({},
-div({ref:topRef}),
-div({background:C.navyMid,border:`2px solid ${C.green}`,borderRadius:8,padding:20,textAlign:‘center’,marginBottom:12},
-txt(‘div’,{fontSize:32,marginBottom:8},‘✓’),
-txt(‘p’,{fontSize:16,fontWeight:‘bold’,color:C.cream,marginBottom:6},‘Data collection complete’),
-txt(‘p’,{fontSize:13,color:C.slate,lineHeight:1.6,marginBottom:10},currentQ.message),
-txt(‘p’,{fontSize:11,color:C.slate,fontFamily:‘monospace’},answeredQs+’ data points across ‘+Object.keys(collectedData).length+’ areas’)
-),
-error && txt(‘p’,{color:’#f87171’,fontSize:12,fontFamily:‘monospace’,marginBottom:8},error),
-Btn({
-label:loading?‘Generating…’:‘⚡ Generate PLAAFP + Impact Statement’,
-onClick:()=>onComplete(collectedData),
-disabled:loading,
-style:{width:‘100%’,background:`linear-gradient(135deg,${C.green},${C.greenLight})`,color:C.white,borderRadius:7,padding:14,fontSize:15}
-}),
-loading && Dots()
-);
+if (q.type === ‘fill_blank’) {
+var fv = document.getElementById(‘fill-val’);
+if (!fv || !fv.value.trim()) { showError(‘q-error’, ‘Please fill in the blank.’); return; }
+answerText = q.template ? q.template.replace(’___’, fv.value.trim()) : fv.value.trim();
+if (q.unit) answerText += ’ (’ + q.unit + ‘)’;
+} else if (q.type === ‘multiselect’) {
+if (!state.selectedOpts.length) { showError(‘q-error’, ‘Please select at least one option.’); return; }
+answerText = state.selectedOpts.join(’, ‘);
+} else if (q.type === ‘scale’) {
+if (!state.scaleVal) { showError(‘q-error’, ‘Please select a rating.’); return; }
+answerText = state.scaleVal + ‘/5 (’ + (q.low_label||’’) + ’ to ’ + (q.high_label||’’) + ‘)’;
+} else {
+var sv = document.getElementById(‘short-val’);
+if (!sv || !sv.value.trim()) { showError(‘q-error’, ‘Please enter a response.’); return; }
+answerText = sv.value.trim();
 }
 
-if (!currentQ||loading&&!currentQ) return Dots();
+showError(‘q-error’, ‘’);
+var area = q.area || ‘General’;
+if (!state.collectedData[area]) state.collectedData[area] = [];
+state.collectedData[area].push({dataType: q.dataType, answer: answerText});
+state.answeredQs++;
+state.selectedOpts = [];
+state.scaleVal = ‘’;
 
-return div({},
-div({ref:topRef}),
+var userMsg = {role:‘user’, content:’[Area: ’ + area + ’ | Type: ’ + q.dataType + ’] ’ + answerText};
+state.msgHistory.push(userMsg);
 
-```
-// Progress bar
-div({marginBottom:12},
-  txt('p',{fontSize:10,color:C.slate,fontFamily:'monospace',marginBottom:5},currentQ.progress||answeredQs+' questions answered'),
-  div({background:C.navy,borderRadius:4,height:6,overflow:'hidden'},
-    div({height:'100%',background:`linear-gradient(90deg,${C.amber},${C.amberLight})`,borderRadius:4,width:pct+'%',transition:'width .4s ease'})
-  )
-),
+// Show loading
+document.getElementById(‘interview-content’).innerHTML = dots();
 
-// Question card
-div({...cardStyle},
-  // Area tag
-  txt('p',{fontSize:9,letterSpacing:2,textTransform:'uppercase',fontFamily:'monospace',color:accent,marginBottom:8},currentQ.area||''),
-
-  // Question text
-  txt('p',{fontSize:17,lineHeight:1.5,color:C.cream,marginBottom:12,fontWeight:'bold'},currentQ.prompt||''),
-
-  // Compliance note
-  currentQ.compliance_note && div({fontSize:11,color:C.slate,fontFamily:'monospace',fontStyle:'italic',marginBottom:12,lineHeight:1.5,borderLeft:`2px solid ${C.navyBorder}`,paddingLeft:8},'⚖ '+currentQ.compliance_note),
-
-  // ── FILL IN THE BLANK ──
-  currentQ.type==='fill_blank' && div({},
-    currentQ.template && (() => {
-      const parts = (currentQ.template||'').split('___');
-      return div({fontSize:14,color:C.slate,lineHeight:2,marginBottom:8,textAlign:'center'},
-        ...parts.reduce((acc,part,i)=>{
-          acc.push(e('span',{key:'p'+i},part));
-          if (i<parts.length-1) acc.push(
-            e('input',{key:'i'+i,
-              style:{background:C.navy,border:`2px solid ${C.amber}`,borderRadius:5,padding:'8px 10px',color:C.cream,fontSize:16,width:110,textAlign:'center',outline:'none',margin:'0 4px'},
-              value:fillVal,autoFocus:true,
-              onChange:ev=>setFillVal(ev.target.value),
-              onKeyDown:ev=>ev.key==='Enter'&&submit()})
-          );
-          return acc;
-        },[])
-      );
-    })(),
-    !currentQ.template && e('input',{
-      style:{width:'100%',background:C.navy,border:`2px solid ${C.amber}`,borderRadius:5,padding:'10px 12px',color:C.cream,fontSize:16,outline:'none'},
-      value:fillVal,autoFocus:true,placeholder:'Enter value',
-      onChange:ev=>setFillVal(ev.target.value),
-      onKeyDown:ev=>ev.key==='Enter'&&submit()}),
-    currentQ.unit && txt('p',{fontSize:11,color:C.slate,fontFamily:'monospace',marginTop:4,textAlign:'center'},currentQ.unit)
-  ),
-
-  // ── MULTI SELECT ──
-  currentQ.type==='multiselect' && div({},
-    ...(currentQ.options||[]).map(opt=>{
-      const on = selectedOpts.includes(opt);
-      return div({
-        key:opt,className:'tap',
-        style:{padding:'11px 14px',borderRadius:6,fontSize:14,cursor:'pointer',border:'1px solid',
-          marginBottom:6,display:'flex',alignItems:'center',gap:10,
-          background:on?C.navyLight:C.navy,borderColor:on?C.amberLight:C.navyBorder,color:on?C.cream:C.slate},
-        onClick:()=>setSelectedOpts(s=>s.includes(opt)?s.filter(x=>x!==opt):[...s,opt])
-      },
-        e('span',{style:{fontSize:18}},(on?'☑':'☐')),
-        e('span',null,opt)
-      );
-    })
-  ),
-
-  // ── SCALE ──
-  currentQ.type==='scale' && div({},
-    div({display:'flex',alignItems:'center',gap:8,justifyContent:'center',flexWrap:'wrap',margin:'8px 0'},
-      e('span',{style:{fontSize:11,color:C.slate,fontFamily:'monospace',flex:1}},currentQ.low_label||''),
-      ...[1,2,3,4,5].map(n=>{
-        const on = scaleVal===String(n);
-        return div({
-          key:n,className:'tap',
-          style:{width:46,height:46,borderRadius:'50%',border:`2px solid ${on?C.amber:C.navyBorder}`,
-            background:on?C.amber:C.navy,color:on?C.navy:C.slate,fontSize:16,fontWeight:'bold',
-            display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer'},
-          onClick:()=>setScaleVal(String(n))
-        },String(n));
-      }),
-      e('span',{style:{fontSize:11,color:C.slate,fontFamily:'monospace',flex:1,textAlign:'right'}},currentQ.high_label||'')
-    )
-  ),
-
-  // ── SHORT TEXT ──
-  currentQ.type==='short_text' && e('textarea',{
-    style:{width:'100%',background:C.navy,border:`1px solid ${C.navyBorder}`,borderRadius:5,
-      padding:'10px 12px',color:C.cream,fontSize:16,outline:'none',resize:'vertical',lineHeight:1.5,minHeight:80},
-    value:shortVal,autoFocus:true,placeholder:'Type your response…',
-    onChange:ev=>setShortVal(ev.target.value)
-  }),
-
-  error && txt('p',{color:'#f87171',fontSize:12,fontFamily:'monospace',marginTop:8},error),
-
-  Btn({label:loading?'Loading next question…':'Next →',onClick:submit,disabled:loading,style:submitStyle}),
-  loading && Dots()
-),
-
-// Skip button after enough answers
-answeredQs >= profile.areas.length*2 && Btn({
-  label:'Skip to Generate (use data collected so far)',
-  onClick:skipToGenerate,
-  style:{width:'100%',marginTop:4,background:'transparent',border:`1px solid ${C.navyBorder}`,
-    borderRadius:6,padding:10,fontSize:12,color:C.slate,fontFamily:'monospace'}
-})
-```
-
-);
+callAPI({system: buildInterviewPrompt(state.profile), messages: state.msgHistory}, function(err, text) {
+if (err) {
+document.getElementById(‘interview-content’).innerHTML = ’<p class="error">API error: ’ + err + ‘</p><button class="btn-green" onclick="renderQuestion()">Retry</button>’;
+return;
+}
+var nextQ = parseQ(text);
+state.msgHistory.push({role:‘assistant’, content:text});
+if (!nextQ || nextQ.done) {
+state.currentQ = {done:true, message: nextQ && nextQ.message ? nextQ.message : ‘All data collected. Tap Generate below.’};
+} else {
+state.currentQ = nextQ;
+}
+renderQuestion();
+});
 }
 
-// ── OUTPUT PANEL ──────────────────────────────────────────────────────────────
-function OutputPanel({profile, output}) {
-const [activeTab, setActiveTab] = useState(‘plaafp’);
-const sections = output.plaafpSections||{};
-const flags    = output.complianceFlags||[];
-const tabs     = [{key:‘plaafp’,label:‘PLAAFP’},{key:‘impact’,label:‘Impact’},{key:‘legal’,label:‘Legal’},{key:‘api’,label:‘API JSON’}];
+// ── GENERATE OUTPUT ───────────────────────────────────────────────────────────
+function generateOutput() {
+var btn = document.getElementById(‘gen-btn’);
+if (btn) { btn.disabled = true; btn.textContent = ‘Generating\u2026’; }
+showError(‘gen-error’, ‘’);
+document.getElementById(‘interview-content’).innerHTML += dots();
 
-return div({},
-// Tab row
-div({display:‘flex’,gap:3,marginBottom:0},
-tabs.map(t=>{
-const on=activeTab===t.key;
-return div({
-key:t.key,className:‘tap’,
-style:{flex:1,padding:‘8px 4px’,fontSize:9,letterSpacing:1,textTransform:‘uppercase’,fontFamily:‘monospace’,
-border:`1px solid ${on?C.amber:C.navyBorder}`,borderRadius:‘5px 5px 0 0’,cursor:‘pointer’,textAlign:‘center’,
-background:on?C.amber:C.navyMid,color:on?C.navy:C.slate,fontWeight:on?‘bold’:‘normal’},
-onClick:()=>setActiveTab(t.key)
-},t.label);
-})
-),
-
-```
-// Output box
-div({background:C.navyMid,border:`1px solid ${C.navyBorder}`,borderRadius:'0 0 8px 8px',padding:15,overflowY:'auto',maxHeight:560},
-
-  // ── PLAAFP ──
-  activeTab==='plaafp' && div({},
-    txt('p',{fontSize:9,letterSpacing:2,textTransform:'uppercase',fontFamily:'monospace',color:C.amberLight,marginBottom:6},'Present Levels of Academic Achievement & Functional Performance'),
-    txt('p',{fontSize:9,letterSpacing:1,color:C.slate,fontFamily:'monospace',marginBottom:14},'IDEA §300.320 · IRIS Center · Endrew F. (2017) · Rowley (1982)'),
-    flags.length>0 && div({marginBottom:12},flags.map((f,i)=>div({key:i,display:'inline-block',background:'#7f1d1d',color:'#fca5a5',fontSize:10,fontFamily:'monospace',padding:'2px 7px',borderRadius:3,marginBottom:5,marginRight:5},'⚠ '+f))),
-    ...profile.areas.map((area,i)=>{
-      const key   = area.replace(/[^a-zA-Z0-9]/g,'_');
-      const text  = sections[key]||sections[area]||'(Insufficient data provided for this area.)';
-      const grp   = AREA_GROUPS.find(g=>g.areas.includes(area));
-      const ac    = grp?grp.accent:C.amberLight;
-      const isLast= i===profile.areas.length-1;
-      return div({key:i},
-        txt('p',{fontSize:10,letterSpacing:2,textTransform:'uppercase',fontFamily:'monospace',color:ac,marginBottom:8},area),
-        txt('p',{fontSize:13,lineHeight:1.85,color:C.cream,margin:0,whiteSpace:'pre-wrap'},text),
-        !isLast && div({borderTop:`1px solid ${C.navyBorder}`,margin:'16px 0'})
-      );
-    })
-  ),
-
-  // ── IMPACT ──
-  activeTab==='impact' && div({},
-    txt('p',{fontSize:9,letterSpacing:2,textTransform:'uppercase',fontFamily:'monospace',color:C.amberLight,marginBottom:6},'Impact Statement'),
-    txt('p',{fontSize:9,letterSpacing:1,color:C.slate,fontFamily:'monospace',marginBottom:12},'34 CFR §300.8 · §300.320(a)(1) · Endrew F. (2017) · M.C. v. Antelope Valley (9th Cir. 2017)'),
-    txt('p',{fontSize:13,lineHeight:1.85,color:C.cream,whiteSpace:'pre-wrap'},output.impactStatement||'')
-  ),
-
-  // ── LEGAL ──
-  activeTab==='legal' && div({},
-    txt('p',{fontSize:9,letterSpacing:2,textTransform:'uppercase',fontFamily:'monospace',color:C.amberLight,marginBottom:10},'Legal & Practice Framework'),
-    div({background:'#0a1628',border:`1px solid ${C.navyBorder}`,borderRadius:5,padding:11,fontSize:11,fontFamily:'monospace',color:'#86efac',lineHeight:1.6,marginBottom:10},
-      output.legalBasis && Object.entries(output.legalBasis).map(([k,v])=>v?div({key:k,marginBottom:7},
-        e('span',{style:{color:C.amberLight}},k.replace(/([A-Z])/g,' $1').trim()+': '),
-        e('span',{style:{color:'#86efac'}},v)
-      ):null)
-    ),
-    flags.length>0
-      ? div({},txt('p',{fontSize:9,letterSpacing:2,textTransform:'uppercase',fontFamily:'monospace',color:'#f87171',marginBottom:8},'Compliance Flags'),flags.map((f,i)=>div({key:i,display:'block',background:'#7f1d1d',color:'#fca5a5',fontSize:10,fontFamily:'monospace',padding:'2px 7px',borderRadius:3,marginBottom:5},'⚠ '+f)))
-      : txt('p',{fontSize:11,color:'#86efac',fontFamily:'monospace'},'✓ No compliance flags raised.')
-  ),
-
-  // ── API JSON ──
-  activeTab==='api' && div({},
-    txt('p',{fontSize:9,letterSpacing:2,textTransform:'uppercase',fontFamily:'monospace',color:C.amberLight,marginBottom:6},'API Response Payload'),
-    txt('p',{fontSize:10,color:C.slate,marginBottom:9,fontFamily:'monospace'},'POST /api/messages → 200 OK'),
-    div({background:'#0a1628',border:`1px solid ${C.navyBorder}`,borderRadius:5,padding:11,fontSize:10,fontFamily:'monospace',color:'#7ec8a0',overflowX:'auto',lineHeight:1.5,whiteSpace:'pre-wrap',wordBreak:'break-word'},
-      JSON.stringify(output.apiResponse||output,null,2))
-  )
-)
-```
-
-);
-}
-
-// ── ROOT APP ──────────────────────────────────────────────────────────────────
-function App() {
-const [phase,   setPhase]   = useState(‘intake’);
-const [profile, setProfile] = useState(null);
-const [initQ,   setInitQ]   = useState(null);
-const [initH,   setInitH]   = useState([]);
-const [output,  setOutput]  = useState(null);
-const [loading, setLoading] = useState(false);
-const [error,   setError]   = useState(’’);
-
-function handleStart(prof, q, history) {
-setProfile(prof); setInitQ(q); setInitH(history);
-setPhase(‘interview’);
-}
-
-async function handleComplete(collectedData) {
-setLoading(true); setError(’’);
+callAPI({messages:[{role:‘user’, content:buildGenerationPrompt(state.profile, state.collectedData)}]}, function(err, text) {
+if (err) { showError(‘gen-error’, ‘Generation failed: ’ + err); if(btn){btn.disabled=false;btn.textContent=’⚡ Generate PLAAFP + Impact Statement’;} return; }
 try {
-const data   = await callAPI({messages:[{role:‘user’,content:buildGenerationPrompt(profile,collectedData)}]});
-const raw    = extractText(data);
-const parsed = JSON.parse(raw.replace(/`json|`/g,’’).trim());
+var parsed = JSON.parse(text.replace(/`json|`/g,’’).trim());
 if (parsed.apiResponse) {
 parsed.apiResponse.sections.plaafp_by_area   = parsed.plaafpSections;
 parsed.apiResponse.sections.impact_statement = parsed.impactStatement;
 parsed.apiResponse.sections.legal_basis      = parsed.legalBasis;
 parsed.apiResponse.compliance_flags          = parsed.complianceFlags||[];
 }
-setOutput(parsed); setPhase(‘output’);
-} catch(err) { setError(’Generation failed: ’+err.message); }
-finally { setLoading(false); }
+state.output = parsed;
+showPhase(‘output’);
+state.activeTab = ‘plaafp’;
+renderOutput();
+} catch(e) { showError(‘gen-error’, ‘Could not parse output. Please try again.’); if(btn){btn.disabled=false;btn.textContent=’⚡ Generate PLAAFP + Impact Statement’;} }
+});
 }
 
-const stepStyle = (active) => ({display:‘flex’,alignItems:‘center’,gap:6,opacity:active?1:.4});
-const dotStyle  = (active) => ({display:‘inline-flex’,alignItems:‘center’,justifyContent:‘center’,borderRadius:‘50%’,width:19,height:19,fontSize:10,fontWeight:‘bold’,flexShrink:0,background:active?C.amber:C.navyLight,color:active?C.navy:C.slate});
+// ── RENDER OUTPUT ─────────────────────────────────────────────────────────────
+function renderOutput() {
+var tabs = [‘plaafp’,‘impact’,‘legal’,‘api’];
+var labels = [‘PLAAFP’,‘Impact’,‘Legal’,‘API JSON’];
 
-return div({minHeight:‘100vh’,background:C.navy,paddingBottom:40},
+var tabRow = document.getElementById(‘output-tabs’);
+tabRow.innerHTML = ‘’;
+tabs.forEach(function(t, i) {
+var tab = document.createElement(‘div’);
+tab.className = ‘tab’ + (state.activeTab === t ? ’ on’ : ‘’);
+tab.textContent = labels[i];
+tab.onclick = (function(tab) { return function() { state.activeTab = tab; renderOutput(); }; })(t);
+tabRow.appendChild(tab);
+});
 
-```
-// Header
-e('header',{style:{background:`linear-gradient(135deg,${C.navy},${C.navyMid})`,borderBottom:`3px solid ${C.amber}`,padding:'14px 16px',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:8}},
-  div({},
-    txt('p',{fontSize:18,fontWeight:'bold',color:C.cream,margin:0},'IEP Intelligence'),
-    txt('p',{fontSize:9,color:C.amberLight,letterSpacing:2,textTransform:'uppercase',fontFamily:'monospace',margin:0},'PLAAFP · Impact Statement Generator')
-  ),
-  div({display:'flex',alignItems:'center',gap:5,flexWrap:'wrap'},
-    txt('span',{fontSize:9,color:C.slate,fontFamily:'monospace'},'IDEA 2004 · IRIS · Endrew F. · NTACT:C · ECC'),
-    ...['§300.320','v4.0'].map(t=>txt('span',{key:t,background:C.amber,color:C.navy,fontSize:9,fontWeight:'bold',fontFamily:'monospace',padding:'3px 7px',borderRadius:3},t))
-  )
-),
+var content = document.getElementById(‘output-content’);
+var out = state.output;
+var sections = out.plaafpSections || {};
+var flags = out.complianceFlags || [];
+var html = ‘’;
 
-// Steps
-div({background:C.navyMid,borderBottom:`1px solid ${C.navyBorder}`,padding:'8px 16px',display:'flex',gap:16},
-  ...[
-    {n:1,label:'Profile',   active:phase==='intake'},
-    {n:2,label:'Interview', active:phase==='interview'},
-    {n:3,label:'Output',    active:phase==='output'},
-  ].map(s=>div({key:s.n,...stepStyle(s.active)},
-    div({...dotStyle(s.active)},String(s.n)),
-    txt('span',{fontSize:11,color:s.active?C.cream:C.slate},s.label)
-  ))
-),
-
-// Main content
-div({padding:'14px 16px',maxWidth:680,margin:'0 auto'},
-  phase==='intake'    && e(IntakeForm,   {onStart:handleStart}),
-  phase==='interview' && e(InterviewPanel,{profile,initialQ:initQ,initialHistory:initH,onComplete:handleComplete}),
-  phase==='output'    && e(OutputPanel,  {profile,output}),
-  loading && div({textAlign:'center',padding:20},
-    Dots(),
-    txt('p',{fontSize:13,color:C.slate,marginTop:8,fontFamily:'monospace'},'Generating compliant PLAAFP sections…')
-  ),
-  error && txt('p',{color:'#f87171',fontSize:12,fontFamily:'monospace',marginTop:8},error)
-)
-```
-
-);
+if (state.activeTab === ‘plaafp’) {
+html += ‘<p style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f0a820;margin-bottom:6px">Present Levels of Academic Achievement & Functional Performance</p>’;
+html += ‘<p style="font-size:9px;letter-spacing:1px;color:#94a3b8;font-family:monospace;margin-bottom:14px">IDEA §300.320 · IRIS Center · Endrew F. (2017) · Rowley (1982)</p>’;
+if (flags.length > 0) {
+html += ‘<div style="margin-bottom:12px">’;
+flags.forEach(function(f) { html += ‘<span style="display:inline-block;background:#7f1d1d;color:#fca5a5;font-size:10px;font-family:monospace;padding:2px 7px;border-radius:3px;margin-bottom:4px;margin-right:4px">⚠ ’ + f + ‘</span>’; });
+html += ‘</div>’;
+}
+state.profile.areas.forEach(function(area, i) {
+var key  = area.replace(/[^a-zA-Z0-9]/g,’_’);
+var text = sections[key] || sections[area] || ‘(Insufficient data provided for this area.)’;
+var grpAccent = ‘#f0a820’;
+for (var gi = 0; gi < AREA_GROUPS.length; gi++) {
+if (AREA_GROUPS[gi].areas.indexOf(area) >= 0) { grpAccent = AREA_GROUPS[gi].accent; break; }
+}
+html += ‘<p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:' + grpAccent + ';margin-bottom:8px">’ + area + ‘</p>’;
+html += ‘<p style="font-size:13px;line-height:1.85;color:#f8f4ec;margin:0;white-space:pre-wrap">’ + text + ‘</p>’;
+if (i < state.profile.areas.length - 1) html += ‘<div style="border-top:1px solid #2a4e9a;margin:16px 0"></div>’;
+});
 }
 
-ReactDOM.createRoot(document.getElementById(‘root’)).render(e(App,null));
+if (state.activeTab === ‘impact’) {
+html += ‘<p style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f0a820;margin-bottom:6px">Impact Statement</p>’;
+html += ‘<p style="font-size:9px;letter-spacing:1px;color:#94a3b8;font-family:monospace;margin-bottom:12px">34 CFR §300.8 · §300.320(a)(1) · Endrew F. (2017) · M.C. v. Antelope Valley (9th Cir. 2017)</p>’;
+html += ‘<p style="font-size:13px;line-height:1.85;color:#f8f4ec;white-space:pre-wrap">’ + (out.impactStatement||’’) + ‘</p>’;
+}
+
+if (state.activeTab === ‘legal’) {
+html += ‘<p style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f0a820;margin-bottom:10px">Legal & Practice Framework</p>’;
+html += ‘<div style="background:#0a1628;border:1px solid #2a4e9a;border-radius:5px;padding:11px;font-size:11px;font-family:monospace;color:#86efac;line-height:1.6;margin-bottom:10px">’;
+if (out.legalBasis) {
+Object.keys(out.legalBasis).forEach(function(k) {
+if (out.legalBasis[k]) html += ‘<div style="margin-bottom:7px"><span style="color:#f0a820">’ + k.replace(/([A-Z])/g,’ $1’).trim() + ‘: </span><span style="color:#86efac">’ + out.legalBasis[k] + ‘</span></div>’;
+});
+}
+html += ‘</div>’;
+if (flags.length > 0) {
+html += ‘<p style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f87171;margin-bottom:8px">Compliance Flags</p>’;
+flags.forEach(function(f) { html += ’<div style="background:#7f1d1d;color:#fca5a5;font-size:10px;font-family:monospace;padding:2px 7px;border-radius:3px;margin-bottom:5px">⚠ ’ + f + ‘</div>’; });
+} else {
+html += ‘<p style="font-size:11px;color:#86efac;font-family:monospace">✓ No compliance flags raised.</p>’;
+}
+}
+
+if (state.activeTab === ‘api’) {
+html += ‘<p style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f0a820;margin-bottom:6px">API Response Payload</p>’;
+html += ‘<p style="font-size:10px;color:#94a3b8;margin-bottom:9px;font-family:monospace">POST /api/messages \u2192 200 OK</p>’;
+html += ‘<div class="mono" style="background:#0a1628;border:1px solid #2a4e9a;border-radius:5px;padding:11px">’ + JSON.stringify(out.apiResponse||out,null,2) + ‘</div>’;
+}
+
+content.innerHTML = html;
+}
 </script>
 
 </body>
