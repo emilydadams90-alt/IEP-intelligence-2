@@ -11,51 +11,36 @@ body{background:#0d1b35;font-family:Georgia,'Times New Roman',serif;color:#f8f4e
 input,select,textarea{-webkit-appearance:none;font-size:16px;font-family:Georgia,serif;color:#f8f4ec;background:#0d1b35;border:1px solid #2a4e9a;border-radius:5px;padding:10px 12px;width:100%;outline:none;display:block;margin-bottom:10px}
 button{font-family:Georgia,serif;cursor:pointer;border:none;border-radius:6px;font-weight:bold;-webkit-tap-highlight-color:transparent}
 button:active{opacity:.75}
-
-/* ── Layout ── */
-.phase{display:none}
-.phase.active{display:block}
+.phase{display:none}.phase.active{display:block}
 .wrap{padding:14px 16px;max-width:680px;margin:0 auto}
 .card{background:#162950;border:1px solid #2a4e9a;border-radius:8px;padding:16px;margin-bottom:12px}
 .q-card{background:#162950;border:1px solid #2a4e9a;border-left:4px solid #d4880a;border-radius:8px;padding:16px;margin-bottom:12px}
-
-/* ── Typography ── */
 .tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f0a820;margin-bottom:10px;display:block}
-.lbl{display:block;font-size:12px;color:#f0a820;margin-bottom:4px;margin-top:8px}
-.hint{font-size:10px;color:#94a3b8;font-family:monospace;margin-bottom:6px}
+.lbl{display:block;font-size:12px;color:#f0a820;margin-bottom:6px;margin-top:10px}
+.hint{font-size:10px;color:#94a3b8;font-family:monospace;margin-bottom:6px;display:block}
 .err{color:#f87171;font-size:12px;font-family:monospace;margin:6px 0;display:none}
 .compliance{font-size:11px;color:#94a3b8;font-family:monospace;font-style:italic;margin-bottom:12px;line-height:1.5;border-left:2px solid #2a4e9a;padding-left:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 
-/* ── Chips ── */
-.chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
-.chip{display:inline-block;padding:6px 10px;border-radius:5px;font-size:12px;border:1px solid #2a4e9a;cursor:pointer;user-select:none;background:#0d1b35;color:#94a3b8;-webkit-tap-highlight-color:transparent}
-.chip.on{background:#d4880a;color:#0d1b35;border-color:#d4880a;font-weight:bold}
-.area-chip{display:inline-block;padding:6px 10px;border-radius:5px;font-size:11px;border:1px solid #2a4e9a;cursor:pointer;user-select:none;background:#0d1b35;color:#94a3b8;-webkit-tap-highlight-color:transparent}
+/* Disability chips — amber when selected */
+.dc{display:inline-block;padding:7px 11px;border-radius:5px;font-size:12px;border:1px solid #2a4e9a;cursor:pointer;user-select:none;background:#0d1b35;color:#94a3b8;-webkit-tap-highlight-color:transparent;line-height:1.3}
+.dc.on{background:#d4880a;color:#0d1b35;border-color:#d4880a;font-weight:bold}
 
-/* ── Group headers ── */
-.grp-hdr{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-family:monospace;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:6px 9px;border-radius:4px;background:#0d1b35;margin-bottom:0;-webkit-tap-highlight-color:transparent}
+/* Area group headers */
+.grp-hdr{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-family:monospace;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-radius:4px;background:#0d1b35;margin-bottom:6px;-webkit-tap-highlight-color:transparent}
+.grp-body{display:flex;flex-wrap:wrap;gap:5px;padding-left:4px;margin-bottom:8px}
 
-/* ── Buttons ── */
-.btn-amber{background:linear-gradient(135deg,#d4880a,#f0a820);color:#0d1b35;padding:13px;font-size:15px;width:100%;margin-top:8px;display:block}
-.btn-green{background:linear-gradient(135deg,#1e6e43,#2d9e62);color:#fff;padding:13px;font-size:15px;width:100%;margin-top:10px;display:block}
-.btn-ghost{background:transparent;border:1px solid #2a4e9a;color:#94a3b8;padding:10px;font-size:12px;font-family:monospace;width:100%;margin-top:6px;border-radius:6px}
-.btn-small{background:#d4880a;color:#0d1b35;border-radius:5px;padding:10px 14px;font-size:13px}
+/* Area chips — colored by group when selected */
+.ac{display:inline-block;padding:6px 10px;border-radius:5px;font-size:11px;border:1px solid #2a4e9a;cursor:pointer;user-select:none;background:#0d1b35;color:#94a3b8;-webkit-tap-highlight-color:transparent;line-height:1.3}
 
-/* ── Interview UI ── */
 .ms-opt{padding:11px 14px;border-radius:6px;border:1px solid #2a4e9a;margin-bottom:7px;display:flex;align-items:center;gap:10px;cursor:pointer;background:#0d1b35;color:#94a3b8;font-size:14px;-webkit-tap-highlight-color:transparent}
 .ms-opt.on{background:#1f3d7a;border-color:#f0a820;color:#f8f4ec}
 .scale-row{display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0}
 .scale-btn{width:48px;height:48px;border-radius:50%;border:2px solid #2a4e9a;background:#0d1b35;color:#94a3b8;font-size:16px;font-weight:bold;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .scale-btn.on{background:#d4880a;border-color:#d4880a;color:#0d1b35}
-.fill-wrap{text-align:center;font-size:14px;color:#94a3b8;line-height:2.4;margin-bottom:8px}
 .fill-in{background:#0d1b35;border:2px solid #d4880a;border-radius:5px;padding:8px 10px;color:#f8f4ec;font-size:16px;width:120px;text-align:center;outline:none;margin:0 4px;display:inline-block}
-
-/* ── Progress bar ── */
-.prog-wrap{margin-bottom:14px}
-.prog-bar{background:#0d1b35;border-radius:4px;height:6px;overflow:hidden}
+.prog-bar{background:#0d1b35;border-radius:4px;height:6px;overflow:hidden;margin-bottom:14px}
 .prog-fill{height:100%;background:linear-gradient(90deg,#d4880a,#f0a820);border-radius:4px;transition:width .4s ease}
-
-/* ── Output tabs ── */
 .tab-row{display:flex;gap:3px}
 .tab{flex:1;padding:8px 4px;font-size:9px;letter-spacing:1px;text-transform:uppercase;font-family:monospace;border:1px solid #2a4e9a;border-radius:5px 5px 0 0;cursor:pointer;text-align:center;background:#162950;color:#94a3b8;-webkit-tap-highlight-color:transparent}
 .tab.on{background:#d4880a;color:#0d1b35;font-weight:bold;border-color:#d4880a}
@@ -67,298 +52,393 @@ button:active{opacity:.75}
 .flag{display:inline-block;background:#7f1d1d;color:#fca5a5;font-size:10px;font-family:monospace;padding:2px 7px;border-radius:3px;margin:0 4px 4px 0}
 .legal-box{background:#0a1628;border:1px solid #2a4e9a;border-radius:5px;padding:11px;font-size:11px;font-family:monospace;color:#86efac;line-height:1.6;margin-bottom:10px}
 .mono{font-family:monospace;font-size:10px;color:#7ec8a0;white-space:pre-wrap;word-break:break-word;background:#0a1628;border:1px solid #2a4e9a;border-radius:5px;padding:11px}
-
-/* ── Loading dots ── */
-.dots{text-align:center;padding:14px}
+.btn-amber{background:linear-gradient(135deg,#d4880a,#f0a820);color:#0d1b35;padding:13px;font-size:15px;width:100%;margin-top:8px;display:block}
+.btn-green{background:linear-gradient(135deg,#1e6e43,#2d9e62);color:#fff;padding:13px;font-size:15px;width:100%;margin-top:10px;display:block}
+.btn-ghost{background:transparent;border:1px solid #2a4e9a;color:#94a3b8;padding:10px;font-size:12px;font-family:monospace;width:100%;margin-top:6px;border-radius:6px}
+.btn-sm{background:#d4880a;color:#0d1b35;border-radius:5px;padding:10px 14px;font-size:13px}
+.hdr{background:linear-gradient(135deg,#0d1b35,#162950);border-bottom:3px solid #d4880a;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.hdr-t{font-size:18px;font-weight:bold;color:#f8f4ec;margin:0}
+.hdr-s{font-size:9px;color:#f0a820;letter-spacing:2px;text-transform:uppercase;font-family:monospace;margin:0}
+.bdg{background:#d4880a;color:#0d1b35;font-size:9px;font-weight:bold;font-family:monospace;padding:3px 7px;border-radius:3px}
+.steps{background:#162950;border-bottom:1px solid #2a4e9a;padding:8px 16px;display:flex;gap:16px}
+.sdot{border-radius:50%;width:19px;height:19px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold;flex-shrink:0}
 @keyframes pulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#d4880a;margin:0 3px;animation:pulse 1.2s infinite}
-
-/* ── Header / steps shared ── */
-.hdr{background:linear-gradient(135deg,#0d1b35,#162950);border-bottom:3px solid #d4880a;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.hdr-title{font-size:18px;font-weight:bold;color:#f8f4ec;margin:0}
-.hdr-sub{font-size:9px;color:#f0a820;letter-spacing:2px;text-transform:uppercase;font-family:monospace;margin:0}
-.hdr-badges{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
-.bdg{background:#d4880a;color:#0d1b35;font-size:9px;font-weight:bold;font-family:monospace;padding:3px 7px;border-radius:3px}
-.hdr-note{font-size:9px;color:#94a3b8;font-family:monospace}
-.steps{background:#162950;border-bottom:1px solid #2a4e9a;padding:8px 16px;display:flex;gap:16px}
-.step{display:flex;align-items:center;gap:6px}
-.step-dot{border-radius:50%;width:19px;height:19px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold;flex-shrink:0}
-.step-dot.active{background:#d4880a;color:#0d1b35}
-.step-dot.inactive{background:#1f3d7a;color:#94a3b8}
-.step-lbl{font-size:11px}
-.step-lbl.active{color:#f8f4ec}
-.step-lbl.inactive{color:#94a3b8;opacity:.4}
+.dots{text-align:center;padding:14px}
 </style>
 
 </head>
 <body>
 
-<!-- ════════════════════════════════════════════════════════
-     PHASE 1: INTAKE
-════════════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════
+     PHASE 1 — INTAKE
+     Chips are rendered as static HTML — zero JS needed
+     for them to appear. JS only adds/removes .on class.
+══════════════════════════════════════════════════ -->
 
 <div id="phase-intake" class="phase active">
-  <div class="hdr">
-    <div><p class="hdr-title">IEP Intelligence</p><p class="hdr-sub">PLAAFP · Impact Statement Generator</p></div>
-    <div class="hdr-badges">
-      <span class="hdr-note">IDEA 2004 · IRIS · Endrew F. · NTACT:C · ECC</span>
-      <span class="bdg">§300.320</span><span class="bdg">v4.0</span>
-    </div>
+<div class="hdr">
+  <div><p class="hdr-t">IEP Intelligence</p><p class="hdr-s">PLAAFP · Impact Statement Generator</p></div>
+  <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center">
+    <span style="font-size:9px;color:#94a3b8;font-family:monospace">IDEA 2004 · IRIS · Endrew F. · NTACT:C · ECC</span>
+    <span class="bdg">§300.320</span><span class="bdg">v4.0</span>
   </div>
-  <div class="steps">
-    <div class="step"><span class="step-dot active">1</span><span class="step-lbl active">Profile</span></div>
-    <div class="step"><span class="step-dot inactive">2</span><span class="step-lbl inactive">Interview</span></div>
-    <div class="step"><span class="step-dot inactive">3</span><span class="step-lbl inactive">Output</span></div>
+</div>
+<div class="steps">
+  <div style="display:flex;align-items:center;gap:6px"><span class="sdot" style="background:#d4880a;color:#0d1b35">1</span><span style="font-size:11px;color:#f8f4ec">Profile</span></div>
+  <div style="display:flex;align-items:center;gap:6px;opacity:.4"><span class="sdot" style="background:#1f3d7a;color:#94a3b8">2</span><span style="font-size:11px;color:#94a3b8">Interview</span></div>
+  <div style="display:flex;align-items:center;gap:6px;opacity:.4"><span class="sdot" style="background:#1f3d7a;color:#94a3b8">3</span><span style="font-size:11px;color:#94a3b8">Output</span></div>
+</div>
+<div class="wrap"><div class="card">
+  <span class="tag">Student Profile</span>
+
+<span class="lbl" style="margin-top:0">First Name</span>
+<input id="fn" type="text" placeholder="e.g. Jordan"/>
+
+<span class="lbl">Last Name</span>
+<input id="ln" type="text" placeholder="e.g. Smith"/>
+
+<span class="lbl">Grade Level</span>
+<select id="grade">
+<option value="">— Select —</option>
+<option>Pre-K</option><option>Kindergarten</option>
+<option>1st Grade</option><option>2nd Grade</option><option>3rd Grade</option>
+<option>4th Grade</option><option>5th Grade</option><option>6th Grade</option>
+<option>7th Grade</option><option>8th Grade</option><option>9th Grade</option>
+<option>10th Grade</option><option>11th Grade</option><option>12th Grade</option>
+</select>
+
+  <!-- ── Disability chips — static HTML, JS toggles .on class ── -->
+
+<span class="lbl">Disability Category — IDEA §300.8 (tap all that apply)</span>
+
+  <div class="chips" id="dis-chips">
+    <span class="dc" onclick="togD(this)">Autism Spectrum Disorder</span>
+    <span class="dc" onclick="togD(this)">Intellectual Disability</span>
+    <span class="dc" onclick="togD(this)">Specific Learning Disability</span>
+    <span class="dc" onclick="togD(this)">Speech or Language Impairment</span>
+    <span class="dc" onclick="togD(this)">Emotional Disturbance</span>
+    <span class="dc" onclick="togD(this)">Other Health Impairment</span>
+    <span class="dc" onclick="togD(this)">Developmental Delay</span>
+    <span class="dc" onclick="togD(this)">Traumatic Brain Injury</span>
+    <span class="dc" onclick="togD(this)">Visual Impairment (including Blindness)</span>
+    <span class="dc" onclick="togD(this)">Hearing Impairment</span>
+    <span class="dc" onclick="togD(this)">Deaf-Blindness</span>
+    <span class="dc" onclick="togD(this)">Multiple Disabilities</span>
+    <span class="dc" onclick="togD(this)">Orthopedic Impairment</span>
+    <span class="dc" onclick="togD(this)">Deafness</span>
   </div>
-  <div class="wrap">
-    <div class="card">
-      <span class="tag">Student Profile</span>
 
-```
-  <span class="lbl" style="margin-top:0">First Name</span>
-  <input id="fn" type="text" placeholder="e.g. Jordan"/>
+  <!-- ── Areas of Need — static HTML groups, JS toggles .on and collapse ── -->
 
-  <span class="lbl">Last Name</span>
-  <input id="ln" type="text" placeholder="e.g. Smith"/>
+<span class="lbl">Areas of Need (tap all that apply)</span>
+<span class="hint" id="area-count">0 selected</span>
 
-  <span class="lbl">Grade Level</span>
-  <select id="grade">
-    <option value="">— Select —</option>
-    <option>Pre-K</option><option>Kindergarten</option>
-    <option>1st Grade</option><option>2nd Grade</option><option>3rd Grade</option>
-    <option>4th Grade</option><option>5th Grade</option><option>6th Grade</option>
-    <option>7th Grade</option><option>8th Grade</option><option>9th Grade</option>
-    <option>10th Grade</option><option>11th Grade</option><option>12th Grade</option>
-  </select>
+  <!-- Academic -->
 
-  <span class="lbl">Disability Category — IDEA §300.8 (tap all that apply)</span>
-  <div class="chips" id="dis-chips"></div>
+  <div class="grp-hdr" style="color:#f0a820;border:1px solid #1f3d7a" onclick="togGrp('g-academic')">
+    <span>Academic Areas</span><span id="g-academic-arrow" style="font-size:10px;color:#94a3b8">▲</span>
+  </div>
+  <div class="grp-body" id="g-academic">
+    <span class="ac" style="--gc:#1f3d7a;--ga:#f0a820" onclick="togA(this)">Reading / Decoding &amp; Fluency</span>
+    <span class="ac" style="--gc:#1f3d7a;--ga:#f0a820" onclick="togA(this)">Reading Comprehension</span>
+    <span class="ac" style="--gc:#1f3d7a;--ga:#f0a820" onclick="togA(this)">Mathematics – Computation</span>
+    <span class="ac" style="--gc:#1f3d7a;--ga:#f0a820" onclick="togA(this)">Mathematics – Problem Solving</span>
+    <span class="ac" style="--gc:#1f3d7a;--ga:#f0a820" onclick="togA(this)">Written Expression</span>
+    <span class="ac" style="--gc:#1f3d7a;--ga:#f0a820" onclick="togA(this)">Oral Language / Listening Comprehension</span>
+    <span class="ac" style="--gc:#1f3d7a;--ga:#f0a820" onclick="togA(this)">Science / Content Knowledge</span>
+    <span class="ac" style="--gc:#1f3d7a;--ga:#f0a820" onclick="togA(this)">Social Studies / Content Knowledge</span>
+  </div>
 
-  <span class="lbl">Areas of Need (tap all that apply)</span>
-  <p class="hint" id="area-count">0 selected</p>
-  <div id="area-groups"></div>
+  <!-- Functional -->
+
+  <div class="grp-hdr" style="color:#6ee7b7;border:1px solid #1e6e43" onclick="togGrp('g-func')">
+    <span>Functional &amp; Adaptive Areas</span><span id="g-func-arrow" style="font-size:10px;color:#94a3b8">▲</span>
+  </div>
+  <div class="grp-body" id="g-func">
+    <span class="ac" style="--gc:#1e6e43;--ga:#6ee7b7" onclick="togA(this)">Daily Living / Self-Care Skills</span>
+    <span class="ac" style="--gc:#1e6e43;--ga:#6ee7b7" onclick="togA(this)">Community &amp; Domestic Skills</span>
+    <span class="ac" style="--gc:#1e6e43;--ga:#6ee7b7" onclick="togA(this)">Functional Communication</span>
+    <span class="ac" style="--gc:#1e6e43;--ga:#6ee7b7" onclick="togA(this)">Vocational / Pre-Employment Skills</span>
+    <span class="ac" style="--gc:#1e6e43;--ga:#6ee7b7" onclick="togA(this)">Self-Determination &amp; Self-Advocacy</span>
+    <span class="ac" style="--gc:#1e6e43;--ga:#6ee7b7" onclick="togA(this)">Recreation &amp; Leisure</span>
+    <span class="ac" style="--gc:#1e6e43;--ga:#6ee7b7" onclick="togA(this)">Health &amp; Wellness</span>
+  </div>
+
+  <!-- Social/Emotional -->
+
+  <div class="grp-hdr" style="color:#c4b5fd;border:1px solid #5b21b6" onclick="togGrp('g-social')">
+    <span>Social, Emotional &amp; Behavioral</span><span id="g-social-arrow" style="font-size:10px;color:#94a3b8">▲</span>
+  </div>
+  <div class="grp-body" id="g-social">
+    <span class="ac" style="--gc:#5b21b6;--ga:#c4b5fd" onclick="togA(this)">Social Skills &amp; Peer Interactions</span>
+    <span class="ac" style="--gc:#5b21b6;--ga:#c4b5fd" onclick="togA(this)">Emotional Regulation</span>
+    <span class="ac" style="--gc:#5b21b6;--ga:#c4b5fd" onclick="togA(this)">Behavior / Executive Functioning</span>
+    <span class="ac" style="--gc:#5b21b6;--ga:#c4b5fd" onclick="togA(this)">Attention &amp; Impulse Control</span>
+    <span class="ac" style="--gc:#5b21b6;--ga:#c4b5fd" onclick="togA(this)">Mental Health &amp; Coping Skills</span>
+  </div>
+
+  <!-- Communication & Motor -->
+
+  <div class="grp-hdr" style="color:#5eead4;border:1px solid #0f766e" onclick="togGrp('g-comm')">
+    <span>Communication &amp; Motor</span><span id="g-comm-arrow" style="font-size:10px;color:#94a3b8">▲</span>
+  </div>
+  <div class="grp-body" id="g-comm">
+    <span class="ac" style="--gc:#0f766e;--ga:#5eead4" onclick="togA(this)">Expressive Communication / Speech</span>
+    <span class="ac" style="--gc:#0f766e;--ga:#5eead4" onclick="togA(this)">Receptive Language</span>
+    <span class="ac" style="--gc:#0f766e;--ga:#5eead4" onclick="togA(this)">Augmentative &amp; Alternative Communication (AAC)</span>
+    <span class="ac" style="--gc:#0f766e;--ga:#5eead4" onclick="togA(this)">Fine Motor Skills</span>
+    <span class="ac" style="--gc:#0f766e;--ga:#5eead4" onclick="togA(this)">Gross Motor Skills</span>
+    <span class="ac" style="--gc:#0f766e;--ga:#5eead4" onclick="togA(this)">Sensory Processing</span>
+  </div>
+
+  <!-- Transition -->
+
+  <div class="grp-hdr" style="color:#fcd34d;border:1px solid #92400e" onclick="togGrp('g-trans')">
+    <span>Transition (NTACT / IDEA §300.43)</span><span id="g-trans-arrow" style="font-size:10px;color:#94a3b8">▲</span>
+  </div>
+  <div class="grp-body" id="g-trans">
+    <span class="ac" style="--gc:#92400e;--ga:#fcd34d" onclick="togA(this)">Postsecondary Education &amp; Training</span>
+    <span class="ac" style="--gc:#92400e;--ga:#fcd34d" onclick="togA(this)">Employment &amp; Career Readiness</span>
+    <span class="ac" style="--gc:#92400e;--ga:#fcd34d" onclick="togA(this)">Independent Living Skills</span>
+    <span class="ac" style="--gc:#92400e;--ga:#fcd34d" onclick="togA(this)">Transportation &amp; Mobility (Transition)</span>
+    <span class="ac" style="--gc:#92400e;--ga:#fcd34d" onclick="togA(this)">Financial Literacy</span>
+  </div>
+
+  <!-- ECC Visual Impairment -->
+
+  <div class="grp-hdr" style="color:#93c5fd;border:1px solid #1e40af" onclick="togGrp('g-vi')">
+    <span>ECC – Visual Impairment (IDEA / TSBVI)</span><span id="g-vi-arrow" style="font-size:10px;color:#94a3b8">▲</span>
+  </div>
+  <div class="grp-body" id="g-vi">
+    <span class="ac" style="--gc:#1e40af;--ga:#93c5fd" onclick="togA(this)">ECC: Compensatory / Functional Academic Skills</span>
+    <span class="ac" style="--gc:#1e40af;--ga:#93c5fd" onclick="togA(this)">ECC: Sensory Efficiency Skills</span>
+    <span class="ac" style="--gc:#1e40af;--ga:#93c5fd" onclick="togA(this)">ECC: Orientation &amp; Mobility (O&amp;M)</span>
+    <span class="ac" style="--gc:#1e40af;--ga:#93c5fd" onclick="togA(this)">ECC: Social Interaction Skills (VI)</span>
+    <span class="ac" style="--gc:#1e40af;--ga:#93c5fd" onclick="togA(this)">ECC: Independent Living Skills (VI)</span>
+    <span class="ac" style="--gc:#1e40af;--ga:#93c5fd" onclick="togA(this)">ECC: Recreation &amp; Leisure (VI)</span>
+    <span class="ac" style="--gc:#1e40af;--ga:#93c5fd" onclick="togA(this)">ECC: Career Education (VI)</span>
+    <span class="ac" style="--gc:#1e40af;--ga:#93c5fd" onclick="togA(this)">ECC: Assistive Technology (VI)</span>
+    <span class="ac" style="--gc:#1e40af;--ga:#93c5fd" onclick="togA(this)">ECC: Self-Determination (VI)</span>
+  </div>
+
+  <!-- ECC DHH -->
+
+  <div class="grp-hdr" style="color:#6ee7b7;border:1px solid #065f46" onclick="togGrp('g-dhh')">
+    <span>ECC – Deaf / Hard of Hearing</span><span id="g-dhh-arrow" style="font-size:10px;color:#94a3b8">▲</span>
+  </div>
+  <div class="grp-body" id="g-dhh">
+    <span class="ac" style="--gc:#065f46;--ga:#6ee7b7" onclick="togA(this)">DHH ECC: Audiology &amp; Amplification Management</span>
+    <span class="ac" style="--gc:#065f46;--ga:#6ee7b7" onclick="togA(this)">DHH ECC: Communication &amp; Language Access</span>
+    <span class="ac" style="--gc:#065f46;--ga:#6ee7b7" onclick="togA(this)">DHH ECC: Self-Advocacy &amp; Disability Awareness</span>
+    <span class="ac" style="--gc:#065f46;--ga:#6ee7b7" onclick="togA(this)">DHH ECC: Social-Emotional Skills (DHH)</span>
+    <span class="ac" style="--gc:#065f46;--ga:#6ee7b7" onclick="togA(this)">DHH ECC: Functional Skills for Educational Success</span>
+    <span class="ac" style="--gc:#065f46;--ga:#6ee7b7" onclick="togA(this)">DHH ECC: Career Education (DHH)</span>
+    <span class="ac" style="--gc:#065f46;--ga:#6ee7b7" onclick="togA(this)">DHH ECC: Technology Access (DHH)</span>
+  </div>
+
+  <!-- Custom area input -->
 
   <div style="display:flex;gap:6px;margin-bottom:10px;margin-top:8px">
     <input id="custom-input" type="text" placeholder="Add custom area…" style="margin-bottom:0;flex:1"/>
-    <button class="btn-small" onclick="addCustomArea()">+ Add</button>
+    <button class="btn-sm" onclick="addCustom()">+ Add</button>
   </div>
+  <div class="chips" id="custom-chips"></div>
 
-  <span class="lbl">Additional Context (optional)</span>
-  <textarea id="ctx" rows="3" placeholder="e.g. recent eval date, related services, parent concerns…" style="resize:vertical;line-height:1.5;margin-bottom:10px"></textarea>
+<span class="lbl">Additional Context (optional)</span>
+
+  <textarea id="ctx" rows="3" placeholder="e.g. recent eval, related services, parent concerns…" style="resize:vertical;line-height:1.5;margin-bottom:10px"></textarea>
 
   <p class="err" id="intake-err"></p>
   <button class="btn-amber" id="start-btn" onclick="startInterview()">Begin Compliance Interview →</button>
   <div class="dots" id="intake-dots" style="display:none">
     <span class="dot"></span><span class="dot" style="animation-delay:.3s"></span><span class="dot" style="animation-delay:.6s"></span>
   </div>
-</div>
-```
+</div></div>
+</div><!-- end phase-intake -->
 
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════════════════════
-     PHASE 2: INTERVIEW
-════════════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════
+     PHASE 2 — INTERVIEW
+══════════════════════════════════════════════════ -->
 
 <div id="phase-interview" class="phase">
-  <div class="hdr">
-    <div><p class="hdr-title">IEP Intelligence</p><p class="hdr-sub">PLAAFP · Impact Statement Generator</p></div>
-    <div class="hdr-badges"><span class="bdg">§300.320</span><span class="bdg">v4.0</span></div>
-  </div>
-  <div class="steps">
-    <div class="step"><span class="step-dot inactive">1</span><span class="step-lbl inactive">Profile</span></div>
-    <div class="step"><span class="step-dot active">2</span><span class="step-lbl active">Interview</span></div>
-    <div class="step"><span class="step-dot inactive">3</span><span class="step-lbl inactive">Output</span></div>
-  </div>
-  <div class="wrap">
-    <div id="interview-content"></div>
-  </div>
+<div class="hdr">
+  <div><p class="hdr-t">IEP Intelligence</p><p class="hdr-s">PLAAFP · Impact Statement Generator</p></div>
+  <div style="display:flex;gap:5px"><span class="bdg">§300.320</span><span class="bdg">v4.0</span></div>
+</div>
+<div class="steps">
+  <div style="display:flex;align-items:center;gap:6px;opacity:.4"><span class="sdot" style="background:#1f3d7a;color:#94a3b8">1</span><span style="font-size:11px;color:#94a3b8">Profile</span></div>
+  <div style="display:flex;align-items:center;gap:6px"><span class="sdot" style="background:#d4880a;color:#0d1b35">2</span><span style="font-size:11px;color:#f8f4ec">Interview</span></div>
+  <div style="display:flex;align-items:center;gap:6px;opacity:.4"><span class="sdot" style="background:#1f3d7a;color:#94a3b8">3</span><span style="font-size:11px;color:#94a3b8">Output</span></div>
+</div>
+<div class="wrap"><div id="interview-content"></div></div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     PHASE 3: OUTPUT
-════════════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════
+     PHASE 3 — OUTPUT
+══════════════════════════════════════════════════ -->
 
 <div id="phase-output" class="phase">
-  <div class="hdr">
-    <div><p class="hdr-title">IEP Intelligence</p><p class="hdr-sub">PLAAFP · Impact Statement Generator</p></div>
-    <div class="hdr-badges"><span class="bdg">§300.320</span><span class="bdg">v4.0</span></div>
-  </div>
-  <div class="steps">
-    <div class="step"><span class="step-dot inactive">1</span><span class="step-lbl inactive">Profile</span></div>
-    <div class="step"><span class="step-dot inactive">2</span><span class="step-lbl inactive">Interview</span></div>
-    <div class="step"><span class="step-dot active">3</span><span class="step-lbl active">Output</span></div>
-  </div>
-  <div class="wrap">
-    <div class="tab-row" id="out-tabs"></div>
-    <div class="out-box" id="out-content"></div>
-  </div>
+<div class="hdr">
+  <div><p class="hdr-t">IEP Intelligence</p><p class="hdr-s">PLAAFP · Impact Statement Generator</p></div>
+  <div style="display:flex;gap:5px"><span class="bdg">§300.320</span><span class="bdg">v4.0</span></div>
 </div>
+<div class="steps">
+  <div style="display:flex;align-items:center;gap:6px;opacity:.4"><span class="sdot" style="background:#1f3d7a;color:#94a3b8">1</span><span style="font-size:11px;color:#94a3b8">Profile</span></div>
+  <div style="display:flex;align-items:center;gap:6px;opacity:.4"><span class="sdot" style="background:#1f3d7a;color:#94a3b8">2</span><span style="font-size:11px;color:#94a3b8">Interview</span></div>
+  <div style="display:flex;align-items:center;gap:6px"><span class="sdot" style="background:#d4880a;color:#0d1b35">3</span><span style="font-size:11px;color:#f8f4ec">Output</span></div>
+</div>
+<div class="wrap">
+  <div class="tab-row" id="out-tabs"></div>
+  <div class="out-box" id="out-content"></div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     JAVASCRIPT
+     All chips are already in the DOM above.
+     JS only reads their text content and toggles classes.
+══════════════════════════════════════════════════ -->
 
 <script>
 'use strict';
 
-// ── Config ────────────────────────────────────────────────────────────────────
 var API = 'https://iep-plaafp.onrender.com/api/messages';
 
-// ── Static data ───────────────────────────────────────────────────────────────
-var DISABILITIES = [
-  'Autism Spectrum Disorder','Intellectual Disability','Specific Learning Disability',
-  'Speech or Language Impairment','Emotional Disturbance','Other Health Impairment',
-  'Developmental Delay','Traumatic Brain Injury','Visual Impairment (including Blindness)',
-  'Hearing Impairment','Deaf-Blindness','Multiple Disabilities','Orthopedic Impairment','Deafness'
-];
-
-var GROUPS = [
-  {g:'Academic Areas',c:'#1f3d7a',a:'#f0a820',areas:[
-    'Reading / Decoding & Fluency','Reading Comprehension',
-    'Mathematics \u2013 Computation','Mathematics \u2013 Problem Solving',
-    'Written Expression','Oral Language / Listening Comprehension',
-    'Science / Content Knowledge','Social Studies / Content Knowledge'
-  ]},
-  {g:'Functional & Adaptive Areas',c:'#1e6e43',a:'#6ee7b7',areas:[
-    'Daily Living / Self-Care Skills','Community & Domestic Skills',
-    'Functional Communication','Vocational / Pre-Employment Skills',
-    'Self-Determination & Self-Advocacy','Recreation & Leisure','Health & Wellness'
-  ]},
-  {g:'Social, Emotional & Behavioral',c:'#5b21b6',a:'#c4b5fd',areas:[
-    'Social Skills & Peer Interactions','Emotional Regulation',
-    'Behavior / Executive Functioning','Attention & Impulse Control','Mental Health & Coping Skills'
-  ]},
-  {g:'Communication & Motor',c:'#0f766e',a:'#5eead4',areas:[
-    'Expressive Communication / Speech','Receptive Language',
-    'Augmentative & Alternative Communication (AAC)',
-    'Fine Motor Skills','Gross Motor Skills','Sensory Processing'
-  ]},
-  {g:'Transition (NTACT / IDEA \u00a7300.43)',c:'#92400e',a:'#fcd34d',areas:[
-    'Postsecondary Education & Training','Employment & Career Readiness',
-    'Independent Living Skills','Transportation & Mobility (Transition)','Financial Literacy'
-  ]},
-  {g:'ECC \u2013 Visual Impairment (IDEA / TSBVI)',c:'#1e40af',a:'#93c5fd',areas:[
-    'ECC: Compensatory / Functional Academic Skills','ECC: Sensory Efficiency Skills',
-    'ECC: Orientation & Mobility (O&M)','ECC: Social Interaction Skills (VI)',
-    'ECC: Independent Living Skills (VI)','ECC: Recreation & Leisure (VI)',
-    'ECC: Career Education (VI)','ECC: Assistive Technology (VI)','ECC: Self-Determination (VI)'
-  ]},
-  {g:'ECC \u2013 Deaf / Hard of Hearing',c:'#065f46',a:'#6ee7b7',areas:[
-    'DHH ECC: Audiology & Amplification Management','DHH ECC: Communication & Language Access',
-    'DHH ECC: Self-Advocacy & Disability Awareness','DHH ECC: Social-Emotional Skills (DHH)',
-    'DHH ECC: Functional Skills for Educational Success',
-    'DHH ECC: Career Education (DHH)','DHH ECC: Technology Access (DHH)'
-  ]}
-];
-
-var CASELAW = 'KEY LEGAL AUTHORITIES:\n'
-  + '- IDEA 2004, 34 CFR \u00a7300.320(a)(1)-(2): PLAAFP must describe current academic AND functional performance and how disability affects general curriculum access. Each area needs baseline data.\n'
-  + '- Endrew F. v. Douglas County (2017, SCOTUS): IEP must be reasonably calculated to enable progress appropriate in light of the child\'s circumstances.\n'
-  + '- Rowley (1982): Two-part FAPE test. PLAAFPs lacking specific data fail the procedural prong.\n'
-  + '- Deal v. Hamilton County (6th Cir. 2004): Trivial benefit violates IDEA. PLAAFPs must capture actual current performance.\n'
-  + '- M.C. v. Antelope Valley (9th Cir. 2017): Procedural violations impeding parent participation constitute FAPE denial.\n'
-  + '- D.B. v. Gloucester Township (D.N.J. 2017): Performs below grade level without data is insufficient.\n'
-  + '- Adam J. v. Keller ISD (5th Cir. 2003): All areas affected by disability must be addressed.\n'
-  + '- Lessard v. Wilton-Lyndeborough (1st Cir. 2008): PLAAFPs must be based on current evaluative data.\n'
-  + '- Flour Bluff ISD v. Katherine M. (5th Cir. 1996): Boilerplate PLAAFPs fail IDEA.\n'
-  + '- OSEP Policy Letter, 64 Fed. Reg. 12,406 (1999): PLAAFPs must reflect actual current individual performance.\n'
-  + '- IRIS Center 4-Element Framework: (1) area of need, (2) measurable baseline data, (3) curriculum impact, (4) connection to goals/services. Stranger test: a new teacher should be able to instruct this student tomorrow based solely on the PLAAFP.';
-
-// ── App state ─────────────────────────────────────────────────────────────────
+// ── State — selected disabilities and areas are tracked by reading the DOM ──
 var S = {
-  dis: [],          // selected disabilities
-  areas: [],        // selected areas
-  expanded: {},     // group open/closed
-  profile: null,
-  history: [],
-  currentQ: null,
-  collected: {},    // area -> [{dataType, answer}]
-  answered: 0,
-  opts: [],         // multiselect selections
-  scaleVal: '',
-  output: null,
-  activeTab: 'plaafp'
+  profile:null, history:[], currentQ:null,
+  collected:{}, answered:0,
+  opts:[], scaleVal:'',
+  output:null, activeTab:'plaafp',
+  customAreas:[]
 };
 
-// ── Boot — runs after the full DOM is parsed ──────────────────────────────────
-document.addEventListener('DOMContentLoaded', function() {
-  buildDisChips();
-  buildAreaGroups();
-});
-
-// ── Disability chips ──────────────────────────────────────────────────────────
-function buildDisChips() {
-  var wrap = document.getElementById('dis-chips');
-  wrap.innerHTML = '';
-  DISABILITIES.forEach(function(d) {
-    var el = document.createElement('span');
-    el.className = 'chip' + (S.dis.indexOf(d) >= 0 ? ' on' : '');
-    el.textContent = d;
-    el.onclick = function() { toggleArr(S.dis, d); buildDisChips(); };
-    wrap.appendChild(el);
-  });
+// ── Disability chip toggle ────────────────────────────────────────────────────
+function togD(el) {
+  el.classList.toggle('on');
 }
 
-// ── Area groups ───────────────────────────────────────────────────────────────
-function buildAreaGroups() {
-  var wrap = document.getElementById('area-groups');
-  wrap.innerHTML = '';
-  GROUPS.forEach(function(grp) {
-    var open = S.expanded[grp.g] !== false; // default open
-    var sel  = grp.areas.filter(function(a) { return S.areas.indexOf(a) >= 0; }).length;
-
-    var outer = document.createElement('div');
-    outer.style.marginBottom = '8px';
-
-    // Group header
-    var hdr = document.createElement('div');
-    hdr.className = 'grp-hdr';
-    hdr.style.color = grp.a;
-    hdr.style.border = '1px solid ' + grp.c;
-    hdr.style.marginBottom = open ? '5px' : '0';
-    hdr.innerHTML = '<span>' + grp.g + '</span><span style="font-size:10px;color:#94a3b8">' + (sel > 0 ? sel + ' \u2713 ' : '') + (open ? '\u25b2' : '\u25bc') + '</span>';
-    hdr.onclick = function() { S.expanded[grp.g] = !open; buildAreaGroups(); };
-    outer.appendChild(hdr);
-
-    if (open) {
-      var row = document.createElement('div');
-      row.className = 'chips';
-      row.style.paddingLeft = '4px';
-      grp.areas.forEach(function(area) {
-        var on = S.areas.indexOf(area) >= 0;
-        var chip = document.createElement('span');
-        chip.className = 'area-chip';
-        chip.style.background   = on ? grp.c : '#0d1b35';
-        chip.style.color        = on ? grp.a : '#94a3b8';
-        chip.style.borderColor  = on ? grp.a : '#2a4e9a';
-        chip.style.fontWeight   = on ? 'bold' : 'normal';
-        chip.textContent = area;
-        chip.onclick = function() {
-          toggleArr(S.areas, area);
-          document.getElementById('area-count').textContent = S.areas.length + ' selected';
-          buildAreaGroups();
-        };
-        row.appendChild(chip);
-      });
-      outer.appendChild(row);
-    }
-    wrap.appendChild(outer);
-  });
+// ── Area chip toggle ──────────────────────────────────────────────────────────
+function togA(el) {
+  var wasOn = el.classList.contains('on');
+  if (wasOn) {
+    el.style.background = '#0d1b35';
+    el.style.color = '#94a3b8';
+    el.style.borderColor = '#2a4e9a';
+    el.style.fontWeight = 'normal';
+  } else {
+    var gc = el.style.getPropertyValue('--gc') || '#1f3d7a';
+    var ga = el.style.getPropertyValue('--ga') || '#f0a820';
+    el.style.background = gc;
+    el.style.color = ga;
+    el.style.borderColor = ga;
+    el.style.fontWeight = 'bold';
+  }
+  el.classList.toggle('on');
+  updateAreaCount();
 }
 
-function addCustomArea() {
+// ── CSS custom properties don't work with getPropertyValue on inline styles in all browsers
+// Use data attributes instead ──────────────────────────────────────────────────
+// (re-read colors from the grp-hdr sibling)
+function togA(el) {
+  var on = el.classList.contains('on');
+  if (on) {
+    el.classList.remove('on');
+    el.style.background = '#0d1b35';
+    el.style.color = '#94a3b8';
+    el.style.borderColor = '#2a4e9a';
+    el.style.fontWeight = 'normal';
+  } else {
+    el.classList.add('on');
+    // Read color from data attributes set by the group
+    var gc = el.getAttribute('data-gc') || '#1f3d7a';
+    var ga = el.getAttribute('data-ga') || '#f0a820';
+    el.style.background = gc;
+    el.style.color = ga;
+    el.style.borderColor = ga;
+    el.style.fontWeight = 'bold';
+  }
+  updateAreaCount();
+}
+
+function updateAreaCount() {
+  var all = document.querySelectorAll('.ac.on, .custom-ac.on');
+  document.getElementById('area-count').textContent = all.length + ' selected';
+}
+
+// ── Group collapse ────────────────────────────────────────────────────────────
+function togGrp(id) {
+  var body  = document.getElementById(id);
+  var arrow = document.getElementById(id + '-arrow');
+  if (!body) return;
+  var hidden = body.style.display === 'none';
+  body.style.display = hidden ? 'flex' : 'none';
+  if (arrow) arrow.textContent = hidden ? '\u25b2' : '\u25bc';
+}
+
+// ── Read selected disabilities from DOM ───────────────────────────────────────
+function getSelectedDis() {
+  var chips = document.querySelectorAll('#dis-chips .dc.on');
+  var out = [];
+  chips.forEach(function(c){ out.push(c.textContent); });
+  return out;
+}
+
+// ── Read selected areas from DOM ──────────────────────────────────────────────
+function getSelectedAreas() {
+  var chips = document.querySelectorAll('.ac.on, .custom-ac.on');
+  var out = [];
+  chips.forEach(function(c){ out.push(c.textContent.trim()); });
+  return out;
+}
+
+// ── Add custom area ───────────────────────────────────────────────────────────
+function addCustom() {
   var inp = document.getElementById('custom-input');
   var val = inp.value.trim();
   if (!val) return;
-  if (S.areas.indexOf(val) < 0) S.areas.push(val);
   inp.value = '';
-  document.getElementById('area-count').textContent = S.areas.length + ' selected';
+  var wrap = document.getElementById('custom-chips');
+  var chip = document.createElement('span');
+  chip.className = 'ac custom-ac on';
+  chip.textContent = val;
+  chip.setAttribute('data-gc', '#374151');
+  chip.setAttribute('data-ga', '#f0a820');
+  chip.style.background = '#374151';
+  chip.style.color = '#f0a820';
+  chip.style.borderColor = '#f0a820';
+  chip.style.fontWeight = 'bold';
+  chip.onclick = function(){ togA(chip); };
+  wrap.appendChild(chip);
+  updateAreaCount();
 }
+
+// ── Set data-gc / data-ga on all area chips from their inline style ───────────
+// This runs once to convert --gc/--ga CSS vars to data attrs Safari can read
+(function setDataAttrs() {
+  var colorMap = {
+    'g-academic': {gc:'#1f3d7a', ga:'#f0a820'},
+    'g-func':     {gc:'#1e6e43', ga:'#6ee7b7'},
+    'g-social':   {gc:'#5b21b6', ga:'#c4b5fd'},
+    'g-comm':     {gc:'#0f766e', ga:'#5eead4'},
+    'g-trans':    {gc:'#92400e', ga:'#fcd34d'},
+    'g-vi':       {gc:'#1e40af', ga:'#93c5fd'},
+    'g-dhh':      {gc:'#065f46', ga:'#6ee7b7'},
+  };
+  Object.keys(colorMap).forEach(function(gid) {
+    var body = document.getElementById(gid);
+    if (!body) return;
+    var chips = body.querySelectorAll('.ac');
+    chips.forEach(function(chip) {
+      chip.setAttribute('data-gc', colorMap[gid].gc);
+      chip.setAttribute('data-ga', colorMap[gid].ga);
+    });
+  });
+})();
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
-function toggleArr(arr, val) {
-  var i = arr.indexOf(val);
-  if (i >= 0) arr.splice(i, 1); else arr.push(val);
-}
-
 function showErr(id, msg) {
   var el = document.getElementById(id);
   if (!el) return;
@@ -378,30 +458,62 @@ function dotsHTML() {
   return '<div class="dots"><span class="dot"></span><span class="dot" style="animation-delay:.3s"></span><span class="dot" style="animation-delay:.6s"></span></div>';
 }
 
-function groupAccent(area) {
-  for (var i = 0; i < GROUPS.length; i++) {
-    if (GROUPS[i].areas.indexOf(area) >= 0) return GROUPS[i].a;
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escQ(s) {
+  return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+}
+
+function groupAccentForArea(area) {
+  var map = {
+    'Reading':'#f0a820','Mathematics':'#f0a820','Written':'#f0a820','Oral':'#f0a820','Science':'#f0a820','Social Studies':'#f0a820',
+    'Daily':'#6ee7b7','Community':'#6ee7b7','Functional Comm':'#6ee7b7','Vocational':'#6ee7b7','Self-Determination':'#6ee7b7','Recreation':'#6ee7b7','Health':'#6ee7b7',
+    'Social Skills':'#c4b5fd','Emotional':'#c4b5fd','Behavior':'#c4b5fd','Attention':'#c4b5fd','Mental Health':'#c4b5fd',
+    'Expressive':'#5eead4','Receptive':'#5eead4','Augmentative':'#5eead4','Fine Motor':'#5eead4','Gross Motor':'#5eead4','Sensory':'#5eead4',
+    'Postsecondary':'#fcd34d','Employment':'#fcd34d','Independent Living':'#fcd34d','Transportation':'#fcd34d','Financial':'#fcd34d',
+    'ECC:':'#93c5fd',
+    'DHH ECC:':'#6ee7b7'
+  };
+  for (var k in map) {
+    if (area.indexOf(k) === 0) return map[k];
   }
   return '#f0a820';
 }
 
 // ── API ───────────────────────────────────────────────────────────────────────
 function callAPI(body, cb) {
-  var payload = { model: 'claude-sonnet-4-20250514', max_tokens: 800 };
-  Object.keys(body).forEach(function(k) { payload[k] = body[k]; });
-  fetch(API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
-    .then(function(r) { if (!r.ok) throw new Error('Server ' + r.status); return r.json(); })
-    .then(function(d) { cb(null, (d.content||[]).map(function(b){return b.text||'';}).join('')); })
-    .catch(function(e) { cb(e.message, null); });
+  var payload = {model:'claude-sonnet-4-20250514',max_tokens:800};
+  Object.keys(body).forEach(function(k){payload[k]=body[k];});
+  fetch(API, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+    .then(function(r){if(!r.ok)throw new Error('Server '+r.status);return r.json();})
+    .then(function(d){cb(null,(d.content||[]).map(function(b){return b.text||'';}).join(''));})
+    .catch(function(e){cb(e.message,null);});
 }
 
 function parseQ(text) {
   try {
-    var s = text.indexOf('{'), en = text.lastIndexOf('}');
-    if (s < 0 || en < 0) return null;
-    return JSON.parse(text.slice(s, en + 1));
-  } catch(e) { return null; }
+    var s=text.indexOf('{'),en=text.lastIndexOf('}');
+    if(s<0||en<0)return null;
+    return JSON.parse(text.slice(s,en+1));
+  } catch(e){return null;}
 }
+
+// ── Case law ──────────────────────────────────────────────────────────────────
+var CASELAW = 'KEY LEGAL AUTHORITIES:\n'
+  +'- IDEA 2004, 34 CFR \u00a7300.320(a)(1)-(2): PLAAFP must describe current academic AND functional performance and how disability affects general curriculum access. Each area needs baseline data.\n'
+  +'- Endrew F. v. Douglas County (2017, SCOTUS): IEP must be reasonably calculated to enable progress appropriate in light of the child\'s circumstances.\n'
+  +'- Rowley (1982): Two-part FAPE test. PLAAFPs lacking specific data fail the procedural prong.\n'
+  +'- Deal v. Hamilton County (6th Cir. 2004): Trivial benefit violates IDEA. PLAAFPs must capture actual current performance.\n'
+  +'- M.C. v. Antelope Valley (9th Cir. 2017): Procedural violations impeding parent participation constitute FAPE denial.\n'
+  +'- D.B. v. Gloucester Township (D.N.J. 2017): Performs below grade level without data is insufficient.\n'
+  +'- Adam J. v. Keller ISD (5th Cir. 2003): All areas affected by disability must be addressed.\n'
+  +'- Lessard v. Wilton-Lyndeborough (1st Cir. 2008): PLAAFPs must be based on current evaluative data.\n'
+  +'- Flour Bluff ISD v. Katherine M. (5th Cir. 1996): Boilerplate PLAAFPs fail IDEA.\n'
+  +'- OSEP Policy Letter, 64 Fed. Reg. 12,406 (1999): PLAAFPs must reflect actual current individual performance.\n'
+  +'- IRIS Center 4-Element Framework: (1) area of need, (2) measurable baseline data, (3) curriculum impact, (4) connection to goals/services. Stranger test: a new teacher should be able to instruct this student tomorrow based solely on the PLAAFP.';
 
 // ── Prompts ───────────────────────────────────────────────────────────────────
 function interviewSystem(profile) {
@@ -409,65 +521,59 @@ function interviewSystem(profile) {
   var isDHH = profile.dis.some(function(d){return d.indexOf('Hearing')>=0||d.indexOf('Deaf')>=0;});
   var isTr  = ['8th Grade','9th Grade','10th Grade','11th Grade','12th Grade'].indexOf(profile.grade)>=0;
   return 'You are an IEP data collector. Return ONE question at a time as a JSON object. No text outside the JSON.\n\n'
-    + CASELAW + '\n\n'
-    + 'STUDENT: ' + profile.fn + ' ' + profile.ln + ' | ' + profile.grade + '\n'
-    + 'DISABILITIES: ' + profile.dis.join('; ') + '\n'
-    + 'AREAS TO COVER: ' + profile.areas.join(', ') + '\n\n'
-    + 'RULES:\n'
-    + '1. One question per response. Always return a single JSON object. No text outside the JSON.\n'
-    + '2. Choose type: fill_blank (scores/numbers), multiselect (known options list), scale (1-5 rating), or short_text (observations only — use sparingly).\n'
-    + '3. Keep "prompt" under 10 words.\n'
-    + '4. Cycle through all areas systematically. Track history and never repeat an answered question.\n'
-    + '5. Required per area: baseline score with assessment name, student strengths, classroom impact, supports in place.\n'
-    + '6. If a vague answer is given (e.g. struggles, below average), follow up requesting specific numeric data. Cite Endrew F. (2017).\n'
-    + '7. When all areas are fully covered, return exactly: {"done":true,"message":"All data collected. Tap Generate below."}\n'
-    + (isVI  ? '8. For ECC/VI areas: collect FVA status, LMA primary learning medium, O&M assessment data.\n' : '')
-    + (isDHH ? '8. For DHH areas: collect audiogram type and degree, communication modality, amplification device.\n' : '')
-    + (isTr  ? '8. For transition areas: collect age-appropriate transition assessment name and student stated preferences/interests.\n' : '')
-    + '\nJSON FORMAT (include only keys relevant to the type chosen):\n'
-    + '{"area":"exact area name from list","dataType":"baseline_score|strengths|classroom_impact|supports|assessment_name|ecc_vi|ecc_dhh|transition","type":"fill_blank|multiselect|scale|short_text","prompt":"Under 10 words","template":"Student reads ___ words per minute","unit":"words per minute","options":["Option A","Option B","Option C"],"low_label":"Never","high_label":"Always","compliance_note":"One sentence why this data is legally required","progress":"2 of 5 areas complete"}';
+    +CASELAW+'\n\n'
+    +'STUDENT: '+profile.fn+' '+profile.ln+' | '+profile.grade+'\n'
+    +'DISABILITIES: '+profile.dis.join('; ')+'\n'
+    +'AREAS TO COVER: '+profile.areas.join(', ')+'\n\n'
+    +'RULES:\n'
+    +'1. One question per response. Always return a single JSON object. No text outside the JSON.\n'
+    +'2. Choose type: fill_blank (scores/numbers), multiselect (known options list), scale (1-5 rating), or short_text (observations only).\n'
+    +'3. Keep prompt under 10 words.\n'
+    +'4. Cycle through all areas. Track history and never repeat an answered question.\n'
+    +'5. Required per area: baseline score with assessment name, student strengths, classroom impact, supports in place.\n'
+    +'6. If a vague answer is given, follow up requesting specific numeric data. Cite Endrew F. (2017).\n'
+    +'7. When all areas fully covered return exactly: {"done":true,"message":"All data collected. Tap Generate below."}\n'
+    +(isVI?'8. For ECC/VI: collect FVA status, LMA primary learning medium, O&M assessment data.\n':'')
+    +(isDHH?'8. For DHH: collect audiogram type and degree, communication modality, amplification device.\n':'')
+    +(isTr?'8. For transition: collect age-appropriate transition assessment name and student stated preferences.\n':'')
+    +'\nJSON FORMAT:\n'
+    +'{"area":"exact area name","dataType":"baseline_score|strengths|classroom_impact|supports|assessment_name|ecc_vi|ecc_dhh|transition","type":"fill_blank|multiselect|scale|short_text","prompt":"Under 10 words","template":"Student reads ___ words per minute","unit":"words per minute","options":["A","B","C"],"low_label":"Never","high_label":"Always","compliance_note":"One sentence why legally required","progress":"2 of 5 areas complete"}\n'
+    +'Only include keys relevant to the type.';
 }
 
-function generationPrompt(profile, collected) {
-  var summary = Object.keys(collected).map(function(area) {
-    return area + ':\n' + collected[area].map(function(i){return '  - '+i.dt+': '+i.ans;}).join('\n');
+function genPrompt(profile, collected) {
+  var summary = Object.keys(collected).map(function(area){
+    return area+':\n'+collected[area].map(function(i){return '  - '+i.dt+': '+i.ans;}).join('\n');
   }).join('\n\n');
-
   var schema = {};
-  profile.areas.forEach(function(area) {
-    schema[area.replace(/[^a-zA-Z0-9]/g,'_')] = 'Write 2-3 paragraphs for '+area+': (1) strengths paragraph, (2) specific present level with assessment name/score/date per IRIS Center stranger test and Endrew F. standard, (3) how this deficit affects general curriculum access per IDEA \u00a7300.320(a)(1). Parent-friendly language; spell out all acronyms.';
+  profile.areas.forEach(function(area){
+    schema[area.replace(/[^a-zA-Z0-9]/g,'_')] = 'Write 2-3 paragraphs for '+area+': (1) strengths, (2) specific present level with assessment name/score/date per IRIS Center stranger test and Endrew F., (3) how deficit affects general curriculum access per IDEA \u00a7300.320(a)(1). Parent-friendly; spell out acronyms.';
   });
-
   return 'Generate IDEA 2004-compliant PLAAFP sections and impact statement. No goals.\n\n'
-    + CASELAW + '\n\n'
-    + 'STUDENT: '+profile.fn+' '+profile.ln+' | '+profile.grade+' | '+profile.dis.join('; ')+'\n'
-    + 'AREAS: '+profile.areas.join(', ')+'\n\n'
-    + 'COLLECTED DATA:\n'+summary+'\n\n'
-    + 'RULES:\n'
-    + '1. Cite specific assessment names and scores from collected data — no placeholders.\n'
-    + '2. Include strengths in every section (Adam J. v. Keller ISD).\n'
-    + '3. Impact statement must name exact IDEA \u00a7300.8 disability categories.\n'
-    + '4. Apply Endrew F.: language must convey programming is reasonably calculated to enable '+profile.fn+' to make progress appropriate in light of their circumstances.\n'
-    + '5. Per OSEP 1999: no boilerplate — every sentence must reflect individual data.\n'
-    + '6. Flag any area with insufficient data in complianceFlags.\n'
-    + '7. Write at 8th-grade reading level. Spell out all acronyms on first use.\n\n'
-    + 'Return ONLY valid JSON with no markdown fences:\n'
-    + '{"plaafpSections":'+JSON.stringify(schema)+',"impactStatement":"Two paragraphs. P1: how '+profile.fn+'\'s specific IDEA \u00a7300.8 disability categories adversely affect involvement and progress in general education with specific data examples. P2: why specially designed instruction is required citing Endrew F. and one additional authority.","complianceFlags":[],"legalBasis":{"primaryAuthority":"IDEA 2004, 34 CFR \u00a7300.320(a)(1)-(2)","caselaw":"Endrew F. (2017); Rowley (1982); Deal v. Hamilton County (6th Cir. 2004); M.C. v. Antelope Valley (9th Cir. 2017); Adam J. v. Keller ISD (5th Cir. 2003)","osepGuidance":"OSEP Policy Letter, 64 Fed. Reg. 12,406 (1999)","practiceFramework":"IRIS Center 4-Element PLAAFP Framework; NTACT:C Indicator 13"},"apiResponse":{"status":"success","version":"4.0","generated_at":"'+new Date().toISOString()+'","disabilities":'+JSON.stringify(profile.dis)+',"areas_of_need":'+JSON.stringify(profile.areas)+',"compliance_flags":[],"sections":{"plaafp_by_area":{},"impact_statement":"","legal_basis":{}}}}';
+    +CASELAW+'\n\n'
+    +'STUDENT: '+profile.fn+' '+profile.ln+' | '+profile.grade+' | '+profile.dis.join('; ')+'\n'
+    +'AREAS: '+profile.areas.join(', ')+'\n\n'
+    +'COLLECTED DATA:\n'+summary+'\n\n'
+    +'RULES: Cite specific assessment names and scores. Include strengths in every section. Impact statement names exact IDEA \u00a7300.8 disability categories. Apply Endrew F. standard. No boilerplate per OSEP 1999. Flag insufficient data in complianceFlags. 8th-grade reading level.\n\n'
+    +'Return ONLY valid JSON no markdown fences:\n'
+    +'{"plaafpSections":'+JSON.stringify(schema)+',"impactStatement":"Two paragraphs. P1: how specific IDEA \u00a7300.8 disabilities adversely affect involvement and progress in general education with specific data. P2: why specially designed instruction required citing Endrew F. and one additional authority.","complianceFlags":[],"legalBasis":{"primaryAuthority":"IDEA 2004, 34 CFR \u00a7300.320(a)(1)-(2)","caselaw":"Endrew F. (2017); Rowley (1982); Deal v. Hamilton County (6th Cir. 2004); M.C. v. Antelope Valley (9th Cir. 2017); Adam J. v. Keller ISD (5th Cir. 2003)","osepGuidance":"OSEP Policy Letter, 64 Fed. Reg. 12,406 (1999)","practiceFramework":"IRIS Center 4-Element PLAAFP Framework; NTACT:C Indicator 13"},"apiResponse":{"status":"success","version":"4.0","generated_at":"'+new Date().toISOString()+'","disabilities":'+JSON.stringify(profile.dis)+',"areas_of_need":'+JSON.stringify(profile.areas)+',"compliance_flags":[],"sections":{"plaafp_by_area":{},"impact_statement":"","legal_basis":{}}}}';
 }
 
-// ── PHASE 1: Start interview ───────────────────────────────────────────────────
+// ── START INTERVIEW ───────────────────────────────────────────────────────────
 function startInterview() {
   var fn    = document.getElementById('fn').value.trim();
   var ln    = document.getElementById('ln').value.trim();
   var grade = document.getElementById('grade').value;
   var ctx   = document.getElementById('ctx').value.trim();
+  var dis   = getSelectedDis();
+  var areas = getSelectedAreas();
 
-  if (!fn || !grade || S.dis.length === 0 || S.areas.length === 0) {
-    showErr('intake-err', 'Please fill in: student name, grade, at least one disability, and at least one area of need.');
+  if (!fn || !grade || dis.length===0 || areas.length===0) {
+    showErr('intake-err','Please fill in: student name, grade, at least one disability, and at least one area of need.');
     return;
   }
-  showErr('intake-err', '');
-  S.profile = { fn:fn, ln:ln, grade:grade, dis:S.dis.slice(), areas:S.areas.slice(), ctx:ctx };
+  showErr('intake-err','');
+  S.profile = {fn:fn,ln:ln,grade:grade,dis:dis,areas:areas,ctx:ctx};
   S.history = [];
   S.collected = {};
   S.answered = 0;
@@ -475,16 +581,16 @@ function startInterview() {
   document.getElementById('intake-dots').style.display = 'block';
   document.getElementById('start-btn').disabled = true;
 
-  var msg = { role:'user', content:'Begin IEP intake for '+fn+' '+ln+', '+grade+'. Disabilities: '+S.dis.join(', ')+'. Areas: '+S.areas.join(', ')+'. Start with the first question.' };
+  var msg = {role:'user',content:'Begin IEP intake for '+fn+' '+ln+', '+grade+'. Disabilities: '+dis.join(', ')+'. Areas: '+areas.join(', ')+'. Start with the first question.'};
   S.history = [msg];
 
-  callAPI({ system: interviewSystem(S.profile), messages: S.history }, function(err, text) {
+  callAPI({system:interviewSystem(S.profile),messages:S.history},function(err,text){
     document.getElementById('intake-dots').style.display = 'none';
     document.getElementById('start-btn').disabled = false;
-    if (err) { showErr('intake-err', 'Connection error: ' + err); return; }
+    if(err){showErr('intake-err','Connection error: '+err);return;}
     var q = parseQ(text);
-    if (!q) { showErr('intake-err', 'Could not read first question. Please try again.'); return; }
-    S.history.push({ role:'assistant', content:text });
+    if(!q){showErr('intake-err','Could not read first question. Please try again.');return;}
+    S.history.push({role:'assistant',content:text});
     S.currentQ = q;
     S.opts = [];
     S.scaleVal = '';
@@ -493,86 +599,73 @@ function startInterview() {
   });
 }
 
-// ── PHASE 2: Render question ──────────────────────────────────────────────────
+// ── RENDER QUESTION ───────────────────────────────────────────────────────────
 function renderQ() {
   var wrap = document.getElementById('interview-content');
-  var q    = S.currentQ;
+  var q = S.currentQ;
 
-  // ── Done state ──
   if (q && q.done) {
-    wrap.innerHTML = ''
-      + '<div class="card" style="text-align:center;border-color:#1e6e43;border-width:2px">'
-      + '<div style="font-size:32px;margin-bottom:8px">&#10003;</div>'
-      + '<p style="font-size:16px;font-weight:bold;color:#f8f4ec;margin-bottom:6px">Data collection complete</p>'
-      + '<p style="font-size:13px;color:#94a3b8;line-height:1.6;margin-bottom:10px">' + (q.message||'Tap Generate below.') + '</p>'
-      + '<p style="font-size:11px;color:#94a3b8;font-family:monospace">' + S.answered + ' data points across ' + Object.keys(S.collected).length + ' areas</p>'
-      + '</div>'
-      + '<p class="err" id="gen-err"></p>'
-      + '<button class="btn-green" id="gen-btn" onclick="generateOutput()">&#9889; Generate PLAAFP + Impact Statement</button>';
+    wrap.innerHTML = '<div class="card" style="text-align:center;border-color:#1e6e43;border-width:2px">'
+      +'<div style="font-size:32px;margin-bottom:8px">&#10003;</div>'
+      +'<p style="font-size:16px;font-weight:bold;color:#f8f4ec;margin-bottom:6px">Data collection complete</p>'
+      +'<p style="font-size:13px;color:#94a3b8;line-height:1.6;margin-bottom:10px">'+(q.message||'Tap Generate below.')+'</p>'
+      +'<p style="font-size:11px;color:#94a3b8;font-family:monospace">'+S.answered+' data points across '+Object.keys(S.collected).length+' areas</p>'
+      +'</div>'
+      +'<p class="err" id="gen-err"></p>'
+      +'<button class="btn-green" id="gen-btn" onclick="generateOutput()">&#9889; Generate PLAAFP + Impact Statement</button>';
     return;
   }
 
   if (!q) { wrap.innerHTML = dotsHTML(); return; }
 
   var totalEst = S.profile.areas.length * 4;
-  var pct      = Math.min((S.answered / totalEst) * 100, 95);
-  var accent   = groupAccent(q.area||'');
-  var html     = '';
+  var pct = Math.min((S.answered/totalEst)*100, 95);
+  var accent = groupAccentForArea(q.area||'');
+  var html = '';
 
-  // Progress bar
-  html += '<div class="prog-wrap">'
-        + '<p class="hint">' + (q.progress || S.answered + ' questions answered') + '</p>'
-        + '<div class="prog-bar"><div class="prog-fill" style="width:' + pct + '%"></div></div>'
-        + '</div>';
+  html += '<div class="prog-bar"><div class="prog-fill" style="width:'+pct+'%"></div></div>';
+  html += '<p class="hint">'+(q.progress||S.answered+' questions answered')+'</p>';
 
-  // Question card
   html += '<div class="q-card">';
-  html += '<span class="tag" style="color:' + accent + '">' + esc(q.area||'') + '</span>';
-  html += '<p style="font-size:17px;line-height:1.5;color:#f8f4ec;margin-bottom:12px;font-weight:bold">' + esc(q.prompt||'') + '</p>';
-  if (q.compliance_note) {
-    html += '<p class="compliance">&#9878; ' + esc(q.compliance_note) + '</p>';
-  }
+  html += '<span class="tag" style="color:'+accent+'">'+esc(q.area||'')+'</span>';
+  html += '<p style="font-size:17px;line-height:1.5;color:#f8f4ec;margin-bottom:12px;font-weight:bold">'+esc(q.prompt||'')+'</p>';
+  if(q.compliance_note) html += '<p class="compliance">&#9878; '+esc(q.compliance_note)+'</p>';
 
-  // ── fill_blank ──
-  if (q.type === 'fill_blank') {
+  if (q.type==='fill_blank') {
     if (q.template) {
       var parts = q.template.split('___');
-      html += '<div class="fill-wrap">';
-      for (var pi = 0; pi < parts.length; pi++) {
+      html += '<div style="text-align:center;font-size:14px;color:#94a3b8;line-height:2.4;margin-bottom:8px">';
+      for(var pi=0;pi<parts.length;pi++){
         html += esc(parts[pi]);
-        if (pi < parts.length - 1) html += '<input class="fill-in" id="fv" type="text" placeholder="___"/>';
+        if(pi<parts.length-1) html += '<input class="fill-in" id="fv" type="text" placeholder="___"/>';
       }
       html += '</div>';
     } else {
       html += '<input id="fv" type="text" placeholder="Enter value" style="border:2px solid #d4880a;text-align:center;margin-bottom:8px"/>';
     }
-    if (q.unit) html += '<p style="font-size:11px;color:#94a3b8;font-family:monospace;text-align:center;margin-bottom:8px">' + esc(q.unit) + '</p>';
+    if(q.unit) html += '<p style="font-size:11px;color:#94a3b8;font-family:monospace;text-align:center;margin-bottom:8px">'+esc(q.unit)+'</p>';
   }
 
-  // ── multiselect ──
-  if (q.type === 'multiselect') {
-    (q.options||[]).forEach(function(opt) {
-      var on = S.opts.indexOf(opt) >= 0;
-      html += '<div class="ms-opt' + (on?' on':'') + '" onclick="toggleOpt(\'' + escQ(opt) + '\')">'
-            + '<span style="font-size:18px">' + (on?'&#9745;':'&#9744;') + '</span>'
-            + '<span>' + esc(opt) + '</span></div>';
+  if (q.type==='multiselect') {
+    (q.options||[]).forEach(function(opt){
+      var on = S.opts.indexOf(opt)>=0;
+      html += '<div class="ms-opt'+(on?' on':'')+'" onclick="togOpt(\''+escQ(opt)+'\')">'
+        +'<span style="font-size:18px">'+(on?'&#9745;':'&#9744;')+'</span>'
+        +'<span>'+esc(opt)+'</span></div>';
     });
   }
 
-  // ── scale ──
-  if (q.type === 'scale') {
+  if (q.type==='scale') {
     html += '<div class="scale-row">'
-          + '<span style="font-size:11px;color:#94a3b8;font-family:monospace;flex:1">' + esc(q.low_label||'') + '</span>';
-    for (var n = 1; n <= 5; n++) {
-      var on = S.scaleVal === String(n);
-      html += '<button class="scale-btn' + (on?' on':'') + '" onclick="setScale(\'' + n + '\')">' + n + '</button>';
+      +'<span style="font-size:11px;color:#94a3b8;font-family:monospace;flex:1">'+esc(q.low_label||'')+'</span>';
+    for(var n=1;n<=5;n++){
+      var on=S.scaleVal===String(n);
+      html += '<button class="scale-btn'+(on?' on':'')+'" onclick="setScale(\''+n+'\')">'+n+'</button>';
     }
-    html += '<span style="font-size:11px;color:#94a3b8;font-family:monospace;flex:1;text-align:right">' + esc(q.high_label||'') + '</span>'
-          + '</div>';
+    html += '<span style="font-size:11px;color:#94a3b8;font-family:monospace;flex:1;text-align:right">'+esc(q.high_label||'')+'</span></div>';
   }
 
-  // ── short_text ──
-  if (q.type === 'short_text') {
+  if (q.type==='short_text') {
     html += '<textarea id="sv" rows="3" style="resize:vertical;line-height:1.5;margin-bottom:0" placeholder="Type your response\u2026"></textarea>';
 
 }
@@ -581,195 +674,147 @@ html += ‘<p class="err" id="q-err"></p>’;
 html += ‘<button class="btn-green" onclick="submitAnswer()">Next \u2192</button>’;
 html += ‘</div>’;
 
-// Skip button after enough data
-if (S.answered >= S.profile.areas.length * 2) {
-html += ‘<button class="btn-ghost" onclick="skipToGenerate()">Skip to Generate (use data collected so far)</button>’;
+if (S.answered >= S.profile.areas.length*2) {
+html += ‘<button class="btn-ghost" onclick="skipGen()">Skip to Generate (use data collected so far)</button>’;
 }
 
 wrap.innerHTML = html;
-
-// Auto-focus
-setTimeout(function() {
-var f = document.getElementById(‘fv’) || document.getElementById(‘sv’);
-if (f) { try { f.focus(); } catch(e){} }
-}, 150);
+setTimeout(function(){
+var f=document.getElementById(‘fv’)||document.getElementById(‘sv’);
+if(f){try{f.focus();}catch(e){}}
+},150);
 }
 
-function toggleOpt(opt) {
-toggleArr(S.opts, opt);
+function togOpt(opt){
+var i=S.opts.indexOf(opt);
+if(i>=0)S.opts.splice(i,1);else S.opts.push(opt);
 renderQ();
 }
+function setScale(n){S.scaleVal=n;renderQ();}
+function skipGen(){S.currentQ={done:true,message:‘Using data collected so far.’};renderQ();}
 
-function setScale(n) {
-S.scaleVal = n;
-renderQ();
-}
-
-function skipToGenerate() {
-S.currentQ = { done:true, message:‘Using data collected so far.’ };
-renderQ();
-}
-
-// ── Submit answer ─────────────────────────────────────────────────────────────
+// ── SUBMIT ANSWER ─────────────────────────────────────────────────────────────
 function submitAnswer() {
-var q = S.currentQ;
-var ans = ‘’;
-
-if (q.type === ‘fill_blank’) {
-var fv = document.getElementById(‘fv’);
-if (!fv || !fv.value.trim()) { showErr(‘q-err’,‘Please fill in the blank.’); return; }
-ans = q.template ? q.template.replace(’___’, fv.value.trim()) : fv.value.trim();
-if (q.unit) ans += ’ (’ + q.unit + ‘)’;
-} else if (q.type === ‘multiselect’) {
-if (!S.opts.length) { showErr(‘q-err’,‘Please select at least one option.’); return; }
-ans = S.opts.join(’, ‘);
-} else if (q.type === ‘scale’) {
-if (!S.scaleVal) { showErr(‘q-err’,‘Please select a rating.’); return; }
-ans = S.scaleVal + ‘/5 (’ + (q.low_label||’’) + ’ to ’ + (q.high_label||’’) + ‘)’;
+var q=S.currentQ, ans=’’;
+if(q.type===‘fill_blank’){
+var fv=document.getElementById(‘fv’);
+if(!fv||!fv.value.trim()){showErr(‘q-err’,‘Please fill in the blank.’);return;}
+ans = q.template?q.template.replace(’___’,fv.value.trim()):fv.value.trim();
+if(q.unit) ans+=’ (’+q.unit+’)’;
+} else if(q.type===‘multiselect’){
+if(!S.opts.length){showErr(‘q-err’,‘Please select at least one option.’);return;}
+ans=S.opts.join(’, ‘);
+} else if(q.type===‘scale’){
+if(!S.scaleVal){showErr(‘q-err’,‘Please select a rating.’);return;}
+ans=S.scaleVal+’/5 (’+(q.low_label||’’)+’ to ‘+(q.high_label||’’)+’)’;
 } else {
-var sv = document.getElementById(‘sv’);
-if (!sv || !sv.value.trim()) { showErr(‘q-err’,‘Please enter a response.’); return; }
-ans = sv.value.trim();
+var sv=document.getElementById(‘sv’);
+if(!sv||!sv.value.trim()){showErr(‘q-err’,‘Please enter a response.’);return;}
+ans=sv.value.trim();
 }
-
 showErr(‘q-err’,’’);
-var area = q.area || ‘General’;
-if (!S.collected[area]) S.collected[area] = [];
-S.collected[area].push({ dt: q.dataType, ans: ans });
+var area=q.area||‘General’;
+if(!S.collected[area])S.collected[area]=[];
+S.collected[area].push({dt:q.dataType,ans:ans});
 S.answered++;
-S.opts = [];
-S.scaleVal = ‘’;
-
-S.history.push({ role:‘user’, content:’[Area: ‘+area+’ | DataType: ‘+q.dataType+’] ’+ans });
+S.opts=[];S.scaleVal=’’;
+S.history.push({role:‘user’,content:’[Area: ‘+area+’ | DataType: ‘+q.dataType+’] ‘+ans});
 document.getElementById(‘interview-content’).innerHTML = dotsHTML();
-
-callAPI({ system: interviewSystem(S.profile), messages: S.history }, function(err, text) {
-if (err) {
-document.getElementById(‘interview-content’).innerHTML = ‘<p class="err" style="display:block">API error: ‘+err+’</p><button class="btn-green" onclick="renderQ()">Retry</button>’;
+callAPI({system:interviewSystem(S.profile),messages:S.history},function(err,text){
+if(err){
+document.getElementById(‘interview-content’).innerHTML=’<p class="err" style="display:block">API error: ‘+err+’</p><button class="btn-green" onclick="renderQ()">Retry</button>’;
 return;
 }
-S.history.push({ role:‘assistant’, content:text });
-var next = parseQ(text);
-S.currentQ = (!next || next.done) ? { done:true, message: next&&next.message ? next.message : ‘All data collected. Tap Generate below.’ } : next;
+S.history.push({role:‘assistant’,content:text});
+var next=parseQ(text);
+S.currentQ=(!next||next.done)?{done:true,message:next&&next.message?next.message:‘All data collected. Tap Generate below.’}:next;
 renderQ();
 });
 }
 
-// ── PHASE 3: Generate output ──────────────────────────────────────────────────
+// ── GENERATE OUTPUT ───────────────────────────────────────────────────────────
 function generateOutput() {
-var btn = document.getElementById(‘gen-btn’);
-if (btn) { btn.disabled = true; btn.textContent = ‘Generating\u2026’; }
+var btn=document.getElementById(‘gen-btn’);
+if(btn){btn.disabled=true;btn.textContent=‘Generating\u2026’;}
 showErr(‘gen-err’,’’);
-document.getElementById(‘interview-content’).innerHTML += dotsHTML();
-
-callAPI({ messages:[{ role:‘user’, content: generationPrompt(S.profile, S.collected) }] }, function(err, text) {
-if (err) {
-showErr(‘gen-err’,‘Generation failed: ’ + err);
-if (btn) { btn.disabled=false; btn.textContent=’\u26a1 Generate PLAAFP + Impact Statement’; }
+document.getElementById(‘interview-content’).innerHTML+=dotsHTML();
+callAPI({messages:[{role:‘user’,content:genPrompt(S.profile,S.collected)}]},function(err,text){
+if(err){
+showErr(‘gen-err’,‘Generation failed: ‘+err);
+if(btn){btn.disabled=false;btn.textContent=’\u26a1 Generate PLAAFP + Impact Statement’;}
 return;
 }
-try {
-var parsed = JSON.parse(text.replace(/`json|`/g,’’).trim());
-if (parsed.apiResponse) {
-parsed.apiResponse.sections.plaafp_by_area   = parsed.plaafpSections;
-parsed.apiResponse.sections.impact_statement = parsed.impactStatement;
-parsed.apiResponse.sections.legal_basis      = parsed.legalBasis;
-parsed.apiResponse.compliance_flags          = parsed.complianceFlags||[];
+try{
+var parsed=JSON.parse(text.replace(/`json|`/g,’’).trim());
+if(parsed.apiResponse){
+parsed.apiResponse.sections.plaafp_by_area=parsed.plaafpSections;
+parsed.apiResponse.sections.impact_statement=parsed.impactStatement;
+parsed.apiResponse.sections.legal_basis=parsed.legalBasis;
+parsed.apiResponse.compliance_flags=parsed.complianceFlags||[];
 }
-S.output = parsed;
-S.activeTab = ‘plaafp’;
+S.output=parsed;
+S.activeTab=‘plaafp’;
 showPhase(‘output’);
 renderOutput();
-} catch(e) {
+}catch(e){
 showErr(‘gen-err’,‘Could not parse output. Please try again.’);
-if (btn) { btn.disabled=false; btn.textContent=’\u26a1 Generate PLAAFP + Impact Statement’; }
+if(btn){btn.disabled=false;btn.textContent=’\u26a1 Generate PLAAFP + Impact Statement’;}
 }
 });
 }
 
-// ── Render output ─────────────────────────────────────────────────────────────
+// ── RENDER OUTPUT ─────────────────────────────────────────────────────────────
 function renderOutput() {
-var TABS   = [‘plaafp’,‘impact’,‘legal’,‘api’];
-var LABELS = [‘PLAAFP’,‘Impact’,‘Legal’,‘API JSON’];
-var out    = S.output;
-var secs   = out.plaafpSections || {};
-var flags  = out.complianceFlags || [];
+var TABS=[‘plaafp’,‘impact’,‘legal’,‘api’];
+var LBLS=[‘PLAAFP’,‘Impact’,‘Legal’,‘API JSON’];
+var out=S.output;
+var secs=out.plaafpSections||{};
+var flags=out.complianceFlags||[];
 
-// Tabs
-var tabRow = document.getElementById(‘out-tabs’);
-tabRow.innerHTML = ‘’;
-TABS.forEach(function(t, i) {
-var tab = document.createElement(‘div’);
-tab.className = ‘tab’ + (S.activeTab===t?’ on’:’’);
-tab.textContent = LABELS[i];
-tab.onclick = (function(key){ return function(){ S.activeTab=key; renderOutput(); }; })(t);
+var tabRow=document.getElementById(‘out-tabs’);
+tabRow.innerHTML=’’;
+TABS.forEach(function(t,i){
+var tab=document.createElement(‘div’);
+tab.className=‘tab’+(S.activeTab===t?’ on’:’’);
+tab.textContent=LBLS[i];
+tab.onclick=(function(key){return function(){S.activeTab=key;renderOutput();};})(t);
 tabRow.appendChild(tab);
 });
 
-var box  = document.getElementById(‘out-content’);
-var html = ‘’;
+var box=document.getElementById(‘out-content’);
+var html=’’;
 
-// ── PLAAFP ──
-if (S.activeTab === ‘plaafp’) {
-html += ‘<span class="sec-title">Present Levels of Academic Achievement & Functional Performance</span>’;
-html += ‘<span class="sec-sub">IDEA \u00a7300.320 \u00b7 IRIS Center \u00b7 Endrew F. (2017) \u00b7 Rowley (1982)</span>’;
-if (flags.length) {
-html += ‘<div style="margin-bottom:12px">’;
-flags.forEach(function(f){ html += ‘<span class="flag">\u26a0 ‘+esc(f)+’</span>’; });
-html += ‘</div>’;
-}
-S.profile.areas.forEach(function(area, i) {
-var key  = area.replace(/[^a-zA-Z0-9]/g,’_’);
-var text = secs[key] || secs[area] || ‘(Insufficient data provided for this area.)’;
-html += ‘<span class="sec-title" style="color:'+groupAccent(area)+';font-size:10px">’+esc(area)+’</span>’;
-html += ‘<p class="sec-text">’+esc(text)+’</p>’;
-if (i < S.profile.areas.length-1) html += ‘<div class="divider"></div>’;
+if(S.activeTab===‘plaafp’){
+html+=’<span class="sec-title">Present Levels of Academic Achievement & Functional Performance</span>’;
+html+=’<span class="sec-sub">IDEA \u00a7300.320 \u00b7 IRIS Center \u00b7 Endrew F. (2017) \u00b7 Rowley (1982)</span>’;
+if(flags.length){html+=’<div style="margin-bottom:12px">’;flags.forEach(function(f){html+=’<span class="flag">\u26a0 ‘+esc(f)+’</span>’;});html+=’</div>’;}
+S.profile.areas.forEach(function(area,i){
+var key=area.replace(/[^a-zA-Z0-9]/g,’_’);
+var text=secs[key]||secs[area]||’(Insufficient data provided for this area.)’;
+html+=’<span class="sec-title" style="color:'+groupAccentForArea(area)+';font-size:10px">’+esc(area)+’</span>’;
+html+=’<p class="sec-text">’+esc(text)+’</p>’;
+if(i<S.profile.areas.length-1)html+=’<div class="divider"></div>’;
 });
 }
-
-// ── Impact ──
-if (S.activeTab === ‘impact’) {
-html += ‘<span class="sec-title">Impact Statement</span>’;
-html += ‘<span class="sec-sub">34 CFR \u00a7300.8 \u00b7 \u00a7300.320(a)(1) \u00b7 Endrew F. (2017) \u00b7 M.C. v. Antelope Valley (9th Cir. 2017)</span>’;
-html += ‘<p class="sec-text">’+esc(out.impactStatement||’’)+’</p>’;
+if(S.activeTab===‘impact’){
+html+=’<span class="sec-title">Impact Statement</span>’;
+html+=’<span class="sec-sub">34 CFR \u00a7300.8 \u00b7 \u00a7300.320(a)(1) \u00b7 Endrew F. (2017) \u00b7 M.C. v. Antelope Valley (9th Cir. 2017)</span>’;
+html+=’<p class="sec-text">’+esc(out.impactStatement||’’)+’</p>’;
 }
-
-// ── Legal ──
-if (S.activeTab === ‘legal’) {
-html += ‘<span class="sec-title">Legal & Practice Framework</span>’;
-html += ‘<div class="legal-box">’;
-if (out.legalBasis) {
-Object.keys(out.legalBasis).forEach(function(k) {
-if (out.legalBasis[k]) html += ‘<div style="margin-bottom:7px"><span style="color:#f0a820">’+esc(k.replace(/([A-Z])/g,’ $1’).trim())+’: </span><span>’+esc(out.legalBasis[k])+’</span></div>’;
-});
+if(S.activeTab===‘legal’){
+html+=’<span class="sec-title">Legal & Practice Framework</span>’;
+html+=’<div class="legal-box">’;
+if(out.legalBasis){Object.keys(out.legalBasis).forEach(function(k){if(out.legalBasis[k])html+=’<div style="margin-bottom:7px"><span style="color:#f0a820">’+esc(k.replace(/([A-Z])/g,’ $1’).trim())+’: </span><span>’+esc(out.legalBasis[k])+’</span></div>’;});}
+html+=’</div>’;
+if(flags.length){html+=’<span class="sec-title" style="color:#f87171">Compliance Flags</span>’;flags.forEach(function(f){html+=’<div class="flag" style="display:block;margin-bottom:5px">\u26a0 ‘+esc(f)+’</div>’;});}
+else html+=’<p style="font-size:11px;color:#86efac;font-family:monospace">\u2713 No compliance flags raised.</p>’;
 }
-html += ‘</div>’;
-if (flags.length) {
-html += ‘<span class="sec-title" style="color:#f87171">Compliance Flags</span>’;
-flags.forEach(function(f){ html += ‘<div class="flag" style="display:block;margin-bottom:5px">\u26a0 ‘+esc(f)+’</div>’; });
-} else {
-html += ‘<p style="font-size:11px;color:#86efac;font-family:monospace">\u2713 No compliance flags raised.</p>’;
+if(S.activeTab===‘api’){
+html+=’<span class="sec-title">API Response Payload</span>’;
+html+=’<p style="font-size:10px;color:#94a3b8;font-family:monospace;margin-bottom:9px">POST /api/messages \u2192 200 OK</p>’;
+html+=’<div class="mono">’+esc(JSON.stringify(out.apiResponse||out,null,2))+’</div>’;
 }
-}
-
-// ── API JSON ──
-if (S.activeTab === ‘api’) {
-html += ‘<span class="sec-title">API Response Payload</span>’;
-html += ‘<p style="font-size:10px;color:#94a3b8;font-family:monospace;margin-bottom:9px">POST /api/messages \u2192 200 OK</p>’;
-html += ‘<div class="mono">’+esc(JSON.stringify(out.apiResponse||out,null,2))+’</div>’;
-}
-
-box.innerHTML = html;
-}
-
-// ── Escape helpers ────────────────────────────────────────────────────────────
-function esc(s) {
-return String(s)
-.replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’)
-.replace(/”/g,’"’).replace(/’/g,’'’);
-}
-function escQ(s) {
-return String(s).replace(/\/g,’\\’).replace(/’/g,”\’”);
+box.innerHTML=html;
 }
 </script>
 
