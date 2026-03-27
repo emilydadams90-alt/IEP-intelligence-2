@@ -278,11 +278,11 @@ var S = {
   activeTab: 'plaafp'
 };
 
-// ── Boot ──────────────────────────────────────────────────────────────────────
-(function init() {
+// ── Boot — runs after the full DOM is parsed ──────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
   buildDisChips();
   buildAreaGroups();
-})();
+});
 
 // ── Disability chips ──────────────────────────────────────────────────────────
 function buildDisChips() {
