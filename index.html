@@ -23,7 +23,7 @@ button:active{opacity:.75}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 
 /* Disability chips — amber when selected */
-.dc{display:inline-block;padding:7px 11px;border-radius:5px;font-size:12px;border:1px solid #2a4e9a;cursor:pointer;user-select:none;background:#0d1b35;color:#94a3b8;-webkit-tap-highlight-color:transparent;line-height:1.3}
+.dc{display:inline-block;padding:7px 11px;border-radius:5px;font-size:12px;border:1px solid #2a4e9a;cursor:pointer;user-select:none;background:#0d1b35;color:#94a3b8;-webkit-tap-highlight-color:transparent;line-height:1.3;font-family:Georgia,serif;font-weight:normal;text-align:left;-webkit-appearance:none}
 .dc.on{background:#d4880a;color:#0d1b35;border-color:#d4880a;font-weight:bold}
 
 /* Area group headers */
@@ -31,7 +31,7 @@ button:active{opacity:.75}
 .grp-body{display:flex;flex-wrap:wrap;gap:5px;padding-left:4px;margin-bottom:8px}
 
 /* Area chips — colored by group when selected */
-.ac{display:inline-block;padding:6px 10px;border-radius:5px;font-size:11px;border:1px solid #2a4e9a;cursor:pointer;user-select:none;background:#0d1b35;color:#94a3b8;-webkit-tap-highlight-color:transparent;line-height:1.3}
+.ac{display:inline-block;padding:6px 10px;border-radius:5px;font-size:11px;border:1px solid #2a4e9a;cursor:pointer;user-select:none;background:#0d1b35;color:#94a3b8;-webkit-tap-highlight-color:transparent;line-height:1.3;font-family:Georgia,serif;font-weight:normal;text-align:left;-webkit-appearance:none}
 
 .ms-opt{padding:11px 14px;border-radius:6px;border:1px solid #2a4e9a;margin-bottom:7px;display:flex;align-items:center;gap:10px;cursor:pointer;background:#0d1b35;color:#94a3b8;font-size:14px;-webkit-tap-highlight-color:transparent}
 .ms-opt.on{background:#1f3d7a;border-color:#f0a820;color:#f8f4ec}
@@ -113,20 +113,20 @@ button:active{opacity:.75}
 <span class="lbl">Disability Category — IDEA §300.8 (tap all that apply)</span>
 
   <div class="chips" id="dis-chips">
-    <span class="dc" onclick="togD(this)">Autism Spectrum Disorder</span>
-    <span class="dc" onclick="togD(this)">Intellectual Disability</span>
-    <span class="dc" onclick="togD(this)">Specific Learning Disability</span>
-    <span class="dc" onclick="togD(this)">Speech or Language Impairment</span>
-    <span class="dc" onclick="togD(this)">Emotional Disturbance</span>
-    <span class="dc" onclick="togD(this)">Other Health Impairment</span>
-    <span class="dc" onclick="togD(this)">Developmental Delay</span>
-    <span class="dc" onclick="togD(this)">Traumatic Brain Injury</span>
-    <span class="dc" onclick="togD(this)">Visual Impairment (including Blindness)</span>
-    <span class="dc" onclick="togD(this)">Hearing Impairment</span>
-    <span class="dc" onclick="togD(this)">Deaf-Blindness</span>
-    <span class="dc" onclick="togD(this)">Multiple Disabilities</span>
-    <span class="dc" onclick="togD(this)">Orthopedic Impairment</span>
-    <span class="dc" onclick="togD(this)">Deafness</span>
+    <button class="dc" onclick="togD(this)">Autism Spectrum Disorder</span>
+    <button class="dc" onclick="togD(this)">Intellectual Disability</span>
+    <button class="dc" onclick="togD(this)">Specific Learning Disability</span>
+    <button class="dc" onclick="togD(this)">Speech or Language Impairment</span>
+    <button class="dc" onclick="togD(this)">Emotional Disturbance</span>
+    <button class="dc" onclick="togD(this)">Other Health Impairment</span>
+    <button class="dc" onclick="togD(this)">Developmental Delay</span>
+    <button class="dc" onclick="togD(this)">Traumatic Brain Injury</span>
+    <button class="dc" onclick="togD(this)">Visual Impairment (including Blindness)</span>
+    <button class="dc" onclick="togD(this)">Hearing Impairment</span>
+    <button class="dc" onclick="togD(this)">Deaf-Blindness</span>
+    <button class="dc" onclick="togD(this)">Multiple Disabilities</span>
+    <button class="dc" onclick="togD(this)">Orthopedic Impairment</span>
+    <button class="dc" onclick="togD(this)">Deafness</span>
   </div>
 
   <!-- ── Areas of Need — static HTML groups, JS toggles .on and collapse ── -->
@@ -140,14 +140,14 @@ button:active{opacity:.75}
     <span>Academic Areas</span><span id="g-academic-arrow" style="font-size:10px;color:#94a3b8">▲</span>
   </div>
   <div class="grp-body" id="g-academic">
-    <span class="ac" data-gc="#1f3d7a" data-ga="#f0a820" onclick="togA(this)">Reading / Decoding &amp; Fluency</span>
-    <span class="ac" data-gc="#1f3d7a" data-ga="#f0a820" onclick="togA(this)">Reading Comprehension</span>
-    <span class="ac" data-gc="#1f3d7a" data-ga="#f0a820" onclick="togA(this)">Mathematics – Computation</span>
-    <span class="ac" data-gc="#1f3d7a" data-ga="#f0a820" onclick="togA(this)">Mathematics – Problem Solving</span>
-    <span class="ac" data-gc="#1f3d7a" data-ga="#f0a820" onclick="togA(this)">Written Expression</span>
-    <span class="ac" data-gc="#1f3d7a" data-ga="#f0a820" onclick="togA(this)">Oral Language / Listening Comprehension</span>
-    <span class="ac" data-gc="#1f3d7a" data-ga="#f0a820" onclick="togA(this)">Science / Content Knowledge</span>
-    <span class="ac" data-gc="#1f3d7a" data-ga="#f0a820" onclick="togA(this)">Social Studies / Content Knowledge</span>
+    <button class="ac" data-gc="#1f3d7a" data-ga="#f0a820" onclick="togA(this)">Reading / Decoding &amp; Fluency</button>
+    <button class="ac" data-gc="#1f3d7a" data-ga="#f0a820" onclick="togA(this)">Reading Comprehension</button>
+    <button class="ac" data-gc="#1f3d7a" data-ga="#f0a820" onclick="togA(this)">Mathematics – Computation</button>
+    <button class="ac" data-gc="#1f3d7a" data-ga="#f0a820" onclick="togA(this)">Mathematics – Problem Solving</button>
+    <button class="ac" data-gc="#1f3d7a" data-ga="#f0a820" onclick="togA(this)">Written Expression</button>
+    <button class="ac" data-gc="#1f3d7a" data-ga="#f0a820" onclick="togA(this)">Oral Language / Listening Comprehension</button>
+    <button class="ac" data-gc="#1f3d7a" data-ga="#f0a820" onclick="togA(this)">Science / Content Knowledge</button>
+    <button class="ac" data-gc="#1f3d7a" data-ga="#f0a820" onclick="togA(this)">Social Studies / Content Knowledge</button>
   </div>
 
   <!-- Functional -->
@@ -156,13 +156,13 @@ button:active{opacity:.75}
     <span>Functional &amp; Adaptive Areas</span><span id="g-func-arrow" style="font-size:10px;color:#94a3b8">▲</span>
   </div>
   <div class="grp-body" id="g-func">
-    <span class="ac" data-gc="#1e6e43" data-ga="#6ee7b7" onclick="togA(this)">Daily Living / Self-Care Skills</span>
-    <span class="ac" data-gc="#1e6e43" data-ga="#6ee7b7" onclick="togA(this)">Community &amp; Domestic Skills</span>
-    <span class="ac" data-gc="#1e6e43" data-ga="#6ee7b7" onclick="togA(this)">Functional Communication</span>
-    <span class="ac" data-gc="#1e6e43" data-ga="#6ee7b7" onclick="togA(this)">Vocational / Pre-Employment Skills</span>
-    <span class="ac" data-gc="#1e6e43" data-ga="#6ee7b7" onclick="togA(this)">Self-Determination &amp; Self-Advocacy</span>
-    <span class="ac" data-gc="#1e6e43" data-ga="#6ee7b7" onclick="togA(this)">Recreation &amp; Leisure</span>
-    <span class="ac" data-gc="#1e6e43" data-ga="#6ee7b7" onclick="togA(this)">Health &amp; Wellness</span>
+    <button class="ac" data-gc="#1e6e43" data-ga="#6ee7b7" onclick="togA(this)">Daily Living / Self-Care Skills</button>
+    <button class="ac" data-gc="#1e6e43" data-ga="#6ee7b7" onclick="togA(this)">Community &amp; Domestic Skills</button>
+    <button class="ac" data-gc="#1e6e43" data-ga="#6ee7b7" onclick="togA(this)">Functional Communication</button>
+    <button class="ac" data-gc="#1e6e43" data-ga="#6ee7b7" onclick="togA(this)">Vocational / Pre-Employment Skills</button>
+    <button class="ac" data-gc="#1e6e43" data-ga="#6ee7b7" onclick="togA(this)">Self-Determination &amp; Self-Advocacy</button>
+    <button class="ac" data-gc="#1e6e43" data-ga="#6ee7b7" onclick="togA(this)">Recreation &amp; Leisure</button>
+    <button class="ac" data-gc="#1e6e43" data-ga="#6ee7b7" onclick="togA(this)">Health &amp; Wellness</button>
   </div>
 
   <!-- Social/Emotional -->
@@ -171,11 +171,11 @@ button:active{opacity:.75}
     <span>Social, Emotional &amp; Behavioral</span><span id="g-social-arrow" style="font-size:10px;color:#94a3b8">▲</span>
   </div>
   <div class="grp-body" id="g-social">
-    <span class="ac" data-gc="#5b21b6" data-ga="#c4b5fd" onclick="togA(this)">Social Skills &amp; Peer Interactions</span>
-    <span class="ac" data-gc="#5b21b6" data-ga="#c4b5fd" onclick="togA(this)">Emotional Regulation</span>
-    <span class="ac" data-gc="#5b21b6" data-ga="#c4b5fd" onclick="togA(this)">Behavior / Executive Functioning</span>
-    <span class="ac" data-gc="#5b21b6" data-ga="#c4b5fd" onclick="togA(this)">Attention &amp; Impulse Control</span>
-    <span class="ac" data-gc="#5b21b6" data-ga="#c4b5fd" onclick="togA(this)">Mental Health &amp; Coping Skills</span>
+    <button class="ac" data-gc="#5b21b6" data-ga="#c4b5fd" onclick="togA(this)">Social Skills &amp; Peer Interactions</button>
+    <button class="ac" data-gc="#5b21b6" data-ga="#c4b5fd" onclick="togA(this)">Emotional Regulation</button>
+    <button class="ac" data-gc="#5b21b6" data-ga="#c4b5fd" onclick="togA(this)">Behavior / Executive Functioning</button>
+    <button class="ac" data-gc="#5b21b6" data-ga="#c4b5fd" onclick="togA(this)">Attention &amp; Impulse Control</button>
+    <button class="ac" data-gc="#5b21b6" data-ga="#c4b5fd" onclick="togA(this)">Mental Health &amp; Coping Skills</button>
   </div>
 
   <!-- Communication & Motor -->
@@ -184,12 +184,12 @@ button:active{opacity:.75}
     <span>Communication &amp; Motor</span><span id="g-comm-arrow" style="font-size:10px;color:#94a3b8">▲</span>
   </div>
   <div class="grp-body" id="g-comm">
-    <span class="ac" data-gc="#0f766e" data-ga="#5eead4" onclick="togA(this)">Expressive Communication / Speech</span>
-    <span class="ac" data-gc="#0f766e" data-ga="#5eead4" onclick="togA(this)">Receptive Language</span>
-    <span class="ac" data-gc="#0f766e" data-ga="#5eead4" onclick="togA(this)">Augmentative &amp; Alternative Communication (AAC)</span>
-    <span class="ac" data-gc="#0f766e" data-ga="#5eead4" onclick="togA(this)">Fine Motor Skills</span>
-    <span class="ac" data-gc="#0f766e" data-ga="#5eead4" onclick="togA(this)">Gross Motor Skills</span>
-    <span class="ac" data-gc="#0f766e" data-ga="#5eead4" onclick="togA(this)">Sensory Processing</span>
+    <button class="ac" data-gc="#0f766e" data-ga="#5eead4" onclick="togA(this)">Expressive Communication / Speech</button>
+    <button class="ac" data-gc="#0f766e" data-ga="#5eead4" onclick="togA(this)">Receptive Language</button>
+    <button class="ac" data-gc="#0f766e" data-ga="#5eead4" onclick="togA(this)">Augmentative &amp; Alternative Communication (AAC)</button>
+    <button class="ac" data-gc="#0f766e" data-ga="#5eead4" onclick="togA(this)">Fine Motor Skills</button>
+    <button class="ac" data-gc="#0f766e" data-ga="#5eead4" onclick="togA(this)">Gross Motor Skills</button>
+    <button class="ac" data-gc="#0f766e" data-ga="#5eead4" onclick="togA(this)">Sensory Processing</button>
   </div>
 
   <!-- Transition -->
@@ -198,11 +198,11 @@ button:active{opacity:.75}
     <span>Transition (NTACT / IDEA §300.43)</span><span id="g-trans-arrow" style="font-size:10px;color:#94a3b8">▲</span>
   </div>
   <div class="grp-body" id="g-trans">
-    <span class="ac" data-gc="#92400e" data-ga="#fcd34d" onclick="togA(this)">Postsecondary Education &amp; Training</span>
-    <span class="ac" data-gc="#92400e" data-ga="#fcd34d" onclick="togA(this)">Employment &amp; Career Readiness</span>
-    <span class="ac" data-gc="#92400e" data-ga="#fcd34d" onclick="togA(this)">Independent Living Skills</span>
-    <span class="ac" data-gc="#92400e" data-ga="#fcd34d" onclick="togA(this)">Transportation &amp; Mobility (Transition)</span>
-    <span class="ac" data-gc="#92400e" data-ga="#fcd34d" onclick="togA(this)">Financial Literacy</span>
+    <button class="ac" data-gc="#92400e" data-ga="#fcd34d" onclick="togA(this)">Postsecondary Education &amp; Training</button>
+    <button class="ac" data-gc="#92400e" data-ga="#fcd34d" onclick="togA(this)">Employment &amp; Career Readiness</button>
+    <button class="ac" data-gc="#92400e" data-ga="#fcd34d" onclick="togA(this)">Independent Living Skills</button>
+    <button class="ac" data-gc="#92400e" data-ga="#fcd34d" onclick="togA(this)">Transportation &amp; Mobility (Transition)</button>
+    <button class="ac" data-gc="#92400e" data-ga="#fcd34d" onclick="togA(this)">Financial Literacy</button>
   </div>
 
   <!-- ECC Visual Impairment -->
@@ -211,15 +211,15 @@ button:active{opacity:.75}
     <span>ECC – Visual Impairment (IDEA / TSBVI)</span><span id="g-vi-arrow" style="font-size:10px;color:#94a3b8">▲</span>
   </div>
   <div class="grp-body" id="g-vi">
-    <span class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Compensatory / Functional Academic Skills</span>
-    <span class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Sensory Efficiency Skills</span>
-    <span class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Orientation &amp; Mobility (O&amp;M)</span>
-    <span class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Social Interaction Skills (VI)</span>
-    <span class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Independent Living Skills (VI)</span>
-    <span class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Recreation &amp; Leisure (VI)</span>
-    <span class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Career Education (VI)</span>
-    <span class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Assistive Technology (VI)</span>
-    <span class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Self-Determination (VI)</span>
+    <button class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Compensatory / Functional Academic Skills</button>
+    <button class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Sensory Efficiency Skills</button>
+    <button class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Orientation &amp; Mobility (O&amp;M)</button>
+    <button class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Social Interaction Skills (VI)</button>
+    <button class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Independent Living Skills (VI)</button>
+    <button class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Recreation &amp; Leisure (VI)</button>
+    <button class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Career Education (VI)</button>
+    <button class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Assistive Technology (VI)</button>
+    <button class="ac" data-gc="#1e40af" data-ga="#93c5fd" onclick="togA(this)">ECC: Self-Determination (VI)</button>
   </div>
 
   <!-- ECC DHH -->
@@ -228,13 +228,13 @@ button:active{opacity:.75}
     <span>ECC – Deaf / Hard of Hearing</span><span id="g-dhh-arrow" style="font-size:10px;color:#94a3b8">▲</span>
   </div>
   <div class="grp-body" id="g-dhh">
-    <span class="ac" data-gc="#065f46" data-ga="#6ee7b7" onclick="togA(this)">DHH ECC: Audiology &amp; Amplification Management</span>
-    <span class="ac" data-gc="#065f46" data-ga="#6ee7b7" onclick="togA(this)">DHH ECC: Communication &amp; Language Access</span>
-    <span class="ac" data-gc="#065f46" data-ga="#6ee7b7" onclick="togA(this)">DHH ECC: Self-Advocacy &amp; Disability Awareness</span>
-    <span class="ac" data-gc="#065f46" data-ga="#6ee7b7" onclick="togA(this)">DHH ECC: Social-Emotional Skills (DHH)</span>
-    <span class="ac" data-gc="#065f46" data-ga="#6ee7b7" onclick="togA(this)">DHH ECC: Functional Skills for Educational Success</span>
-    <span class="ac" data-gc="#065f46" data-ga="#6ee7b7" onclick="togA(this)">DHH ECC: Career Education (DHH)</span>
-    <span class="ac" data-gc="#065f46" data-ga="#6ee7b7" onclick="togA(this)">DHH ECC: Technology Access (DHH)</span>
+    <button class="ac" data-gc="#065f46" data-ga="#6ee7b7" onclick="togA(this)">DHH ECC: Audiology &amp; Amplification Management</button>
+    <button class="ac" data-gc="#065f46" data-ga="#6ee7b7" onclick="togA(this)">DHH ECC: Communication &amp; Language Access</button>
+    <button class="ac" data-gc="#065f46" data-ga="#6ee7b7" onclick="togA(this)">DHH ECC: Self-Advocacy &amp; Disability Awareness</button>
+    <button class="ac" data-gc="#065f46" data-ga="#6ee7b7" onclick="togA(this)">DHH ECC: Social-Emotional Skills (DHH)</button>
+    <button class="ac" data-gc="#065f46" data-ga="#6ee7b7" onclick="togA(this)">DHH ECC: Functional Skills for Educational Success</button>
+    <button class="ac" data-gc="#065f46" data-ga="#6ee7b7" onclick="togA(this)">DHH ECC: Career Education (DHH)</button>
+    <button class="ac" data-gc="#065f46" data-ga="#6ee7b7" onclick="togA(this)">DHH ECC: Technology Access (DHH)</button>
   </div>
 
   <!-- Custom area input -->
