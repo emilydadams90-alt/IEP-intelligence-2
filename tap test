@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tap Test</title>
+<style>
+body{background:#0d1b35;padding:20px;font-family:Georgia,serif}
+.result{color:#f0a820;font-size:16px;margin-bottom:20px;min-height:30px}
+button{display:block;width:100%;padding:15px;margin-bottom:10px;background:#162950;color:#f8f4ec;border:1px solid #2a4e9a;border-radius:6px;font-size:16px;cursor:pointer}
+button.on{background:#d4880a;color:#0d1b35;font-weight:bold}
+</style>
+</head>
+<body>
+<p class="result" id="log">Tap anything below</p>
+
+<p style="color:#94a3b8;font-size:12px;margin-bottom:10px">Test 1: Regular button</p>
+<button onclick="log('Button onclick worked')">Tap me (button onclick)</button>
+
+<p style="color:#94a3b8;font-size:12px;margin-bottom:10px">Test 2: Toggle button</p>
+<button id="tog" onclick="toggle(this)">Tap to toggle (should turn amber)</button>
+
+<p style="color:#94a3b8;font-size:12px;margin-bottom:10px">Test 3: addEventListener</p>
+<button id="evt">Tap me (addEventListener)</button>
+
+<script>
+function log(msg) {
+  document.getElementById('log').textContent = msg;
+}
+function toggle(el) {
+  el.classList.toggle('on');
+  log('Toggled! Now ' + (el.classList.contains('on') ? 'ON' : 'OFF'));
+}
+document.getElementById('evt').addEventListener('click', function() {
+  log('addEventListener click worked');
+});
+</script>
+
+</body>
+</html>
