@@ -79,6 +79,28 @@ button:active{opacity:.7}
 .dots{text-align:center;padding:16px}
 </style>
 
+<script>
+function togA(btn) {
+  var on = btn.classList.contains("on");
+  if (on) {
+    btn.classList.remove("on");
+    btn.style.background = "#0d1b35";
+    btn.style.color = "#94a3b8";
+    btn.style.borderColor = "#2a4e9a";
+    btn.style.fontWeight = "normal";
+  } else {
+    btn.classList.add("on");
+    btn.style.background = btn.getAttribute("data-gc") || "#1f3d7a";
+    btn.style.color = btn.getAttribute("data-ga") || "#f0a820";
+    btn.style.borderColor = btn.getAttribute("data-ga") || "#f0a820";
+    btn.style.fontWeight = "bold";
+  }
+  var all = document.querySelectorAll(".ac.on, .cac.on");
+  var el = document.getElementById("area-count");
+  if (el) el.textContent = all.length + " selected";
+}
+</script>
+
 </head>
 <body>
 
