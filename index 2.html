@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -78,7 +77,6 @@ button:active{opacity:.7}
 .dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#d4880a;margin:0 3px;animation:pulse 1.2s infinite}
 .dots{text-align:center;padding:16px}
 </style>
-
 <script>
 'use strict';
 var API = 'https://iep-plaafp.onrender.com/api/messages';
@@ -387,178 +385,175 @@ function renderQ() {
   // Short text
   if (q.type==='short_text') {
     html += '<textarea id="sv" rows="3" style="resize:vertical;line-height:1.5" placeholder="Type your response\u2026"></textarea>';
+  }
 
-}
+  html += '<p class="err" id="qerr"></p>';
+  html += '<button class="btn-green" onclick="submitAnswer()">Next &#8594;</button>';
+  html += '</div>';
 
-html += ‘<p class="err" id="qerr"></p>’;
-html += ‘<button class="btn-green" onclick="submitAnswer()">Next →</button>’;
-html += ‘</div>’;
+  if (answered >= profile.areas.length*2) {
+    html += '<button class="btn-ghost" onclick="skipGen()">Skip to Generate (use data collected so far)</button>';
+  }
 
-if (answered >= profile.areas.length*2) {
-html += ‘<button class="btn-ghost" onclick="skipGen()">Skip to Generate (use data collected so far)</button>’;
-}
-
-wrap.innerHTML = html;
-setTimeout(function(){
-var f = document.getElementById(‘fv’)||document.getElementById(‘sv’);
-if (f) try{f.focus();}catch(e){}
-},200);
+  wrap.innerHTML = html;
+  setTimeout(function(){
+    var f = document.getElementById('fv')||document.getElementById('sv');
+    if (f) try{f.focus();}catch(e){}
+  },200);
 }
 
 function togOpt(opt) {
-var i = opts.indexOf(opt);
-if (i>=0) opts.splice(i,1); else opts.push(opt);
-renderQ();
+  var i = opts.indexOf(opt);
+  if (i>=0) opts.splice(i,1); else opts.push(opt);
+  renderQ();
 }
 function setScale(n) { scaleVal = n; renderQ(); }
-function skipGen() { currentQ = {done:true,message:‘Using data collected so far.’}; renderQ(); }
+function skipGen() { currentQ = {done:true,message:'Using data collected so far.'}; renderQ(); }
 
 // \u2500\u2500 SUBMIT ANSWER \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function submitAnswer() {
-var q = currentQ;
-var ans = ‘’;
+  var q = currentQ;
+  var ans = '';
 
-if (q.type===‘fill_blank’) {
-var fv = document.getElementById(‘fv’);
-if (!fv||!fv.value.trim()) { showErr(‘qerr’,‘Please fill in the blank.’); return; }
-ans = q.template ? q.template.replace(’___’,fv.value.trim()) : fv.value.trim();
-if (q.unit) ans += ’ (’+q.unit+’)’;
-} else if (q.type===‘multiselect’) {
-if (!opts.length) { showErr(‘qerr’,‘Please select at least one option.’); return; }
-ans = opts.join(’, ‘);
-} else if (q.type===‘scale’) {
-if (!scaleVal) { showErr(‘qerr’,‘Please select a rating.’); return; }
-ans = scaleVal+’/5 (’+(q.low_label||’’)+’ to ‘+(q.high_label||’’)+’)’;
-} else {
-var sv = document.getElementById(‘sv’);
-if (!sv||!sv.value.trim()) { showErr(‘qerr’,‘Please enter a response.’); return; }
-ans = sv.value.trim();
-}
+  if (q.type==='fill_blank') {
+    var fv = document.getElementById('fv');
+    if (!fv||!fv.value.trim()) { showErr('qerr','Please fill in the blank.'); return; }
+    ans = q.template ? q.template.replace('___',fv.value.trim()) : fv.value.trim();
+    if (q.unit) ans += ' ('+q.unit+')';
+  } else if (q.type==='multiselect') {
+    if (!opts.length) { showErr('qerr','Please select at least one option.'); return; }
+    ans = opts.join(', ');
+  } else if (q.type==='scale') {
+    if (!scaleVal) { showErr('qerr','Please select a rating.'); return; }
+    ans = scaleVal+'/5 ('+(q.low_label||'')+' to '+(q.high_label||'')+')';
+  } else {
+    var sv = document.getElementById('sv');
+    if (!sv||!sv.value.trim()) { showErr('qerr','Please enter a response.'); return; }
+    ans = sv.value.trim();
+  }
 
-showErr(‘qerr’,’’);
-var area = q.area||‘General’;
-if (!collected[area]) collected[area] = [];
-collected[area].push({dt:q.dataType, ans:ans});
-answered++;
-opts = []; scaleVal = ‘’;
-history.push({role:‘user’, content:’[Area: ‘+area+’ | DataType: ‘+q.dataType+’] ’+ans});
-document.getElementById(‘interview’).innerHTML = dotsHTML();
+  showErr('qerr','');
+  var area = q.area||'General';
+  if (!collected[area]) collected[area] = [];
+  collected[area].push({dt:q.dataType, ans:ans});
+  answered++;
+  opts = []; scaleVal = '';
+  history.push({role:'user', content:'[Area: '+area+' | DataType: '+q.dataType+'] '+ans});
+  document.getElementById('interview').innerHTML = dotsHTML();
 
-callAPI({system:sysPrompt(profile), messages:history}, function(err,text) {
-if (err) {
-document.getElementById(‘interview’).innerHTML = ‘<p class="err" style="display:block">Error: ‘+err+’</p><button class="btn-green" onclick="renderQ()">Retry</button>’;
-return;
-}
-history.push({role:‘assistant’,content:text});
-var next = parseQ(text);
-currentQ = (!next||next.done) ? {done:true,message:next&&next.message?next.message:‘All data collected. Tap Generate below.’} : next;
-renderQ();
-});
+  callAPI({system:sysPrompt(profile), messages:history}, function(err,text) {
+    if (err) {
+      document.getElementById('interview').innerHTML = '<p class="err" style="display:block">Error: '+err+'</p><button class="btn-green" onclick="renderQ()">Retry</button>';
+      return;
+    }
+    history.push({role:'assistant',content:text});
+    var next = parseQ(text);
+    currentQ = (!next||next.done) ? {done:true,message:next&&next.message?next.message:'All data collected. Tap Generate below.'} : next;
+    renderQ();
+  });
 }
 
 // \u2500\u2500 GENERATE \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function generateOutput() {
-var btn = document.getElementById(‘gen-btn’);
-if (btn) { btn.disabled=true; btn.textContent=‘Generating\u2026’; }
-showErr(‘err2’,’’);
-document.getElementById(‘interview’).innerHTML += dotsHTML();
+  var btn = document.getElementById('gen-btn');
+  if (btn) { btn.disabled=true; btn.textContent='Generating\u2026'; }
+  showErr('err2','');
+  document.getElementById('interview').innerHTML += dotsHTML();
 
-callAPI({messages:[{role:‘user’,content:genPrompt(profile,collected)}]}, function(err,text) {
-if (err) {
-showErr(‘err2’,‘Generation failed: ‘+err);
-if (btn){btn.disabled=false;btn.textContent=’\u26a1 Generate PLAAFP + Impact Statement’;}
-return;
-}
-try {
-var parsed = JSON.parse(text.replace(/`json|`/g,’’).trim());
-if (parsed.apiResponse) {
-parsed.apiResponse.sections.plaafp_by_area   = parsed.plaafpSections;
-parsed.apiResponse.sections.impact_statement = parsed.impactStatement;
-parsed.apiResponse.sections.legal_basis      = parsed.legalBasis;
-parsed.apiResponse.compliance_flags          = parsed.complianceFlags||[];
-}
-output = parsed;
-activeTab = ‘plaafp’;
-goTo(3);
-renderOut();
-} catch(e) {
-showErr(‘err2’,‘Could not parse output. Please try again.’);
-if (btn){btn.disabled=false;btn.textContent=’\u26a1 Generate PLAAFP + Impact Statement’;}
-}
-});
+  callAPI({messages:[{role:'user',content:genPrompt(profile,collected)}]}, function(err,text) {
+    if (err) {
+      showErr('err2','Generation failed: '+err);
+      if (btn){btn.disabled=false;btn.textContent='\u26a1 Generate PLAAFP + Impact Statement';}
+      return;
+    }
+    try {
+      var parsed = JSON.parse(text.replace(/```json|```/g,'').trim());
+      if (parsed.apiResponse) {
+        parsed.apiResponse.sections.plaafp_by_area   = parsed.plaafpSections;
+        parsed.apiResponse.sections.impact_statement = parsed.impactStatement;
+        parsed.apiResponse.sections.legal_basis      = parsed.legalBasis;
+        parsed.apiResponse.compliance_flags          = parsed.complianceFlags||[];
+      }
+      output = parsed;
+      activeTab = 'plaafp';
+      goTo(3);
+      renderOut();
+    } catch(e) {
+      showErr('err2','Could not parse output. Please try again.');
+      if (btn){btn.disabled=false;btn.textContent='\u26a1 Generate PLAAFP + Impact Statement';}
+    }
+  });
 }
 
 // \u2500\u2500 RENDER OUTPUT \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function renderOut() {
-var TABS = [‘plaafp’,‘impact’,‘legal’,‘api’];
-var LBLS = [‘PLAAFP’,‘Impact’,‘Legal’,‘API JSON’];
-var out  = output;
-var secs = out.plaafpSections||{};
-var flags= out.complianceFlags||[];
+  var TABS = ['plaafp','impact','legal','api'];
+  var LBLS = ['PLAAFP','Impact','Legal','API JSON'];
+  var out  = output;
+  var secs = out.plaafpSections||{};
+  var flags= out.complianceFlags||[];
 
-// Tabs
-var tabRow = document.getElementById(‘tabs’);
-tabRow.innerHTML = ‘’;
-TABS.forEach(function(t,i) {
-var btn = document.createElement(‘button’);
-btn.className = ‘tab’+(activeTab===t?’ on’:’’);
-btn.textContent = LBLS[i];
-btn.onclick = (function(key){return function(){activeTab=key;renderOut();};})(t);
-tabRow.appendChild(btn);
-});
+  // Tabs
+  var tabRow = document.getElementById('tabs');
+  tabRow.innerHTML = '';
+  TABS.forEach(function(t,i) {
+    var btn = document.createElement('button');
+    btn.className = 'tab'+(activeTab===t?' on':'');
+    btn.textContent = LBLS[i];
+    btn.onclick = (function(key){return function(){activeTab=key;renderOut();};})(t);
+    tabRow.appendChild(btn);
+  });
 
-var box = document.getElementById(‘out’);
-var html = ‘’;
+  var box = document.getElementById('out');
+  var html = '';
 
-if (activeTab===‘plaafp’) {
-html += ‘<span class="sec-title">Present Levels of Academic Achievement & Functional Performance</span>’;
-html += ‘<span class="sec-sub">IDEA \u00a7300.320 \u00b7 IRIS Center \u00b7 Endrew F. (2017) \u00b7 Rowley (1982)</span>’;
-if (flags.length) { html+=’<div style="margin-bottom:12px">’; flags.forEach(function(f){html+=’<span class="flag">⚠ ‘+esc(f)+’</span>’;}); html+=’</div>’; }
-profile.areas.forEach(function(a,i) {
-var key  = a.replace(/[^a-zA-Z0-9]/g,’_’);
-var text = secs[key]||secs[a]||’(Insufficient data provided for this area.)’;
-html += ‘<span class="sec-title" style="color:'+accent(a)+';font-size:10px">’+esc(a)+’</span>’;
-html += ‘<p class="sec-text">’+esc(text)+’</p>’;
-if (i<profile.areas.length-1) html += ‘<div class="divider"></div>’;
-});
-}
+  if (activeTab==='plaafp') {
+    html += '<span class="sec-title">Present Levels of Academic Achievement &amp; Functional Performance</span>';
+    html += '<span class="sec-sub">IDEA \u00a7300.320 \u00b7 IRIS Center \u00b7 Endrew F. (2017) \u00b7 Rowley (1982)</span>';
+    if (flags.length) { html+='<div style="margin-bottom:12px">'; flags.forEach(function(f){html+='<span class="flag">&#9888; '+esc(f)+'</span>';}); html+='</div>'; }
+    profile.areas.forEach(function(a,i) {
+      var key  = a.replace(/[^a-zA-Z0-9]/g,'_');
+      var text = secs[key]||secs[a]||'(Insufficient data provided for this area.)';
+      html += '<span class="sec-title" style="color:'+accent(a)+';font-size:10px">'+esc(a)+'</span>';
+      html += '<p class="sec-text">'+esc(text)+'</p>';
+      if (i<profile.areas.length-1) html += '<div class="divider"></div>';
+    });
+  }
 
-if (activeTab===‘impact’) {
-html += ‘<span class="sec-title">Impact Statement</span>’;
-html += ‘<span class="sec-sub">34 CFR \u00a7300.8 \u00b7 \u00a7300.320(a)(1) \u00b7 Endrew F. (2017) \u00b7 M.C. v. Antelope Valley (9th Cir. 2017)</span>’;
-html += ‘<p class="sec-text">’+esc(out.impactStatement||’’)+’</p>’;
-}
+  if (activeTab==='impact') {
+    html += '<span class="sec-title">Impact Statement</span>';
+    html += '<span class="sec-sub">34 CFR \u00a7300.8 \u00b7 \u00a7300.320(a)(1) \u00b7 Endrew F. (2017) \u00b7 M.C. v. Antelope Valley (9th Cir. 2017)</span>';
+    html += '<p class="sec-text">'+esc(out.impactStatement||'')+'</p>';
+  }
 
-if (activeTab===‘legal’) {
-html += ‘<span class="sec-title">Legal & Practice Framework</span>’;
-html += ‘<div class="legal-box">’;
-if (out.legalBasis) Object.keys(out.legalBasis).forEach(function(k){
-if(out.legalBasis[k]) html+=’<div style="margin-bottom:7px"><span style="color:#f0a820">’+esc(k.replace(/([A-Z])/g,’ $1’).trim())+’: </span><span>’+esc(out.legalBasis[k])+’</span></div>’;
-});
-html += ‘</div>’;
-if (flags.length) {
-html += ‘<span class="sec-title" style="color:#f87171">Compliance Flags</span>’;
-flags.forEach(function(f){html+=’<div class="flag" style="display:block;margin-bottom:5px">⚠ ‘+esc(f)+’</div>’;});
-} else {
-html += ‘<p style="font-size:11px;color:#86efac;font-family:monospace">✓ No compliance flags raised.</p>’;
-}
-}
+  if (activeTab==='legal') {
+    html += '<span class="sec-title">Legal &amp; Practice Framework</span>';
+    html += '<div class="legal-box">';
+    if (out.legalBasis) Object.keys(out.legalBasis).forEach(function(k){
+      if(out.legalBasis[k]) html+='<div style="margin-bottom:7px"><span style="color:#f0a820">'+esc(k.replace(/([A-Z])/g,' $1').trim())+': </span><span>'+esc(out.legalBasis[k])+'</span></div>';
+    });
+    html += '</div>';
+    if (flags.length) {
+      html += '<span class="sec-title" style="color:#f87171">Compliance Flags</span>';
+      flags.forEach(function(f){html+='<div class="flag" style="display:block;margin-bottom:5px">&#9888; '+esc(f)+'</div>';});
+    } else {
+      html += '<p style="font-size:11px;color:#86efac;font-family:monospace">&#10003; No compliance flags raised.</p>';
+    }
+  }
 
-if (activeTab===‘api’) {
-html += ‘<span class="sec-title">API Response Payload</span>’;
-html += ‘<p style="font-size:10px;color:#94a3b8;font-family:monospace;margin-bottom:9px">POST /api/messages → 200 OK</p>’;
-html += ‘<div class="mono">’+esc(JSON.stringify(out.apiResponse||out,null,2))+’</div>’;
-}
+  if (activeTab==='api') {
+    html += '<span class="sec-title">API Response Payload</span>';
+    html += '<p style="font-size:10px;color:#94a3b8;font-family:monospace;margin-bottom:9px">POST /api/messages &#8594; 200 OK</p>';
+    html += '<div class="mono">'+esc(JSON.stringify(out.apiResponse||out,null,2))+'</div>';
+  }
 
-box.innerHTML = html;
+  box.innerHTML = html;
 }
 </script>
-
 </head>
 <body>
 
 <!-- ══ PHASE 1: INTAKE ══════════════════════════════════════ -->
-
 <div id="p1">
 <div class="hdr">
   <div><p class="hdr-t">IEP Intelligence</p><p class="hdr-s">PLAAFP · Impact Statement Generator</p></div>
@@ -576,24 +571,23 @@ box.innerHTML = html;
 <div class="wrap"><div class="card">
   <span class="tag">Student Profile</span>
 
-<span class="lbl" style="margin-top:0">First Name</span>
-<input id="fn" type="text" placeholder="e.g. Jordan"/>
+  <span class="lbl" style="margin-top:0">First Name</span>
+  <input id="fn" type="text" placeholder="e.g. Jordan"/>
 
-<span class="lbl">Last Name</span>
-<input id="ln" type="text" placeholder="e.g. Smith"/>
+  <span class="lbl">Last Name</span>
+  <input id="ln" type="text" placeholder="e.g. Smith"/>
 
-<span class="lbl">Grade Level</span>
-<select id="grade">
-<option value="">— Select —</option>
-<option>Pre-K</option><option>Kindergarten</option>
-<option>1st Grade</option><option>2nd Grade</option><option>3rd Grade</option>
-<option>4th Grade</option><option>5th Grade</option><option>6th Grade</option>
-<option>7th Grade</option><option>8th Grade</option><option>9th Grade</option>
-<option>10th Grade</option><option>11th Grade</option><option>12th Grade</option>
-</select>
+  <span class="lbl">Grade Level</span>
+  <select id="grade">
+    <option value="">— Select —</option>
+    <option>Pre-K</option><option>Kindergarten</option>
+    <option>1st Grade</option><option>2nd Grade</option><option>3rd Grade</option>
+    <option>4th Grade</option><option>5th Grade</option><option>6th Grade</option>
+    <option>7th Grade</option><option>8th Grade</option><option>9th Grade</option>
+    <option>10th Grade</option><option>11th Grade</option><option>12th Grade</option>
+  </select>
 
-<span class="lbl">Disability Category — IDEA §300.8 (tap all that apply)</span>
-
+  <span class="lbl">Disability Category — IDEA §300.8 (tap all that apply)</span>
   <div class="chip-wrap">
     <button class="dc" onclick="this.classList.toggle('on')">Autism Spectrum Disorder</button>
     <button class="dc" onclick="this.classList.toggle('on')">Intellectual Disability</button>
@@ -611,11 +605,10 @@ box.innerHTML = html;
     <button class="dc" onclick="this.classList.toggle('on')">Deafness</button>
   </div>
 
-<span class="lbl">Areas of Need (tap all that apply)</span>
-<span class="hint" id="area-count">0 selected</span>
+  <span class="lbl">Areas of Need (tap all that apply)</span>
+  <span class="hint" id="area-count">0 selected</span>
 
   <!-- Academic -->
-
   <button class="grp-hdr" id="hdr-ac" onclick="togGrp('ac')" style="color:#f0a820;border-color:#1f3d7a">
     <span>Academic Areas</span><span id="arr-ac">&#9650;</span>
   </button>
@@ -631,7 +624,6 @@ box.innerHTML = html;
   </div>
 
   <!-- Functional -->
-
   <button class="grp-hdr" id="hdr-fn2" onclick="togGrp('fn2')" style="color:#6ee7b7;border-color:#1e6e43">
     <span>Functional &amp; Adaptive Areas</span><span id="arr-fn2">&#9650;</span>
   </button>
@@ -646,7 +638,6 @@ box.innerHTML = html;
   </div>
 
   <!-- Social/Emotional -->
-
   <button class="grp-hdr" id="hdr-se" onclick="togGrp('se')" style="color:#c4b5fd;border-color:#5b21b6">
     <span>Social, Emotional &amp; Behavioral</span><span id="arr-se">&#9650;</span>
   </button>
@@ -659,7 +650,6 @@ box.innerHTML = html;
   </div>
 
   <!-- Communication & Motor -->
-
   <button class="grp-hdr" id="hdr-cm" onclick="togGrp('cm')" style="color:#5eead4;border-color:#0f766e">
     <span>Communication &amp; Motor</span><span id="arr-cm">&#9650;</span>
   </button>
@@ -673,7 +663,6 @@ box.innerHTML = html;
   </div>
 
   <!-- Transition -->
-
   <button class="grp-hdr" id="hdr-tr" onclick="togGrp('tr')" style="color:#fcd34d;border-color:#92400e">
     <span>Transition (NTACT / IDEA &#167;300.43)</span><span id="arr-tr">&#9650;</span>
   </button>
@@ -686,7 +675,6 @@ box.innerHTML = html;
   </div>
 
   <!-- ECC Visual Impairment -->
-
   <button class="grp-hdr" id="hdr-vi" onclick="togGrp('vi')" style="color:#93c5fd;border-color:#1e40af">
     <span>ECC &#8211; Visual Impairment (IDEA / TSBVI)</span><span id="arr-vi">&#9650;</span>
   </button>
@@ -703,7 +691,6 @@ box.innerHTML = html;
   </div>
 
   <!-- ECC DHH -->
-
   <button class="grp-hdr" id="hdr-dh" onclick="togGrp('dh')" style="color:#6ee7b7;border-color:#065f46">
     <span>ECC &#8211; Deaf / Hard of Hearing</span><span id="arr-dh">&#9650;</span>
   </button>
@@ -718,15 +705,13 @@ box.innerHTML = html;
   </div>
 
   <!-- Custom area -->
-
   <div style="display:flex;gap:8px;margin-top:10px;margin-bottom:8px">
     <input id="custom-in" type="text" placeholder="Add custom area…" style="margin-bottom:0;flex:1"/>
     <button class="btn-sm" onclick="addCustom()">+ Add</button>
   </div>
   <div class="chip-wrap" id="custom-chips"></div>
 
-<span class="lbl">Additional Context (optional)</span>
-
+  <span class="lbl">Additional Context (optional)</span>
   <textarea id="ctx" rows="3" placeholder="e.g. recent eval, related services, parent concerns…" style="resize:vertical;line-height:1.5;margin-bottom:10px"></textarea>
 
   <p class="err" id="err1"></p>
@@ -738,7 +723,6 @@ box.innerHTML = html;
 </div>
 
 <!-- ══ PHASE 2: INTERVIEW ════════════════════════════════════ -->
-
 <div id="p2" class="hide">
 <div class="hdr">
   <div><p class="hdr-t">IEP Intelligence</p><p class="hdr-s">PLAAFP · Impact Statement Generator</p></div>
@@ -753,7 +737,6 @@ box.innerHTML = html;
 </div>
 
 <!-- ══ PHASE 3: OUTPUT ══════════════════════════════════════ -->
-
 <div id="p3" class="hide">
 <div class="hdr">
   <div><p class="hdr-t">IEP Intelligence</p><p class="hdr-s">PLAAFP · Impact Statement Generator</p></div>
