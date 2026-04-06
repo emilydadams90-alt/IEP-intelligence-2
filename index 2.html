@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -29,7 +28,6 @@ button.green{background:linear-gradient(135deg,#1e6e43,#2d9e62);color:#fff}
 <p>PLAAFP + Impact Statement Generator</p>
 
 <!-- STATUS BOX - shows what's happening -->
-
 <div class="status" id="status">Ready</div>
 
 <div class="lbl">First Name</div>
@@ -185,13 +183,11 @@ button.green{background:linear-gradient(135deg,#1e6e43,#2d9e62);color:#fff}
 <button class="main amber" onclick="startInterview()">Begin Compliance Interview</button>
 
 <!-- PHASE 2: INTERVIEW -->
-
 <div id="phase2" style="display:none;margin-top:16px">
   <div id="q-area"></div>
 </div>
 
 <!-- PHASE 3: OUTPUT -->
-
 <div id="phase3" style="display:none;margin-top:16px">
   <div style="display:flex;gap:3px;margin-bottom:0" id="tab-row"></div>
   <div id="out-box" style="background:#162950;border:1px solid #2a4e9a;border-radius:0 0 6px 6px;padding:14px;max-height:600px;overflow-y:auto"></div>
@@ -503,196 +499,193 @@ function renderQ() {
 
   if (q.type === 'short_text') {
     html += '<textarea id="sv" rows="3" placeholder="Type your response..." style="resize:vertical;line-height:1.5"></textarea>';
+  }
 
-}
+  html += '<div id="qerr" style="color:#f87171;font-size:13px;margin:6px 0;display:none"></div>';
+  html += '<button class="main green" onclick="submitAns()">Next</button>';
+  html += '</div>';
 
-html += ‘<div id="qerr" style="color:#f87171;font-size:13px;margin:6px 0;display:none"></div>’;
-html += ‘<button class="main green" onclick="submitAns()">Next</button>’;
-html += ‘</div>’;
+  if (numAns >= prof.areas.length * 2) {
+    html += '<button class="main" style="background:transparent;border:1px solid #2a4e9a;color:#94a3b8;padding:10px;font-size:12px;font-family:monospace;margin-top:6px" onclick="skipToGen()">Skip to Generate</button>';
+  }
 
-if (numAns >= prof.areas.length * 2) {
-html += ‘<button class="main" style="background:transparent;border:1px solid #2a4e9a;color:#94a3b8;padding:10px;font-size:12px;font-family:monospace;margin-top:6px" onclick="skipToGen()">Skip to Generate</button>’;
-}
-
-wrap.innerHTML = html;
-setTimeout(function() {
-var f = document.getElementById(‘fv’) || document.getElementById(‘sv’);
-if (f) { try { f.focus(); } catch(ex) {} }
-}, 200);
+  wrap.innerHTML = html;
+  setTimeout(function() {
+    var f = document.getElementById('fv') || document.getElementById('sv');
+    if (f) { try { f.focus(); } catch(ex) {} }
+  }, 200);
 }
 
 function toggleOpt(idx) {
-var opt = (curQ.options || [])[idx];
-if (!opt) return;
-var pos = msOpts.indexOf(opt);
-if (pos >= 0) msOpts.splice(pos, 1);
-else msOpts.push(opt);
-renderQ();
+  var opt = (curQ.options || [])[idx];
+  if (!opt) return;
+  var pos = msOpts.indexOf(opt);
+  if (pos >= 0) msOpts.splice(pos, 1);
+  else msOpts.push(opt);
+  renderQ();
 }
 
 function setScale(n) {
-scVal = String(n);
-renderQ();
+  scVal = String(n);
+  renderQ();
 }
 
 function skipToGen() {
-curQ = {done: true, message: ‘Using data collected so far.’};
-renderQ();
+  curQ = {done: true, message: 'Using data collected so far.'};
+  renderQ();
 }
 
 function submitAns() {
-var q = curQ;
-var ans = ‘’;
-var errEl = document.getElementById(‘qerr’);
+  var q = curQ;
+  var ans = '';
+  var errEl = document.getElementById('qerr');
 
-if (q.type === ‘fill_blank’) {
-var fv = document.getElementById(‘fv’);
-if (!fv || !(fv.value || ‘’).trim()) {
-if (errEl) { errEl.textContent = ‘Please fill in the blank.’; errEl.style.display = ‘block’; }
-return;
-}
-ans = q.template ? q.template.replace(’___’, fv.value.trim()) : fv.value.trim();
-if (q.unit) ans += ’ (’ + q.unit + ‘)’;
-} else if (q.type === ‘multiselect’) {
-if (!msOpts.length) {
-if (errEl) { errEl.textContent = ‘Please select at least one option.’; errEl.style.display = ‘block’; }
-return;
-}
-ans = msOpts.join(’, ’);
-} else if (q.type === ‘scale’) {
-if (!scVal) {
-if (errEl) { errEl.textContent = ‘Please select a rating.’; errEl.style.display = ‘block’; }
-return;
-}
-ans = scVal + ‘/5 (’ + (q.low_label || ‘’) + ’ to ’ + (q.high_label || ‘’) + ‘)’;
-} else {
-var sv = document.getElementById(‘sv’);
-if (!sv || !(sv.value || ‘’).trim()) {
-if (errEl) { errEl.textContent = ‘Please enter a response.’; errEl.style.display = ‘block’; }
-return;
-}
-ans = sv.value.trim();
-}
+  if (q.type === 'fill_blank') {
+    var fv = document.getElementById('fv');
+    if (!fv || !(fv.value || '').trim()) {
+      if (errEl) { errEl.textContent = 'Please fill in the blank.'; errEl.style.display = 'block'; }
+      return;
+    }
+    ans = q.template ? q.template.replace('___', fv.value.trim()) : fv.value.trim();
+    if (q.unit) ans += ' (' + q.unit + ')';
+  } else if (q.type === 'multiselect') {
+    if (!msOpts.length) {
+      if (errEl) { errEl.textContent = 'Please select at least one option.'; errEl.style.display = 'block'; }
+      return;
+    }
+    ans = msOpts.join(', ');
+  } else if (q.type === 'scale') {
+    if (!scVal) {
+      if (errEl) { errEl.textContent = 'Please select a rating.'; errEl.style.display = 'block'; }
+      return;
+    }
+    ans = scVal + '/5 (' + (q.low_label || '') + ' to ' + (q.high_label || '') + ')';
+  } else {
+    var sv = document.getElementById('sv');
+    if (!sv || !(sv.value || '').trim()) {
+      if (errEl) { errEl.textContent = 'Please enter a response.'; errEl.style.display = 'block'; }
+      return;
+    }
+    ans = sv.value.trim();
+  }
 
-var area = q.area || ‘General’;
-if (!coll[area]) coll[area] = [];
-coll[area].push({dt: q.dataType, ans: ans});
-numAns++;
-msOpts = [];
-scVal = ‘’;
-hist.push({role: ‘user’, content: ’[Area: ’ + area + ’ | DataType: ’ + (q.dataType || ‘’) + ’] ’ + ans});
-document.getElementById(‘q-area’).innerHTML = dots();
+  var area = q.area || 'General';
+  if (!coll[area]) coll[area] = [];
+  coll[area].push({dt: q.dataType, ans: ans});
+  numAns++;
+  msOpts = [];
+  scVal = '';
+  hist.push({role: 'user', content: '[Area: ' + area + ' | DataType: ' + (q.dataType || '') + '] ' + ans});
+  document.getElementById('q-area').innerHTML = dots();
 
-callAPI({system: buildSysPrompt(prof), messages: hist}, function(err, text) {
-if (err) {
-document.getElementById(‘q-area’).innerHTML = ’<p style="color:#f87171;font-size:13px">Error: ’ + esc(err) + ‘</p><button class="main green" onclick="renderQ()">Retry</button>’;
-return;
-}
-hist.push({role: ‘assistant’, content: text});
-var next = parseQ(text);
-curQ = (!next || next.done) ? {done: true, message: (next && next.message) ? next.message : ‘All data collected. Tap Generate below.’} : next;
-renderQ();
-});
+  callAPI({system: buildSysPrompt(prof), messages: hist}, function(err, text) {
+    if (err) {
+      document.getElementById('q-area').innerHTML = '<p style="color:#f87171;font-size:13px">Error: ' + esc(err) + '</p><button class="main green" onclick="renderQ()">Retry</button>';
+      return;
+    }
+    hist.push({role: 'assistant', content: text});
+    var next = parseQ(text);
+    curQ = (!next || next.done) ? {done: true, message: (next && next.message) ? next.message : 'All data collected. Tap Generate below.'} : next;
+    renderQ();
+  });
 }
 
 function doGenerate() {
-var btn = document.getElementById(‘gen-btn’);
-if (btn) { btn.disabled = true; btn.textContent = ‘Generating…’; }
-var errEl = document.getElementById(‘gen-err’);
-if (errEl) errEl.style.display = ‘none’;
+  var btn = document.getElementById('gen-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Generating...'; }
+  var errEl = document.getElementById('gen-err');
+  if (errEl) errEl.style.display = 'none';
 
-document.getElementById(‘q-area’).innerHTML += dots();
+  document.getElementById('q-area').innerHTML += dots();
 
-callAPI({messages: [{role: ‘user’, content: buildGenPrompt(prof, coll)}]}, function(err, text) {
-if (err) {
-if (errEl) { errEl.textContent = ’Generation failed: ’ + err; errEl.style.display = ‘block’; }
-if (btn) { btn.disabled = false; btn.textContent = ‘Generate PLAAFP and Impact Statement’; }
-return;
-}
-try {
-result = JSON.parse(text.replace(/`json|`/g, ‘’).trim());
-curTab = ‘plaafp’;
-document.getElementById(‘phase2’).style.display = ‘none’;
-document.getElementById(‘phase3’).style.display = ‘block’;
-window.scrollTo(0, document.getElementById(‘phase3’).offsetTop);
-renderOut();
-} catch(ex) {
-if (errEl) { errEl.textContent = ‘Could not parse output. Please try again.’; errEl.style.display = ‘block’; }
-if (btn) { btn.disabled = false; btn.textContent = ‘Generate PLAAFP and Impact Statement’; }
-}
-});
+  callAPI({messages: [{role: 'user', content: buildGenPrompt(prof, coll)}]}, function(err, text) {
+    if (err) {
+      if (errEl) { errEl.textContent = 'Generation failed: ' + err; errEl.style.display = 'block'; }
+      if (btn) { btn.disabled = false; btn.textContent = 'Generate PLAAFP and Impact Statement'; }
+      return;
+    }
+    try {
+      result = JSON.parse(text.replace(/```json|```/g, '').trim());
+      curTab = 'plaafp';
+      document.getElementById('phase2').style.display = 'none';
+      document.getElementById('phase3').style.display = 'block';
+      window.scrollTo(0, document.getElementById('phase3').offsetTop);
+      renderOut();
+    } catch(ex) {
+      if (errEl) { errEl.textContent = 'Could not parse output. Please try again.'; errEl.style.display = 'block'; }
+      if (btn) { btn.disabled = false; btn.textContent = 'Generate PLAAFP and Impact Statement'; }
+    }
+  });
 }
 
 function renderOut() {
-var tabs = [‘plaafp’, ‘impact’, ‘legal’];
-var labels = [‘PLAAFP’, ‘Impact’, ‘Legal’];
-var tabRow = document.getElementById(‘tab-row’);
-tabRow.innerHTML = ‘’;
-for (var i = 0; i < tabs.length; i++) {
-var btn = document.createElement(‘button’);
-var isOn = curTab === tabs[i];
-btn.textContent = labels[i];
-btn.style.cssText = ’flex:1;padding:9px 4px;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-family:monospace;border:1px solid ’ + (isOn ? ‘#d4880a’ : ‘#2a4e9a’) + ‘;border-radius:5px 5px 0 0;background:’ + (isOn ? ‘#d4880a’ : ‘#162950’) + ‘;color:’ + (isOn ? ‘#0d1b35’ : ‘#94a3b8’) + ‘;font-weight:’ + (isOn ? ‘bold’ : ‘normal’) + ‘;cursor:pointer;-webkit-appearance:none’;
-(function(t) { btn.onclick = function() { curTab = t; renderOut(); }; })(tabs[i]);
-tabRow.appendChild(btn);
-}
+  var tabs = ['plaafp', 'impact', 'legal'];
+  var labels = ['PLAAFP', 'Impact', 'Legal'];
+  var tabRow = document.getElementById('tab-row');
+  tabRow.innerHTML = '';
+  for (var i = 0; i < tabs.length; i++) {
+    var btn = document.createElement('button');
+    var isOn = curTab === tabs[i];
+    btn.textContent = labels[i];
+    btn.style.cssText = 'flex:1;padding:9px 4px;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-family:monospace;border:1px solid ' + (isOn ? '#d4880a' : '#2a4e9a') + ';border-radius:5px 5px 0 0;background:' + (isOn ? '#d4880a' : '#162950') + ';color:' + (isOn ? '#0d1b35' : '#94a3b8') + ';font-weight:' + (isOn ? 'bold' : 'normal') + ';cursor:pointer;-webkit-appearance:none';
+    (function(t) { btn.onclick = function() { curTab = t; renderOut(); }; })(tabs[i]);
+    tabRow.appendChild(btn);
+  }
 
-var box = document.getElementById(‘out-box’);
-var out = result || {};
-var secs = out.plaafpSections || {};
-var flags = out.complianceFlags || [];
-var html = ‘’;
+  var box = document.getElementById('out-box');
+  var out = result || {};
+  var secs = out.plaafpSections || {};
+  var flags = out.complianceFlags || [];
+  var html = '';
 
-if (curTab === ‘plaafp’) {
-html += ‘<p style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f0a820;margin-bottom:6px">Present Levels of Academic Achievement and Functional Performance</p>’;
-html += ‘<p style="font-size:9px;color:#94a3b8;font-family:monospace;margin-bottom:12px">IDEA 300.320 - IRIS Center - Endrew F 2017 - Rowley 1982</p>’;
-if (flags.length) {
-for (var f = 0; f < flags.length; f++) {
-html += ’<span style="display:inline-block;background:#7f1d1d;color:#fca5a5;font-size:10px;font-family:monospace;padding:2px 7px;border-radius:3px;margin:0 4px 6px 0">Warning: ’ + esc(flags[f]) + ‘</span>’;
-}
-}
-for (var ai = 0; ai < prof.areas.length; ai++) {
-var akey = prof.areas[ai].replace(/[^a-zA-Z0-9]/g, ‘_’);
-var atext = secs[akey] || secs[prof.areas[ai]] || ‘(Insufficient data for this area.)’;
-html += ‘<p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f0a820;margin-bottom:8px;margin-top:' + (ai > 0 ? '16px' : '0') + '">’ + esc(prof.areas[ai]) + ‘</p>’;
-html += ‘<p style="font-size:13px;line-height:1.85;color:#f8f4ec;white-space:pre-wrap">’ + esc(atext) + ‘</p>’;
-if (ai < prof.areas.length - 1) html += ‘<hr style="border:none;border-top:1px solid #2a4e9a;margin:14px 0"/>’;
-}
-}
+  if (curTab === 'plaafp') {
+    html += '<p style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f0a820;margin-bottom:6px">Present Levels of Academic Achievement and Functional Performance</p>';
+    html += '<p style="font-size:9px;color:#94a3b8;font-family:monospace;margin-bottom:12px">IDEA 300.320 - IRIS Center - Endrew F 2017 - Rowley 1982</p>';
+    if (flags.length) {
+      for (var f = 0; f < flags.length; f++) {
+        html += '<span style="display:inline-block;background:#7f1d1d;color:#fca5a5;font-size:10px;font-family:monospace;padding:2px 7px;border-radius:3px;margin:0 4px 6px 0">Warning: ' + esc(flags[f]) + '</span>';
+      }
+    }
+    for (var ai = 0; ai < prof.areas.length; ai++) {
+      var akey = prof.areas[ai].replace(/[^a-zA-Z0-9]/g, '_');
+      var atext = secs[akey] || secs[prof.areas[ai]] || '(Insufficient data for this area.)';
+      html += '<p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f0a820;margin-bottom:8px;margin-top:' + (ai > 0 ? '16px' : '0') + '">' + esc(prof.areas[ai]) + '</p>';
+      html += '<p style="font-size:13px;line-height:1.85;color:#f8f4ec;white-space:pre-wrap">' + esc(atext) + '</p>';
+      if (ai < prof.areas.length - 1) html += '<hr style="border:none;border-top:1px solid #2a4e9a;margin:14px 0"/>';
+    }
+  }
 
-if (curTab === ‘impact’) {
-html += ‘<p style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f0a820;margin-bottom:6px">Impact Statement</p>’;
-html += ‘<p style="font-size:9px;color:#94a3b8;font-family:monospace;margin-bottom:12px">34 CFR 300.8 - Endrew F 2017 - MC v Antelope Valley 2017</p>’;
-html += ‘<p style="font-size:13px;line-height:1.85;color:#f8f4ec;white-space:pre-wrap">’ + esc(out.impactStatement || ‘’) + ‘</p>’;
-}
+  if (curTab === 'impact') {
+    html += '<p style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f0a820;margin-bottom:6px">Impact Statement</p>';
+    html += '<p style="font-size:9px;color:#94a3b8;font-family:monospace;margin-bottom:12px">34 CFR 300.8 - Endrew F 2017 - MC v Antelope Valley 2017</p>';
+    html += '<p style="font-size:13px;line-height:1.85;color:#f8f4ec;white-space:pre-wrap">' + esc(out.impactStatement || '') + '</p>';
+  }
 
-if (curTab === ‘legal’) {
-html += ‘<p style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f0a820;margin-bottom:10px">Legal and Practice Framework</p>’;
-html += ‘<div style="background:#0a1628;border:1px solid #2a4e9a;border-radius:5px;padding:11px;font-size:11px;font-family:monospace;color:#86efac;line-height:1.6">’;
-if (out.legalBasis) {
-var keys = Object.keys(out.legalBasis);
-for (var li = 0; li < keys.length; li++) {
-if (out.legalBasis[keys[li]]) {
-html += ‘<div style="margin-bottom:7px"><span style="color:#f0a820">’ + esc(keys[li]) + ‘: </span><span>’ + esc(out.legalBasis[keys[li]]) + ‘</span></div>’;
-}
-}
-}
-html += ‘</div>’;
-if (flags.length) {
-html += ‘<p style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f87171;margin:10px 0 6px">Compliance Flags</p>’;
-for (var fi = 0; fi < flags.length; fi++) {
-html += ’<div style="background:#7f1d1d;color:#fca5a5;font-size:10px;font-family:monospace;padding:2px 7px;border-radius:3px;margin-bottom:5px">Warning: ’ + esc(flags[fi]) + ‘</div>’;
-}
-} else {
-html += ‘<p style="font-size:11px;color:#86efac;font-family:monospace;margin-top:10px">No compliance flags raised.</p>’;
-}
-}
+  if (curTab === 'legal') {
+    html += '<p style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f0a820;margin-bottom:10px">Legal and Practice Framework</p>';
+    html += '<div style="background:#0a1628;border:1px solid #2a4e9a;border-radius:5px;padding:11px;font-size:11px;font-family:monospace;color:#86efac;line-height:1.6">';
+    if (out.legalBasis) {
+      var keys = Object.keys(out.legalBasis);
+      for (var li = 0; li < keys.length; li++) {
+        if (out.legalBasis[keys[li]]) {
+          html += '<div style="margin-bottom:7px"><span style="color:#f0a820">' + esc(keys[li]) + ': </span><span>' + esc(out.legalBasis[keys[li]]) + '</span></div>';
+        }
+      }
+    }
+    html += '</div>';
+    if (flags.length) {
+      html += '<p style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;color:#f87171;margin:10px 0 6px">Compliance Flags</p>';
+      for (var fi = 0; fi < flags.length; fi++) {
+        html += '<div style="background:#7f1d1d;color:#fca5a5;font-size:10px;font-family:monospace;padding:2px 7px;border-radius:3px;margin-bottom:5px">Warning: ' + esc(flags[fi]) + '</div>';
+      }
+    } else {
+      html += '<p style="font-size:11px;color:#86efac;font-family:monospace;margin-top:10px">No compliance flags raised.</p>';
+    }
+  }
 
-box.innerHTML = html;
+  box.innerHTML = html;
 }
 </script>
-
 <style>@keyframes pulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}</style>
-
 </body>
 </html>
